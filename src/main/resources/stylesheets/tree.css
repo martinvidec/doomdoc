@@ -1,0 +1,61 @@
+/* Tree */
+#packageTree {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+#packageTree li {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    list-style-type: none;
+}
+
+#packageTree li:hover {
+    background-color: #afc7da;
+}
+
+.element {
+    display: block;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.element:hover {
+    background-color: #007BFF;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+    font-size: 16px;
+    color: #007BFF;
+    transition: transform 0.3s;
+}
+
+.caret::before {
+    content: "\25B6";
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret-down::before {
+    transform: rotate(90deg);
+}
+
+.nested {
+    display: none;
+    padding-left: 20px;
+    border-left: 2px solid #007BFF;
+    margin-left: 10px;
+}
+
+.active {
+    display: block;
+}
+/* End Tree */
