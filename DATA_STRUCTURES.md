@@ -6,7 +6,11 @@ This document defines the JSON data structures used to represent Java source cod
 
 The data structure captures all relevant information from Java classes, interfaces, enums, and annotations, including their JavaDoc comments. This JSON representation serves as the intermediate format that feeds the DoomDoclet HTML generation.
 
+All JSON structures defined in this document are mapped to Java DTO (Data Transfer Object) classes in the package `at.videc.bomblet.dto`.
+
 ## Root Structure: Documentation Model
+
+**Java DTO:** `at.videc.bomblet.dto.DocumentationModel`
 
 ```json
 {
@@ -22,6 +26,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ## Package Structure
 
+**Java DTO:** `at.videc.bomblet.dto.PackageInfo`
+
 ```json
 {
   "name": "at.videc.dummy",
@@ -36,6 +42,8 @@ The data structure captures all relevant information from Java classes, interfac
 ## Type Definitions
 
 ### ClassInfo
+
+**Java DTO:** `at.videc.bomblet.dto.ClassInfo` (extends `TypeInfo`)
 
 ```json
 {
@@ -57,6 +65,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ### InterfaceInfo
 
+**Java DTO:** `at.videc.bomblet.dto.InterfaceInfo` (extends `TypeInfo`)
+
 ```json
 {
   "kind": "interface",
@@ -75,6 +85,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ### EnumInfo
 
+**Java DTO:** `at.videc.bomblet.dto.EnumInfo` (extends `TypeInfo`)
+
 ```json
 {
   "kind": "enum",
@@ -85,6 +97,7 @@ The data structure captures all relevant information from Java classes, interfac
   "annotations": [ /* AnnotationUsage */ ],
   "interfaces": [],
   "constants": [
+    /* EnumConstantInfo - see at.videc.bomblet.dto.EnumConstantInfo */
     {
       "name": "ACTIVE",
       "javadoc": { /* JavaDocComment */ },
@@ -104,6 +117,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ### AnnotationInfo
 
+**Java DTO:** `at.videc.bomblet.dto.AnnotationInfo` (extends `TypeInfo`)
+
 ```json
 {
   "kind": "annotation",
@@ -113,6 +128,7 @@ The data structure captures all relevant information from Java classes, interfac
   "javadoc": { /* JavaDocComment */ },
   "annotations": [ /* AnnotationUsage - meta-annotations */ ],
   "elements": [
+    /* AnnotationElementInfo - see at.videc.bomblet.dto.AnnotationElementInfo */
     {
       "name": "value",
       "type": "java.lang.String",
@@ -127,6 +143,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ### FieldInfo
 
+**Java DTO:** `at.videc.bomblet.dto.FieldInfo`
+
 ```json
 {
   "name": "memberVariable",
@@ -139,6 +157,8 @@ The data structure captures all relevant information from Java classes, interfac
 ```
 
 ### ConstructorInfo
+
+**Java DTO:** `at.videc.bomblet.dto.ConstructorInfo`
 
 ```json
 {
@@ -153,6 +173,8 @@ The data structure captures all relevant information from Java classes, interfac
 ```
 
 ### MethodInfo
+
+**Java DTO:** `at.videc.bomblet.dto.MethodInfo`
 
 ```json
 {
@@ -170,6 +192,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ### ParameterInfo
 
+**Java DTO:** `at.videc.bomblet.dto.ParameterInfo`
+
 ```json
 {
   "name": "userName",
@@ -183,6 +207,8 @@ The data structure captures all relevant information from Java classes, interfac
 
 ### TypeParameter
 
+**Java DTO:** `at.videc.bomblet.dto.TypeParameter`
+
 ```json
 {
   "name": "T",
@@ -193,6 +219,8 @@ The data structure captures all relevant information from Java classes, interfac
 ## Annotation Support
 
 ### AnnotationUsage
+
+**Java DTO:** `at.videc.bomblet.dto.AnnotationUsage`
 
 ```json
 {
@@ -219,6 +247,8 @@ For complex annotation values:
 ## JavaDoc Representation
 
 ### JavaDocComment
+
+**Java DTO:** `at.videc.bomblet.dto.JavaDocComment`
 
 ```json
 {
@@ -259,6 +289,8 @@ For complex annotation values:
 ```
 
 ### JavaDocTag
+
+**Java DTO:** `at.videc.bomblet.dto.JavaDocTag`
 
 Different tag structures based on kind:
 
