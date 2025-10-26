@@ -13,8 +13,16 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * DoomDoclet generates HTML documentation with a tree view of packages and classes.
+ */
 public class DoomDoclet extends StandardDoclet {
 
+    /**
+     * Generates HTML documentation with a tree view of packages and classes.
+     * @param environment from which essential information can be extracted
+     * @return true if the doclet ran without error
+     */
     @Override
     public boolean run(DocletEnvironment environment) {
         StringBuilder html = new StringBuilder();
@@ -78,6 +86,11 @@ public class DoomDoclet extends StandardDoclet {
         return true;
     }
 
+    /**
+     * Initializes the doclet with the given locale and reporter.
+     * @param locale the locale to use
+     * @param reporter the reporter for logging messages
+     */
     @Override
     public void init(Locale locale, Reporter reporter) {
         super.init(locale, reporter);
