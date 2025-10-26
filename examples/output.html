@@ -1,0 +1,178 @@
+<!DOCTYPE html><html><head><title>Documentation</title><style>body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.sidebar input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#docTitle {
+    margin-top: 0;
+}</style><style>/* Tree */
+#packageTree {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+#packageTree li {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    list-style-type: none;
+}
+
+#packageTree li:hover {
+    background-color: #afc7da;
+}
+
+.element {
+    display: block;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.element:hover {
+    background-color: #007BFF;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.caret {
+    cursor: pointer;
+    user-select: none;
+    font-size: 16px;
+    color: #007BFF;
+    transition: transform 0.3s;
+}
+
+.caret::before {
+    content: "\25B6";
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret-down::before {
+    transform: rotate(90deg);
+}
+
+.nested {
+    display: none;
+    padding-left: 20px;
+    border-left: 2px solid #007BFF;
+    margin-left: 10px;
+}
+
+.active {
+    display: block;
+}
+/* End Tree */</style><script>document.addEventListener('DOMContentLoaded', function() {
+    var toggler = document.getElementsByClassName("caret");
+    for (var i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
+    }
+});
+
+function search() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('search');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("packageTree");
+    li = ul.getElementsByTagName('li');
+
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("span")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+            expandParent(li[i]);
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+
+    // Ensure parent nodes of matching elements are visible
+    for (i = 0; i < li.length; i++) {
+        if (li[i].style.display === "") {
+            expandParent(li[i]);
+        }
+    }
+}
+
+function expandParent(element) {
+    var parent = element.parentElement;
+    while (parent && parent.id !== "packageTree") {
+        if (parent.classList.contains("nested")) {
+            parent.classList.add("active");
+            parent.previousElementSibling.classList.add("caret-down");
+        }
+        parent.style.display = "";
+        parent = parent.parentElement;
+    }
+}
+
+function showDoc(className) {
+    var docContent = document.getElementById('docContent');
+    var docTitle = document.getElementById('docTitle');
+    docTitle.innerHTML = className;
+    // Fetch and display the documentation for the selected class
+    // This is a placeholder, replace with actual documentation content
+    docContent.innerHTML = '<p>Documentation for ' + className + '</p>';
+}
+
+function generateTree(packages) {
+    var ul = document.getElementById("packageTree");
+    for (var packageName in packages) {
+        if (packages.hasOwnProperty(packageName)) {
+            var packageNode = document.createElement("li");
+            var caret = document.createElement("span");
+            caret.className = "caret";
+            caret.textContent = packageName;
+            packageNode.appendChild(caret);
+
+            var nestedUl = document.createElement("ul");
+            nestedUl.className = "nested";
+            packages[packageName].forEach(function(className) {
+                var classNode = document.createElement("li");
+                var classElement = document.createElement("span");
+                classElement.className = "element";
+                classElement.textContent = className;
+                classElement.setAttribute("onclick", "showDoc('" + className + "')");
+                classNode.appendChild(classElement);
+                nestedUl.appendChild(classNode);
+            });
+
+            packageNode.appendChild(nestedUl);
+            ul.appendChild(packageNode);
+        }
+    }
+}</script></head><body><div class="container"><div class="sidebar"><input type="text" id="search" placeholder="Search..." onkeyup="search()"><ul id="packageTree"></ul></div><div class="content"><h1 id="docTitle">Documentation</h1><div id="docContent"></div></div></div></body></html><script>generateTree({"at.videc":["Main","BOMB"]});</script>
