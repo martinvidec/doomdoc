@@ -77,8 +77,8 @@ public class DoomDoclet extends StandardDoclet {
         }
 
         // Generate tree view for packages and classes
-        // Using legacy format for backward compatibility with current JavaScript
-        html.append("<script>generateTree(").append(packageTree.toLegacyJson()).append(");</script>");
+        // Using full DTO structure for rich documentation display
+        html.append("<script>generateTree(").append(packageTree.toCompactJson()).append(");</script>");
 
         // Write HTML to file
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("output.html"))) {

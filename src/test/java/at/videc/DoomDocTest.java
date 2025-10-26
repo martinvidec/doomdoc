@@ -20,10 +20,7 @@ public class DoomDocTest {
         String[] args = new String[] {
                 "-doclet", "at.videc.DoomDoclet",
                 "-sourcepath", "src/main/java:src/test/java",
-                "src/main/java/at/videc/Main.java",
-                "src/main/java/at/videc/BOMB.java",
-                "src/test/java/at/videc/dummy/TestClass1.java",
-                "src/test/java/at/videc/dummy/FeatureClassOne.java"
+                "-subpackages", "at.videc"
         };
 
         // When

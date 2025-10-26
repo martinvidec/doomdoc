@@ -1,61 +1,200 @@
-/* Tree */
+/* ==========================================
+   Tree Component Styles
+   ========================================== */
+
+/* Tree Container */
 #packageTree {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
 }
 
+/* Tree Items */
 #packageTree li {
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-slow), color var(--transition-slow);
     list-style-type: none;
+    margin-bottom: 2px;
 }
 
 #packageTree li:hover {
-    background-color: #afc7da;
+    background-color: var(--color-bg-hover);
 }
 
+/* Tree Elements (Packages and Types) */
 .element {
     display: block;
-    padding: 4px;
-    border-radius: 4px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-base), color var(--transition-base);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-normal);
 }
 
 .element:hover {
-    background-color: #007BFF;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
 }
 
+/* Package Elements */
+.element.package {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.element.package:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-text-primary);
+}
+
+/* Type Elements (Class, Interface, Enum, Annotation) */
+.element.type {
+    font-size: var(--font-size-base);
+    padding-left: var(--spacing-md);
+}
+
+.element.type.class:hover {
+    background-color: var(--color-success);
+    color: var(--color-bg-primary);
+}
+
+.element.type.interface:hover {
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
+}
+
+.element.type.enum:hover {
+    background-color: var(--color-warning);
+    color: var(--color-warning-dark);
+}
+
+.element.type.annotation:hover {
+    background-color: var(--color-purple);
+    color: var(--color-bg-primary);
+}
+
+/* Caret (Expand/Collapse Indicator) */
 .caret {
     cursor: pointer;
     user-select: none;
-    font-size: 16px;
-    color: #007BFF;
-    transition: transform 0.3s;
+    font-size: var(--font-size-large);
+    color: var(--color-primary);
+    transition: transform var(--transition-slow);
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
 }
 
 .caret::before {
     content: "\25B6";
     display: inline-block;
-    margin-right: 6px;
+    margin-right: var(--spacing-sm);
+    transition: transform var(--transition-base);
+    flex-shrink: 0;
 }
 
 .caret-down::before {
     transform: rotate(90deg);
 }
 
+/* Nested Elements */
 .nested {
     display: none;
-    padding-left: 20px;
-    border-left: 2px solid #007BFF;
-    margin-left: 10px;
+    padding-left: var(--spacing-lg);
+    border-left: 2px solid var(--color-primary-light);
+    margin-left: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
 }
 
-.active {
+.nested.active {
     display: block;
 }
-/* End Tree */
+
+/* Active/Selected State */
+.element.selected {
+    background-color: var(--color-primary-lightest);
+    border-left: 3px solid var(--color-primary);
+    padding-left: calc(var(--spacing-sm) - 3px);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Search Highlight */
+.element.highlight {
+    background-color: var(--color-warning-light);
+    border: 1px solid var(--color-warning);
+    animation: highlight-pulse 1s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+    0%, 100% {
+        background-color: var(--color-warning-light);
+    }
+    50% {
+        background-color: var(--color-warning);
+    }
+}
+
+/* Tree Item Icons (Optional Enhancement) */
+.tree-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: var(--spacing-xs);
+    text-align: center;
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+}
+
+.tree-icon.package {
+    color: var(--color-primary);
+}
+
+.tree-icon.class {
+    color: var(--color-success);
+}
+
+.tree-icon.interface {
+    color: var(--color-info);
+}
+
+.tree-icon.enum {
+    color: var(--color-warning-dark);
+}
+
+.tree-icon.annotation {
+    color: var(--color-purple);
+}
+
+/* Scrollbar for Tree (if needed) */
+#packageTree::-webkit-scrollbar {
+    width: 8px;
+}
+
+#packageTree::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+#packageTree::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+#packageTree::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .nested {
+        padding-left: var(--spacing-md);
+    }
+
+    .caret::before {
+        margin-right: var(--spacing-xs);
+    }
+}

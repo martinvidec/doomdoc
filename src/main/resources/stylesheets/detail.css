@@ -1,0 +1,424 @@
+/* ==========================================
+   Detail View Styles
+   ========================================== */
+
+/* Detail Container */
+.detail-container {
+    padding: var(--spacing-lg);
+    font-family: var(--font-family-base);
+}
+
+/* Type Header */
+.type-header {
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.type-title {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.type-kind {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    margin-left: var(--spacing-md);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+}
+
+.type-kind.class {
+    background-color: var(--color-success);
+    color: var(--color-bg-primary);
+}
+
+.type-kind.interface {
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
+}
+
+.type-kind.enum {
+    background-color: var(--color-warning);
+    color: var(--color-text-primary);
+}
+
+.type-kind.annotation {
+    background-color: var(--color-purple);
+    color: var(--color-bg-primary);
+}
+
+.type-qualified-name {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+    margin-top: var(--spacing-sm);
+}
+
+/* Modifiers */
+.modifiers {
+    margin: var(--spacing-md) 0;
+}
+
+.modifier {
+    display: inline-block;
+    padding: 2px var(--spacing-sm);
+    margin-right: var(--spacing-sm);
+    background-color: var(--color-bg-hover);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-small);
+    font-family: var(--font-family-mono);
+    color: var(--color-text-secondary);
+}
+
+.modifier.public {
+    background-color: var(--color-success-light);
+    color: var(--color-success-dark);
+}
+
+.modifier.private {
+    background-color: var(--color-danger-light);
+    color: var(--color-danger-dark);
+}
+
+.modifier.protected {
+    background-color: var(--color-warning-light);
+    color: var(--color-warning-dark);
+}
+
+.modifier.static {
+    background-color: var(--color-info-light);
+    color: var(--color-info-dark);
+}
+
+.modifier.final {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-secondary);
+}
+
+.modifier.abstract {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+}
+
+/* JavaDoc */
+.javadoc-section {
+    background-color: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    border-radius: var(--radius-md);
+}
+
+.javadoc-description {
+    color: var(--color-text-primary);
+    line-height: var(--line-height-base);
+    white-space: pre-wrap;
+}
+
+.javadoc-tags {
+    margin-top: var(--spacing-md);
+}
+
+.javadoc-tag {
+    margin: var(--spacing-sm) 0;
+    padding: var(--spacing-sm);
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+}
+
+.javadoc-tag-kind {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-right: var(--spacing-sm);
+    font-family: var(--font-family-mono);
+}
+
+.javadoc-tag-name {
+    font-family: var(--font-family-mono);
+    color: var(--color-purple);
+    margin-right: var(--spacing-sm);
+}
+
+.javadoc-tag-description {
+    color: var(--color-text-secondary);
+}
+
+/* Annotations */
+.annotations {
+    margin: var(--spacing-md) 0;
+}
+
+.annotation {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: 3px 0;
+    background-color: var(--color-warning-light);
+    border-left: 3px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    color: var(--color-warning-dark);
+}
+
+.annotation-type {
+    font-weight: var(--font-weight-bold);
+}
+
+.annotation-values {
+    margin-left: var(--spacing-md);
+    font-style: italic;
+}
+
+/* Inheritance */
+.inheritance-section {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-primary-lightest);
+    border-radius: var(--radius-md);
+}
+
+.inheritance-label {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-right: var(--spacing-sm);
+}
+
+.inheritance-type {
+    font-family: var(--font-family-mono);
+    color: var(--color-text-primary);
+    padding: 2px var(--spacing-sm);
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-sm);
+    margin-right: var(--spacing-sm);
+    display: inline-block;
+}
+
+/* Type Parameters */
+.type-parameters {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-code);
+    border-radius: var(--radius-md);
+}
+
+.type-parameter {
+    font-family: var(--font-family-mono);
+    color: var(--color-purple);
+    margin-right: var(--spacing-md);
+}
+
+/* Members Section */
+.members-section {
+    margin-top: var(--spacing-xl);
+}
+
+.members-section-title {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Member Item (Field, Method, Constructor) */
+.member-item {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: box-shadow var(--transition-base);
+}
+
+.member-item:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.member-signature {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+}
+
+.member-name {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.member-type {
+    color: var(--color-purple);
+}
+
+.member-parameters {
+    color: var(--color-text-secondary);
+}
+
+.member-parameter {
+    margin-left: var(--spacing-sm);
+}
+
+.member-parameter-type {
+    color: var(--color-purple);
+}
+
+.member-parameter-name {
+    color: var(--color-text-primary);
+    font-style: italic;
+}
+
+.member-exceptions {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-small);
+    color: var(--color-danger);
+}
+
+.member-exception {
+    font-family: var(--font-family-mono);
+}
+
+.member-constant-value {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background-color: var(--color-primary-lightest);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+}
+
+/* Enum Constants */
+.enum-constants {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.enum-constant {
+    padding: var(--spacing-md);
+    background-color: var(--color-warning-light);
+    border-left: 4px solid var(--color-warning);
+    border-radius: var(--radius-md);
+}
+
+.enum-constant-name {
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-mono);
+    color: var(--color-warning-dark);
+}
+
+/* Annotation Elements */
+.annotation-elements {
+    margin: var(--spacing-md) 0;
+}
+
+.annotation-element {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-purple);
+    border-radius: var(--radius-md);
+}
+
+.annotation-element-name {
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-mono);
+    color: var(--color-purple);
+}
+
+.annotation-element-type {
+    color: var(--color-primary);
+    font-family: var(--font-family-mono);
+    margin-left: var(--spacing-md);
+}
+
+.annotation-element-default {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+}
+
+/* Empty State */
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+/* Package View */
+.package-header {
+    border-bottom: 2px solid var(--color-success);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.package-name {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-success);
+    font-family: var(--font-family-mono);
+}
+
+.package-types {
+    margin-top: var(--spacing-lg);
+}
+
+.package-type-list {
+    list-style: none;
+    padding: 0;
+}
+
+.package-type-item {
+    padding: var(--spacing-md);
+    margin: var(--spacing-sm) 0;
+    background-color: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-base);
+}
+
+.package-type-item:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.package-type-name {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.package-type-kind {
+    margin-left: var(--spacing-md);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .enum-constants {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-container {
+        padding: var(--spacing-md);
+    }
+
+    .type-title {
+        font-size: 22px;
+    }
+
+    .member-signature {
+        font-size: var(--font-size-small);
+    }
+}
