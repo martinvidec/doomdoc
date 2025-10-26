@@ -1,6 +1,8 @@
 package at.videc;
 
-import com.google.gson.Gson;
+import at.videc.bomblet.PackageTree;
+import at.videc.bomblet.TypeElementConverter;
+import at.videc.bomblet.dto.TypeInfo;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.StandardDoclet;
 import jdk.javadoc.doclet.Reporter;
@@ -59,8 +61,10 @@ public class DoomDoclet extends StandardDoclet {
         html.append("<div class=\"content\"><h1 id=\"docTitle\">Documentation</h1><div id=\"docContent\"></div></div>");
         html.append("</div></body></html>");
 
-        // Group classes by package
-        Map<String, List<String>> packages = new HashMap<>();
+        // Build package tree from type elements
+        PackageTree packageTree = new PackageTree();
+        TypeElementConverter converter = new TypeElementConverter(environment);
+
         List<TypeElement> typeElements = environment.getIncludedElements().stream()
                 .filter(e -> e instanceof TypeElement)
                 .map(e -> (TypeElement) e)
@@ -68,12 +72,13 @@ public class DoomDoclet extends StandardDoclet {
 
         for (TypeElement typeElement : typeElements) {
             String packageName = environment.getElementUtils().getPackageOf(typeElement).getQualifiedName().toString();
-            String className = typeElement.getSimpleName().toString();
-            packages.computeIfAbsent(packageName, k -> new ArrayList<>()).add(className);
+            TypeInfo typeInfo = converter.convert(typeElement);
+            packageTree.addType(packageName, typeInfo);
         }
 
         // Generate tree view for packages and classes
-        html.append("<script>generateTree(").append(new Gson().toJson(packages)).append(");</script>");
+        // Using legacy format for backward compatibility with current JavaScript
+        html.append("<script>generateTree(").append(packageTree.toLegacyJson()).append(");</script>");
 
         // Write HTML to file
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("output.html"))) {
