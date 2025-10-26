@@ -1,98 +1,897 @@
-<!DOCTYPE html><html><head><title>Documentation</title><style>body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+<!DOCTYPE html><html><head><title>Documentation</title><style>/* ==========================================
+   DoomDoc Common Styles & Design System
+   ========================================== */
+
+/* CSS Custom Properties (Design Tokens) */
+:root {
+    /* Color Palette */
+    --color-primary: #007BFF;
+    --color-primary-dark: #0056b3;
+    --color-primary-light: #afc7da;
+    --color-primary-lightest: #e7f3ff;
+
+    --color-success: #28a745;
+    --color-success-light: #d4edda;
+    --color-success-dark: #155724;
+
+    --color-warning: #ffc107;
+    --color-warning-light: #fff3cd;
+    --color-warning-dark: #856404;
+
+    --color-danger: #dc3545;
+    --color-danger-light: #f8d7da;
+    --color-danger-dark: #721c24;
+
+    --color-info: #17a2b8;
+    --color-info-light: #d1ecf1;
+    --color-info-dark: #0c5460;
+
+    --color-purple: #6f42c1;
+    --color-purple-light: #e2d9f3;
+
+    /* Neutral Colors */
+    --color-text-primary: #333;
+    --color-text-secondary: #555;
+    --color-text-muted: #666;
+    --color-text-light: #999;
+
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8f9fa;
+    --color-bg-tertiary: #f4f4f4;
+    --color-bg-hover: #e9ecef;
+    --color-bg-code: #f0f0f0;
+
+    --color-border: #ddd;
+    --color-border-light: #e0e0e0;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Typography */
+    --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-family-mono: 'Courier New', Consolas, Monaco, monospace;
+
+    --font-size-base: 14px;
+    --font-size-small: 12px;
+    --font-size-large: 16px;
+    --font-size-h1: 28px;
+    --font-size-h2: 20px;
+    --font-size-h3: 16px;
+
+    --font-weight-normal: 400;
+    --font-weight-bold: 700;
+
+    --line-height-base: 1.6;
+    --line-height-tight: 1.2;
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+
+    /* Border Radius */
+    --radius-sm: 3px;
+    --radius-md: 4px;
+    --radius-lg: 6px;
+    --radius-pill: 12px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.2s ease;
+    --transition-slow: 0.3s ease;
+
+    /* Layout */
+    --sidebar-width: 280px;
+    --header-height: 60px;
 }
 
+/* Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout */
 .container {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
 .sidebar {
-    width: 250px;
-    background-color: #f4f4f4;
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    width: var(--sidebar-width);
+    background-color: var(--color-bg-tertiary);
+    padding: var(--spacing-lg);
+    box-shadow: 2px 0 8px var(--color-shadow);
     overflow-y: auto;
-}
-
-.sidebar input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .content {
     flex-grow: 1;
-    padding: 20px;
+    padding: var(--spacing-xl);
     overflow-y: auto;
+    background-color: var(--color-bg-primary);
 }
 
+/* Search Input */
+.sidebar input[type="text"] {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg-primary);
+    transition: border-color var(--transition-base);
+}
+
+.sidebar input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.sidebar input[type="text"]::placeholder {
+    color: var(--color-text-light);
+}
+
+/* Document Title */
 #docTitle {
-    margin-top: 0;
-}</style><style>/* Tree */
+    margin: 0 0 var(--spacing-lg) 0;
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+/* Common Utility Classes */
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.text-small {
+    font-size: var(--font-size-small);
+}
+
+.text-mono {
+    font-family: var(--font-family-mono);
+}
+
+.text-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+/* Code Elements */
+code {
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+    padding: 2px 6px;
+    background-color: var(--color-bg-code);
+    border-radius: var(--radius-sm);
+    color: var(--color-purple);
+}
+
+pre {
+    font-family: var(--font-family-mono);
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    border: 1px solid var(--color-border-light);
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Links */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+/* Scrollbar Styling (Webkit browsers) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 200px;
+    }
+
+    .sidebar {
+        padding: var(--spacing-md);
+    }
+
+    .content {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: 200px;
+        box-shadow: 0 2px 8px var(--color-shadow);
+    }
+
+    .content {
+        height: calc(100vh - 200px);
+    }
+}
+</style><style>/* ==========================================
+   Detail View Styles
+   ========================================== */
+
+/* Detail Container */
+.detail-container {
+    padding: var(--spacing-lg);
+    font-family: var(--font-family-base);
+}
+
+/* Type Header */
+.type-header {
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.type-title {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.type-kind {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    margin-left: var(--spacing-md);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+}
+
+.type-kind.class {
+    background-color: var(--color-success);
+    color: var(--color-bg-primary);
+}
+
+.type-kind.interface {
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
+}
+
+.type-kind.enum {
+    background-color: var(--color-warning);
+    color: var(--color-text-primary);
+}
+
+.type-kind.annotation {
+    background-color: var(--color-purple);
+    color: var(--color-bg-primary);
+}
+
+.type-qualified-name {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+    margin-top: var(--spacing-sm);
+}
+
+/* Modifiers */
+.modifiers {
+    margin: var(--spacing-md) 0;
+}
+
+.modifier {
+    display: inline-block;
+    padding: 2px var(--spacing-sm);
+    margin-right: var(--spacing-sm);
+    background-color: var(--color-bg-hover);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-small);
+    font-family: var(--font-family-mono);
+    color: var(--color-text-secondary);
+}
+
+.modifier.public {
+    background-color: var(--color-success-light);
+    color: var(--color-success-dark);
+}
+
+.modifier.private {
+    background-color: var(--color-danger-light);
+    color: var(--color-danger-dark);
+}
+
+.modifier.protected {
+    background-color: var(--color-warning-light);
+    color: var(--color-warning-dark);
+}
+
+.modifier.static {
+    background-color: var(--color-info-light);
+    color: var(--color-info-dark);
+}
+
+.modifier.final {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-secondary);
+}
+
+.modifier.abstract {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+}
+
+/* JavaDoc */
+.javadoc-section {
+    background-color: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    border-radius: var(--radius-md);
+}
+
+.javadoc-description {
+    color: var(--color-text-primary);
+    line-height: var(--line-height-base);
+    white-space: pre-wrap;
+}
+
+.javadoc-tags {
+    margin-top: var(--spacing-md);
+}
+
+.javadoc-tag {
+    margin: var(--spacing-sm) 0;
+    padding: var(--spacing-sm);
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+}
+
+.javadoc-tag-kind {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-right: var(--spacing-sm);
+    font-family: var(--font-family-mono);
+}
+
+.javadoc-tag-name {
+    font-family: var(--font-family-mono);
+    color: var(--color-purple);
+    margin-right: var(--spacing-sm);
+}
+
+.javadoc-tag-description {
+    color: var(--color-text-secondary);
+}
+
+/* Annotations */
+.annotations {
+    margin: var(--spacing-md) 0;
+}
+
+.annotation {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: 3px 0;
+    background-color: var(--color-warning-light);
+    border-left: 3px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    color: var(--color-warning-dark);
+}
+
+.annotation-type {
+    font-weight: var(--font-weight-bold);
+}
+
+.annotation-values {
+    margin-left: var(--spacing-md);
+    font-style: italic;
+}
+
+/* Inheritance */
+.inheritance-section {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-primary-lightest);
+    border-radius: var(--radius-md);
+}
+
+.inheritance-label {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-right: var(--spacing-sm);
+}
+
+.inheritance-type {
+    font-family: var(--font-family-mono);
+    color: var(--color-text-primary);
+    padding: 2px var(--spacing-sm);
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-sm);
+    margin-right: var(--spacing-sm);
+    display: inline-block;
+}
+
+/* Type Parameters */
+.type-parameters {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-code);
+    border-radius: var(--radius-md);
+}
+
+.type-parameter {
+    font-family: var(--font-family-mono);
+    color: var(--color-purple);
+    margin-right: var(--spacing-md);
+}
+
+/* Members Section */
+.members-section {
+    margin-top: var(--spacing-xl);
+}
+
+.members-section-title {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Member Item (Field, Method, Constructor) */
+.member-item {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: box-shadow var(--transition-base);
+}
+
+.member-item:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.member-signature {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+}
+
+.member-name {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.member-type {
+    color: var(--color-purple);
+}
+
+.member-parameters {
+    color: var(--color-text-secondary);
+}
+
+.member-parameter {
+    margin-left: var(--spacing-sm);
+}
+
+.member-parameter-type {
+    color: var(--color-purple);
+}
+
+.member-parameter-name {
+    color: var(--color-text-primary);
+    font-style: italic;
+}
+
+.member-exceptions {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-small);
+    color: var(--color-danger);
+}
+
+.member-exception {
+    font-family: var(--font-family-mono);
+}
+
+.member-constant-value {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background-color: var(--color-primary-lightest);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+}
+
+/* Enum Constants */
+.enum-constants {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.enum-constant {
+    padding: var(--spacing-md);
+    background-color: var(--color-warning-light);
+    border-left: 4px solid var(--color-warning);
+    border-radius: var(--radius-md);
+}
+
+.enum-constant-name {
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-mono);
+    color: var(--color-warning-dark);
+}
+
+/* Annotation Elements */
+.annotation-elements {
+    margin: var(--spacing-md) 0;
+}
+
+.annotation-element {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-purple);
+    border-radius: var(--radius-md);
+}
+
+.annotation-element-name {
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-mono);
+    color: var(--color-purple);
+}
+
+.annotation-element-type {
+    color: var(--color-primary);
+    font-family: var(--font-family-mono);
+    margin-left: var(--spacing-md);
+}
+
+.annotation-element-default {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+}
+
+/* Empty State */
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+/* Package View */
+.package-header {
+    border-bottom: 2px solid var(--color-success);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.package-name {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-success);
+    font-family: var(--font-family-mono);
+}
+
+.package-types {
+    margin-top: var(--spacing-lg);
+}
+
+.package-type-list {
+    list-style: none;
+    padding: 0;
+}
+
+.package-type-item {
+    padding: var(--spacing-md);
+    margin: var(--spacing-sm) 0;
+    background-color: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-base);
+}
+
+.package-type-item:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.package-type-name {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.package-type-kind {
+    margin-left: var(--spacing-md);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .enum-constants {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-container {
+        padding: var(--spacing-md);
+    }
+
+    .type-title {
+        font-size: 22px;
+    }
+
+    .member-signature {
+        font-size: var(--font-size-small);
+    }
+}
+</style><style>/* ==========================================
+   Tree Component Styles
+   ========================================== */
+
+/* Tree Container */
 #packageTree {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
 }
 
+/* Tree Items */
 #packageTree li {
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-slow), color var(--transition-slow);
     list-style-type: none;
+    margin-bottom: 2px;
 }
 
 #packageTree li:hover {
-    background-color: #afc7da;
+    background-color: var(--color-bg-hover);
 }
 
+/* Tree Elements (Packages and Types) */
 .element {
     display: block;
-    padding: 4px;
-    border-radius: 4px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-base), color var(--transition-base);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-normal);
 }
 
 .element:hover {
-    background-color: #007BFF;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
 }
 
+/* Package Elements */
+.element.package {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.element.package:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-text-primary);
+}
+
+/* Type Elements (Class, Interface, Enum, Annotation) */
+.element.type {
+    font-size: var(--font-size-base);
+    padding-left: var(--spacing-md);
+}
+
+.element.type.class:hover {
+    background-color: var(--color-success);
+    color: var(--color-bg-primary);
+}
+
+.element.type.interface:hover {
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
+}
+
+.element.type.enum:hover {
+    background-color: var(--color-warning);
+    color: var(--color-warning-dark);
+}
+
+.element.type.annotation:hover {
+    background-color: var(--color-purple);
+    color: var(--color-bg-primary);
+}
+
+/* Caret (Expand/Collapse Indicator) */
 .caret {
     cursor: pointer;
     user-select: none;
-    font-size: 16px;
-    color: #007BFF;
-    transition: transform 0.3s;
+    font-size: var(--font-size-large);
+    color: var(--color-primary);
+    transition: transform var(--transition-slow);
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
 }
 
 .caret::before {
     content: "\25B6";
     display: inline-block;
-    margin-right: 6px;
+    margin-right: var(--spacing-sm);
+    transition: transform var(--transition-base);
+    flex-shrink: 0;
 }
 
 .caret-down::before {
     transform: rotate(90deg);
 }
 
+/* Nested Elements */
 .nested {
     display: none;
-    padding-left: 20px;
-    border-left: 2px solid #007BFF;
-    margin-left: 10px;
+    padding-left: var(--spacing-lg);
+    border-left: 2px solid var(--color-primary-light);
+    margin-left: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
 }
 
-.active {
+.nested.active {
     display: block;
 }
-/* End Tree */</style><script>document.addEventListener('DOMContentLoaded', function() {
+
+/* Active/Selected State */
+.element.selected {
+    background-color: var(--color-primary-lightest);
+    border-left: 3px solid var(--color-primary);
+    padding-left: calc(var(--spacing-sm) - 3px);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Search Highlight */
+.element.highlight {
+    background-color: var(--color-warning-light);
+    border: 1px solid var(--color-warning);
+    animation: highlight-pulse 1s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+    0%, 100% {
+        background-color: var(--color-warning-light);
+    }
+    50% {
+        background-color: var(--color-warning);
+    }
+}
+
+/* Tree Item Icons (Optional Enhancement) */
+.tree-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: var(--spacing-xs);
+    text-align: center;
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+}
+
+.tree-icon.package {
+    color: var(--color-primary);
+}
+
+.tree-icon.class {
+    color: var(--color-success);
+}
+
+.tree-icon.interface {
+    color: var(--color-info);
+}
+
+.tree-icon.enum {
+    color: var(--color-warning-dark);
+}
+
+.tree-icon.annotation {
+    color: var(--color-purple);
+}
+
+/* Scrollbar for Tree (if needed) */
+#packageTree::-webkit-scrollbar {
+    width: 8px;
+}
+
+#packageTree::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+#packageTree::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+#packageTree::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .nested {
+        padding-left: var(--spacing-md);
+    }
+
+    .caret::before {
+        margin-right: var(--spacing-xs);
+    }
+}
+</style><script>// Global state
+var documentationModel = null;
+
+document.addEventListener('DOMContentLoaded', function() {
     var toggler = document.getElementsByClassName("caret");
     for (var i = 0; i < toggler.length; i++) {
         toggler[i].addEventListener("click", function() {
@@ -102,77 +901,660 @@
     }
 });
 
+/**
+ * Search functionality for the tree
+ */
 function search() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById('search');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("packageTree");
-    li = ul.getElementsByTagName('li');
+    var input = document.getElementById('search');
+    var filter = input.value.toUpperCase();
+    var ul = document.getElementById("packageTree");
+    var li = ul.getElementsByTagName('li');
 
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("span")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-            expandParent(li[i]);
-        } else {
-            li[i].style.display = "none";
+    for (var i = 0; i < li.length; i++) {
+        var span = li[i].getElementsByTagName("span")[0];
+        if (span) {
+            var txtValue = span.textContent || span.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+                expandParent(li[i]);
+            } else {
+                li[i].style.display = "none";
+            }
         }
     }
 
     // Ensure parent nodes of matching elements are visible
-    for (i = 0; i < li.length; i++) {
+    for (var i = 0; i < li.length; i++) {
         if (li[i].style.display === "") {
             expandParent(li[i]);
         }
     }
 }
 
+/**
+ * Expands all parent nodes of an element
+ */
 function expandParent(element) {
     var parent = element.parentElement;
     while (parent && parent.id !== "packageTree") {
         if (parent.classList.contains("nested")) {
             parent.classList.add("active");
-            parent.previousElementSibling.classList.add("caret-down");
+            var previousSibling = parent.previousElementSibling;
+            if (previousSibling && previousSibling.classList.contains("caret")) {
+                previousSibling.classList.add("caret-down");
+            }
         }
         parent.style.display = "";
         parent = parent.parentElement;
     }
 }
 
-function showDoc(className) {
-    var docContent = document.getElementById('docContent');
-    var docTitle = document.getElementById('docTitle');
-    docTitle.innerHTML = className;
-    // Fetch and display the documentation for the selected class
-    // This is a placeholder, replace with actual documentation content
-    docContent.innerHTML = '<p>Documentation for ' + className + '</p>';
+/**
+ * Generates the package tree from the documentation model
+ * @param {Object} model - The DocumentationModel with packages array
+ */
+function generateTree(model) {
+    documentationModel = model;
+    var ul = document.getElementById("packageTree");
+    ul.innerHTML = ''; // Clear existing content
+
+    if (!model || !model.packages || model.packages.length === 0) {
+        ul.innerHTML = '<li class="empty-state">No documentation available</li>';
+        return;
+    }
+
+    // Sort packages by name
+    var packages = model.packages.sort(function(a, b) {
+        return a.name.localeCompare(b.name);
+    });
+
+    packages.forEach(function(packageInfo) {
+        var packageNode = createPackageNode(packageInfo);
+        ul.appendChild(packageNode);
+    });
 }
 
-function generateTree(packages) {
-    var ul = document.getElementById("packageTree");
-    for (var packageName in packages) {
-        if (packages.hasOwnProperty(packageName)) {
-            var packageNode = document.createElement("li");
-            var caret = document.createElement("span");
-            caret.className = "caret";
-            caret.textContent = packageName;
-            packageNode.appendChild(caret);
+/**
+ * Creates a tree node for a package
+ */
+function createPackageNode(packageInfo) {
+    var li = document.createElement("li");
 
-            var nestedUl = document.createElement("ul");
-            nestedUl.className = "nested";
-            packages[packageName].forEach(function(className) {
-                var classNode = document.createElement("li");
-                var classElement = document.createElement("span");
-                classElement.className = "element";
-                classElement.textContent = className;
-                classElement.setAttribute("onclick", "showDoc('" + className + "')");
-                classNode.appendChild(classElement);
-                nestedUl.appendChild(classNode);
-            });
+    var caret = document.createElement("span");
+    caret.className = "caret caret-down"; // Expanded by default
+    caret.textContent = packageInfo.name;
+    caret.setAttribute("onclick", "showPackage('" + packageInfo.name + "')");
+    li.appendChild(caret);
 
-            packageNode.appendChild(nestedUl);
-            ul.appendChild(packageNode);
+    var nestedUl = document.createElement("ul");
+    nestedUl.className = "nested active"; // Expanded by default
+
+    // Sort types by name
+    var types = (packageInfo.types || []).sort(function(a, b) {
+        return a.name.localeCompare(b.name);
+    });
+
+    types.forEach(function(typeInfo) {
+        var typeNode = createTypeNode(packageInfo.name, typeInfo);
+        nestedUl.appendChild(typeNode);
+    });
+
+    li.appendChild(nestedUl);
+    return li;
+}
+
+/**
+ * Creates a tree node for a type (class, interface, enum, annotation)
+ */
+function createTypeNode(packageName, typeInfo) {
+    var li = document.createElement("li");
+
+    var span = document.createElement("span");
+    span.className = "element";
+    span.textContent = typeInfo.name;
+    span.setAttribute("onclick", "showType('" + packageName + "', '" + typeInfo.name + "')");
+    li.appendChild(span);
+
+    return li;
+}
+
+/**
+ * Shows the package detail view
+ */
+function showPackage(packageName) {
+    var packageInfo = findPackage(packageName);
+    if (!packageInfo) {
+        showError("Package not found: " + packageName);
+        return;
+    }
+
+    var html = '<div class="detail-container">';
+    html += '<div class="package-header">';
+    html += '<div class="package-name">' + escapeHtml(packageName) + '</div>';
+    html += '</div>';
+
+    // JavaDoc
+    if (packageInfo.javadoc) {
+        html += renderJavaDoc(packageInfo.javadoc);
+    }
+
+    // Types in this package
+    html += '<div class="package-types">';
+    html += '<h2 class="members-section-title">Types</h2>';
+    html += '<ul class="package-type-list">';
+
+    var types = packageInfo.types || [];
+    types.forEach(function(typeInfo) {
+        html += '<li class="package-type-item" onclick="showType(\'' + packageName + '\', \'' + typeInfo.name + '\')">';
+        html += '<span class="package-type-name">' + escapeHtml(typeInfo.name) + '</span>';
+        html += '<span class="package-type-kind">(' + escapeHtml(typeInfo.kind) + ')</span>';
+        html += '</li>';
+    });
+
+    html += '</ul>';
+    html += '</div>';
+    html += '</div>';
+
+    setContent(packageName, html);
+}
+
+/**
+ * Shows the type detail view
+ */
+function showType(packageName, typeName) {
+    var typeInfo = findType(packageName, typeName);
+    if (!typeInfo) {
+        showError("Type not found: " + packageName + "." + typeName);
+        return;
+    }
+
+    var html = '<div class="detail-container">';
+    html += renderTypeHeader(typeInfo);
+    html += renderModifiers(typeInfo.modifiers);
+    html += renderAnnotations(typeInfo.annotations);
+    html += renderTypeParameters(typeInfo.typeParameters);
+    html += renderInheritance(typeInfo);
+    html += renderJavaDoc(typeInfo.javadoc);
+
+    // Render kind-specific content
+    if (typeInfo.kind === 'class') {
+        html += renderClassMembers(typeInfo);
+    } else if (typeInfo.kind === 'interface') {
+        html += renderInterfaceMembers(typeInfo);
+    } else if (typeInfo.kind === 'enum') {
+        html += renderEnumMembers(typeInfo);
+    } else if (typeInfo.kind === 'annotation') {
+        html += renderAnnotationMembers(typeInfo);
+    }
+
+    html += '</div>';
+
+    setContent(typeInfo.qualifiedName, html);
+}
+
+/**
+ * Renders the type header
+ */
+function renderTypeHeader(typeInfo) {
+    var html = '<div class="type-header">';
+    html += '<h1 class="type-title">';
+    html += escapeHtml(typeInfo.name);
+    html += '<span class="type-kind ' + typeInfo.kind + '">' + escapeHtml(typeInfo.kind) + '</span>';
+    html += '</h1>';
+    html += '<div class="type-qualified-name">' + escapeHtml(typeInfo.qualifiedName) + '</div>';
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders modifiers
+ */
+function renderModifiers(modifiers) {
+    if (!modifiers || modifiers.length === 0) return '';
+
+    var html = '<div class="modifiers">';
+    modifiers.forEach(function(modifier) {
+        html += '<span class="modifier ' + modifier + '">' + escapeHtml(modifier) + '</span>';
+    });
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders annotations
+ */
+function renderAnnotations(annotations) {
+    if (!annotations || annotations.length === 0) return '';
+
+    var html = '<div class="annotations">';
+    annotations.forEach(function(annotation) {
+        html += '<div class="annotation">';
+        html += '<span class="annotation-type">@' + escapeHtml(annotation.type) + '</span>';
+        if (annotation.values && Object.keys(annotation.values).length > 0) {
+            html += '<span class="annotation-values">(';
+            var values = [];
+            for (var key in annotation.values) {
+                values.push(key + '=' + JSON.stringify(annotation.values[key]));
+            }
+            html += escapeHtml(values.join(', '));
+            html += ')</span>';
+        }
+        html += '</div>';
+    });
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders type parameters
+ */
+function renderTypeParameters(typeParameters) {
+    if (!typeParameters || typeParameters.length === 0) return '';
+
+    var html = '<div class="type-parameters">';
+    html += '<strong>Type Parameters:</strong> ';
+    typeParameters.forEach(function(param, index) {
+        if (index > 0) html += ', ';
+        html += '<span class="type-parameter">' + escapeHtml(param.name);
+        if (param.bounds && param.bounds.length > 0) {
+            html += ' extends ' + escapeHtml(param.bounds.join(' & '));
+        }
+        html += '</span>';
+    });
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders inheritance information
+ */
+function renderInheritance(typeInfo) {
+    var html = '';
+
+    if (typeInfo.superClass) {
+        html += '<div class="inheritance-section">';
+        html += '<span class="inheritance-label">Extends:</span>';
+        html += '<span class="inheritance-type">' + escapeHtml(typeInfo.superClass) + '</span>';
+        html += '</div>';
+    }
+
+    var interfaces = typeInfo.interfaces || typeInfo.superInterfaces || [];
+    if (interfaces.length > 0) {
+        html += '<div class="inheritance-section">';
+        html += '<span class="inheritance-label">' + (typeInfo.kind === 'interface' ? 'Extends:' : 'Implements:') + '</span>';
+        interfaces.forEach(function(iface) {
+            html += '<span class="inheritance-type">' + escapeHtml(iface) + '</span>';
+        });
+        html += '</div>';
+    }
+
+    return html;
+}
+
+/**
+ * Renders JavaDoc
+ */
+function renderJavaDoc(javadoc) {
+    if (!javadoc) return '';
+
+    var html = '<div class="javadoc-section">';
+
+    if (javadoc.description) {
+        html += '<div class="javadoc-description">' + escapeHtml(javadoc.description) + '</div>';
+    }
+
+    if (javadoc.tags && javadoc.tags.length > 0) {
+        html += '<div class="javadoc-tags">';
+        javadoc.tags.forEach(function(tag) {
+            html += '<div class="javadoc-tag">';
+            html += '<span class="javadoc-tag-kind">@' + escapeHtml(tag.kind) + '</span>';
+
+            if (tag.name) {
+                html += '<span class="javadoc-tag-name">' + escapeHtml(tag.name) + '</span>';
+            }
+
+            if (tag.exception) {
+                html += '<span class="javadoc-tag-name">' + escapeHtml(tag.exception) + '</span>';
+            }
+
+            if (tag.reference) {
+                html += '<span class="javadoc-tag-name">' + escapeHtml(tag.reference) + '</span>';
+            }
+
+            if (tag.description) {
+                html += '<span class="javadoc-tag-description">' + escapeHtml(tag.description) + '</span>';
+            }
+
+            if (tag.content) {
+                html += '<code>' + escapeHtml(tag.content) + '</code>';
+            }
+
+            html += '</div>';
+        });
+        html += '</div>';
+    }
+
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders class members
+ */
+function renderClassMembers(classInfo) {
+    var html = '';
+
+    // Fields
+    if (classInfo.fields && classInfo.fields.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Fields</h2>';
+        classInfo.fields.forEach(function(field) {
+            html += renderField(field);
+        });
+        html += '</div>';
+    }
+
+    // Constructors
+    if (classInfo.constructors && classInfo.constructors.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Constructors</h2>';
+        classInfo.constructors.forEach(function(constructor) {
+            html += renderConstructor(constructor);
+        });
+        html += '</div>';
+    }
+
+    // Methods
+    if (classInfo.methods && classInfo.methods.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Methods</h2>';
+        classInfo.methods.forEach(function(method) {
+            html += renderMethod(method);
+        });
+        html += '</div>';
+    }
+
+    return html;
+}
+
+/**
+ * Renders interface members
+ */
+function renderInterfaceMembers(interfaceInfo) {
+    var html = '';
+
+    // Fields (constants)
+    if (interfaceInfo.fields && interfaceInfo.fields.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Constants</h2>';
+        interfaceInfo.fields.forEach(function(field) {
+            html += renderField(field);
+        });
+        html += '</div>';
+    }
+
+    // Methods
+    if (interfaceInfo.methods && interfaceInfo.methods.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Methods</h2>';
+        interfaceInfo.methods.forEach(function(method) {
+            html += renderMethod(method);
+        });
+        html += '</div>';
+    }
+
+    return html;
+}
+
+/**
+ * Renders enum members
+ */
+function renderEnumMembers(enumInfo) {
+    var html = '';
+
+    // Enum constants
+    if (enumInfo.constants && enumInfo.constants.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Enum Constants</h2>';
+        html += '<div class="enum-constants">';
+        enumInfo.constants.forEach(function(constant) {
+            html += '<div class="enum-constant">';
+            html += '<div class="enum-constant-name">' + escapeHtml(constant.name) + '</div>';
+            html += renderAnnotations(constant.annotations);
+            html += renderJavaDoc(constant.javadoc);
+            html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+    }
+
+    // Fields
+    if (enumInfo.fields && enumInfo.fields.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Fields</h2>';
+        enumInfo.fields.forEach(function(field) {
+            html += renderField(field);
+        });
+        html += '</div>';
+    }
+
+    // Constructors
+    if (enumInfo.constructors && enumInfo.constructors.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Constructors</h2>';
+        enumInfo.constructors.forEach(function(constructor) {
+            html += renderConstructor(constructor);
+        });
+        html += '</div>';
+    }
+
+    // Methods
+    if (enumInfo.methods && enumInfo.methods.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Methods</h2>';
+        enumInfo.methods.forEach(function(method) {
+            html += renderMethod(method);
+        });
+        html += '</div>';
+    }
+
+    return html;
+}
+
+/**
+ * Renders annotation members
+ */
+function renderAnnotationMembers(annotationInfo) {
+    var html = '';
+
+    if (annotationInfo.elements && annotationInfo.elements.length > 0) {
+        html += '<div class="members-section">';
+        html += '<h2 class="members-section-title">Elements</h2>';
+        html += '<div class="annotation-elements">';
+        annotationInfo.elements.forEach(function(element) {
+            html += '<div class="annotation-element">';
+            html += '<span class="annotation-element-type">' + escapeHtml(element.type) + '</span> ';
+            html += '<span class="annotation-element-name">' + escapeHtml(element.name) + '()</span>';
+            if (element.defaultValue !== null && element.defaultValue !== undefined) {
+                html += '<div class="annotation-element-default">default: ' + escapeHtml(JSON.stringify(element.defaultValue)) + '</div>';
+            }
+            html += renderJavaDoc(element.javadoc);
+            html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+    }
+
+    return html;
+}
+
+/**
+ * Renders a field
+ */
+function renderField(field) {
+    var html = '<div class="member-item">';
+    html += renderModifiers(field.modifiers);
+    html += renderAnnotations(field.annotations);
+
+    html += '<div class="member-signature">';
+    html += '<span class="member-type">' + escapeHtml(field.type) + '</span> ';
+    html += '<span class="member-name">' + escapeHtml(field.name) + '</span>';
+    html += '</div>';
+
+    if (field.constantValue !== null && field.constantValue !== undefined) {
+        html += '<div class="member-constant-value">Value: ' + escapeHtml(JSON.stringify(field.constantValue)) + '</div>';
+    }
+
+    html += renderJavaDoc(field.javadoc);
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders a constructor
+ */
+function renderConstructor(constructor) {
+    var html = '<div class="member-item">';
+    html += renderModifiers(constructor.modifiers);
+    html += renderAnnotations(constructor.annotations);
+
+    html += '<div class="member-signature">';
+    html += '<span class="member-name">' + escapeHtml(constructor.name) + '</span>';
+    html += '(';
+    if (constructor.parameters && constructor.parameters.length > 0) {
+        var params = constructor.parameters.map(function(param) {
+            var paramHtml = '<span class="member-parameter">';
+            paramHtml += '<span class="member-parameter-type">' + escapeHtml(param.type) + '</span> ';
+            paramHtml += '<span class="member-parameter-name">' + escapeHtml(param.name) + '</span>';
+            if (param.isVarArgs) paramHtml += '...';
+            paramHtml += '</span>';
+            return paramHtml;
+        });
+        html += params.join(', ');
+    }
+    html += ')';
+    html += '</div>';
+
+    if (constructor.exceptions && constructor.exceptions.length > 0) {
+        html += '<div class="member-exceptions">throws ';
+        html += constructor.exceptions.map(function(ex) {
+            return '<span class="member-exception">' + escapeHtml(ex) + '</span>';
+        }).join(', ');
+        html += '</div>';
+    }
+
+    html += renderJavaDoc(constructor.javadoc);
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Renders a method
+ */
+function renderMethod(method) {
+    var html = '<div class="member-item">';
+    html += renderModifiers(method.modifiers);
+    html += renderAnnotations(method.annotations);
+
+    html += '<div class="member-signature">';
+    if (method.typeParameters && method.typeParameters.length > 0) {
+        html += '&lt;';
+        html += method.typeParameters.map(function(tp) {
+            return escapeHtml(tp.name);
+        }).join(', ');
+        html += '&gt; ';
+    }
+    html += '<span class="member-type">' + escapeHtml(method.returnType) + '</span> ';
+    html += '<span class="member-name">' + escapeHtml(method.name) + '</span>';
+    html += '(';
+    if (method.parameters && method.parameters.length > 0) {
+        var params = method.parameters.map(function(param) {
+            var paramHtml = '<span class="member-parameter">';
+            paramHtml += '<span class="member-parameter-type">' + escapeHtml(param.type) + '</span> ';
+            paramHtml += '<span class="member-parameter-name">' + escapeHtml(param.name) + '</span>';
+            if (param.isVarArgs) paramHtml += '...';
+            paramHtml += '</span>';
+            return paramHtml;
+        });
+        html += params.join(', ');
+    }
+    html += ')';
+    html += '</div>';
+
+    if (method.exceptions && method.exceptions.length > 0) {
+        html += '<div class="member-exceptions">throws ';
+        html += method.exceptions.map(function(ex) {
+            return '<span class="member-exception">' + escapeHtml(ex) + '</span>';
+        }).join(', ');
+        html += '</div>';
+    }
+
+    html += renderJavaDoc(method.javadoc);
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Helper function to find a package by name
+ */
+function findPackage(packageName) {
+    if (!documentationModel || !documentationModel.packages) return null;
+
+    for (var i = 0; i < documentationModel.packages.length; i++) {
+        if (documentationModel.packages[i].name === packageName) {
+            return documentationModel.packages[i];
         }
     }
-}</script></head><body><div class="container"><div class="sidebar"><input type="text" id="search" placeholder="Search..." onkeyup="search()"><ul id="packageTree"></ul></div><div class="content"><h1 id="docTitle">Documentation</h1><div id="docContent"></div></div></div></body></html><script>generateTree({"at.videc":["Main","BOMB"]});</script>
+    return null;
+}
+
+/**
+ * Helper function to find a type by package and name
+ */
+function findType(packageName, typeName) {
+    var packageInfo = findPackage(packageName);
+    if (!packageInfo || !packageInfo.types) return null;
+
+    for (var i = 0; i < packageInfo.types.length; i++) {
+        if (packageInfo.types[i].name === typeName) {
+            return packageInfo.types[i];
+        }
+    }
+    return null;
+}
+
+/**
+ * Sets the content and title of the detail view
+ */
+function setContent(title, html) {
+    var docTitle = document.getElementById('docTitle');
+    var docContent = document.getElementById('docContent');
+
+    if (docTitle) docTitle.textContent = title;
+    if (docContent) docContent.innerHTML = html;
+}
+
+/**
+ * Shows an error message
+ */
+function showError(message) {
+    setContent('Error', '<div class="empty-state">' + escapeHtml(message) + '</div>');
+}
+
+/**
+ * Escapes HTML special characters
+ */
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
+    return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+</script></head><body><div class="container"><div class="sidebar"><input type="text" id="search" placeholder="Search..." onkeyup="search()"><ul id="packageTree"></ul></div><div class="content"><h1 id="docTitle">Documentation</h1><div id="docContent"></div></div></div></body></html><script>generateTree({"packages":[{"name":"at.videc","types":[{"elements":[],"kind":"annotation","name":"BOMB","qualifiedName":"at.videc.BOMB","modifiers":["public","abstract"],"javadoc":{"description":"BOMB stands for BusinessObjectModelBinding","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"jdk.javadoc.doclet.StandardDoclet","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"DoomDoclet","qualifiedName":"at.videc.DoomDoclet","modifiers":["public"],"javadoc":{"description":"DoomDoclet generates HTML documentation with a tree view of packages and classes.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"Main","qualifiedName":"at.videc.Main","modifiers":["public"],"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"DoomDocTest","qualifiedName":"at.videc.DoomDocTest","modifiers":["public"],"annotations":[],"typeParameters":[],"innerTypes":[]}]},{"name":"at.videc.bomblet.dto","types":[{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"PackageInfo","qualifiedName":"at.videc.bomblet.dto.PackageInfo","modifiers":["public"],"javadoc":{"description":"Represents a Java package with all its types.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"MethodInfo","qualifiedName":"at.videc.bomblet.dto.MethodInfo","modifiers":["public"],"javadoc":{"description":"Represents a method in a class or interface.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"JavaDocTag","qualifiedName":"at.videc.bomblet.dto.JavaDocTag","modifiers":["public"],"javadoc":{"description":"Represents a JavaDoc tag such as @param, @return, @throws, @see, etc.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"FieldInfo","qualifiedName":"at.videc.bomblet.dto.FieldInfo","modifiers":["public"],"javadoc":{"description":"Represents a field in a class, interface, or enum.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"ParameterInfo","qualifiedName":"at.videc.bomblet.dto.ParameterInfo","modifiers":["public"],"javadoc":{"description":"Represents a method or constructor parameter.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"AnnotationElementInfo","qualifiedName":"at.videc.bomblet.dto.AnnotationElementInfo","modifiers":["public"],"javadoc":{"description":"Represents an element (method) in an annotation type.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"AnnotationUsage","qualifiedName":"at.videc.bomblet.dto.AnnotationUsage","modifiers":["public"],"javadoc":{"description":"Represents the usage of an annotation on a program element.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"EnumConstantInfo","qualifiedName":"at.videc.bomblet.dto.EnumConstantInfo","modifiers":["public"],"javadoc":{"description":"Represents a constant in an enum type.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"ConstructorInfo","qualifiedName":"at.videc.bomblet.dto.ConstructorInfo","modifiers":["public"],"javadoc":{"description":"Represents a constructor in a class or enum.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"TypeParameter","qualifiedName":"at.videc.bomblet.dto.TypeParameter","modifiers":["public"],"javadoc":{"description":"Represents a generic type parameter (e.g., T in List\u0026lt;T\u0026gt;).","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"JavaDocComment","qualifiedName":"at.videc.bomblet.dto.JavaDocComment","modifiers":["public"],"javadoc":{"description":"Represents a complete JavaDoc comment with description and tags.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"at.videc.bomblet.dto.TypeInfo","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"InterfaceInfo","qualifiedName":"at.videc.bomblet.dto.InterfaceInfo","modifiers":["public"],"javadoc":{"description":"Represents a Java interface.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"at.videc.bomblet.dto.TypeInfo","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"ClassInfo","qualifiedName":"at.videc.bomblet.dto.ClassInfo","modifiers":["public"],"javadoc":{"description":"Represents a Java class.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"TypeInfo","qualifiedName":"at.videc.bomblet.dto.TypeInfo","modifiers":["public","abstract"],"javadoc":{"description":"Base class for all type definitions (class, interface, enum, annotation).\n This is an abstract representation that can be extended by specific type kinds.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"at.videc.bomblet.dto.TypeInfo","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"EnumInfo","qualifiedName":"at.videc.bomblet.dto.EnumInfo","modifiers":["public"],"javadoc":{"description":"Represents a Java enum type.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"DocumentationModel","qualifiedName":"at.videc.bomblet.dto.DocumentationModel","modifiers":["public"],"javadoc":{"description":"Root documentation model containing all packages.\n This is the top-level structure that gets serialized to JSON.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"at.videc.bomblet.dto.TypeInfo","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"AnnotationInfo","qualifiedName":"at.videc.bomblet.dto.AnnotationInfo","modifiers":["public"],"javadoc":{"description":"Represents a Java annotation type.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]}]},{"name":"at.videc.bomblet","types":[{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"PackageTree","qualifiedName":"at.videc.bomblet.PackageTree","modifiers":["public"],"javadoc":{"description":"Represents a package tree structure for documentation generation.\n This class provides a wrapper around the DocumentationModel and offers\n convenient methods for building and serializing the package tree to JSON.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"TypeElementConverter","qualifiedName":"at.videc.bomblet.TypeElementConverter","modifiers":["public"],"javadoc":{"description":"Converts Java Doclet API elements (TypeElement, etc.) into DTO objects.\n This is a basic converter that extracts essential information.","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]}]},{"name":"at.videc.dummy","types":[{"superClass":"java.lang.Exception","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"ValidationException","qualifiedName":"at.videc.dummy.ValidationException","modifiers":["public"],"javadoc":{"description":"Exception thrown when validation fails.\n Demonstrates simple exception class.\n\n @author Validation Framework Team\n @version 1.0.0\n @since 1.0.0\n @see Validator","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"GenericContainer","qualifiedName":"at.videc.dummy.GenericContainer","modifiers":["public"],"javadoc":{"description":"A generic container class demonstrating advanced generic usage.\n Shows multiple type parameters, bounded wildcards, and generic methods.\n\n @param \u003cT\u003e the primary type of elements in this container\n @param \u003cM\u003e the metadata type associated with elements, must extend Comparable\n @author Generic Programming Team\n @version 2.5.0\n @since 2.0.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"interfaces":[],"constants":[],"fields":[],"constructors":[],"methods":[],"kind":"enum","name":"Status","qualifiedName":"at.videc.dummy.Status","modifiers":["public","final"],"javadoc":{"description":"Enumeration representing various system states.\n Demonstrates enum with constants, fields, constructors, and methods.\n\n @author System Team\n @version 2.0.0\n @since 1.0.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"ValidationResult","qualifiedName":"at.videc.dummy.ValidationResult","modifiers":["public","final"],"javadoc":{"description":"Result of a validation operation.\n Demonstrates final class with factory methods.\n\n @author Validation Framework Team\n @version 2.0.0\n @since 1.0.0\n @see Validator","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"elements":[],"kind":"annotation","name":"Required","qualifiedName":"at.videc.dummy.Required","modifiers":["public","abstract"],"javadoc":{"description":"Marks a field as required.\n Simple annotation with no elements.\n\n @author John Smith\n @since 1.0.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superInterfaces":["java.io.Closeable"],"methods":[],"fields":[],"kind":"interface","name":"Validator","qualifiedName":"at.videc.dummy.Validator","modifiers":["public","abstract"],"javadoc":{"description":"Interface for validating data objects.\n Demonstrates interface with generics, default methods, static methods, and constants.\n\n \u003cp\u003eThis interface provides a comprehensive validation framework with the following features:\n \u003cul\u003e\n   \u003cli\u003eGeneric type parameter for flexible validation\u003c/li\u003e\n   \u003cli\u003eDefault validation methods with fallback behavior\u003c/li\u003e\n   \u003cli\u003eStatic factory methods for common validators\u003c/li\u003e\n \u003c/ul\u003e\n\n @param \u003cT\u003e the type of object to validate\n @author Jane Developer\n @version 3.0.0\n @since 1.0.0\n @see ValidationLevel\n @see ValidationResult","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"elements":[],"kind":"annotation","name":"Deprecated","qualifiedName":"at.videc.dummy.Deprecated","modifiers":["public","abstract"],"javadoc":{"description":"Marks an element as deprecated.\n\n @deprecated This annotation is deprecated. Use {@link ValidationLevel} instead.\n @author Legacy Developer\n @version 1.0.0\n @since 0.1.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"at.videc.dummy.Entity\u003cjava.lang.Long\u003e","interfaces":[],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"User","qualifiedName":"at.videc.dummy.User","modifiers":["public"],"javadoc":{"description":"Represents a user in the system.\n Demonstrates comprehensive class with all features: fields, constructors, methods,\n annotations, generics, inheritance, and extensive JavaDoc.\n\n \u003cp\u003eA user can have multiple roles and belongs to groups. Users are validated\n according to business rules and can be persisted to a repository.\n\n \u003ch2\u003eUsage Example:\u003c/h2\u003e\n \u003cpre\u003e{@code\n User user \u003d new User(\"john.doe\", \"john@example.com\");\n user.setFirstName(\"John\");\n user.setLastName(\"Doe\");\n user.addRole(\"ADMIN\");\n user.validate();\n }\u003c/pre\u003e\n\n @author User Management Team\n @version 3.2.1\n @since 1.0.0\n @see Entity\n @see Repository","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superInterfaces":[],"methods":[],"fields":[],"kind":"interface","name":"Serializable","qualifiedName":"at.videc.dummy.Serializable","modifiers":["public","abstract"],"javadoc":{"description":"Marker interface for serializable objects.\n Simple interface with no methods.\n\n @author System Architect\n @version 1.0.0\n @since 1.0.0\n @see Entity","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"interfaces":["java.lang.Comparable\u003cat.videc.dummy.LogLevel\u003e","at.videc.dummy.Serializable"],"constants":[],"fields":[],"constructors":[],"methods":[],"kind":"enum","name":"LogLevel","qualifiedName":"at.videc.dummy.LogLevel","modifiers":["public","final"],"javadoc":{"description":"Enumeration for logging levels.\n Demonstrates enum implementing multiple interfaces.\n\n @author Logging Framework Team\n @version 3.1.0\n @since 1.0.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superInterfaces":[],"methods":[],"fields":[],"kind":"interface","name":"Repository","qualifiedName":"at.videc.dummy.Repository","modifiers":["public","abstract"],"javadoc":{"description":"Generic repository interface for data access operations.\n Demonstrates multiple type parameters with bounds.\n\n @param \u003cT\u003e the entity type, must extend Entity\n @param \u003cID\u003e the identifier type, must extend Comparable\n @author Repository Team\n @version 2.1.0\n @since 1.5.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"elements":[],"kind":"annotation","name":"ValidationLevel","qualifiedName":"at.videc.dummy.ValidationLevel","modifiers":["public","abstract"],"javadoc":{"description":"Annotation to specify the validation level for a field or method.\n This annotation demonstrates all possible annotation element types.\n\n @author Jane Developer\n @version 2.0.0\n @since 1.5.0\n @see Validator","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"superClass":"java.lang.Object","interfaces":["at.videc.dummy.Serializable"],"fields":[],"constructors":[],"methods":[],"kind":"class","name":"Entity","qualifiedName":"at.videc.dummy.Entity","modifiers":["public","abstract"],"javadoc":{"description":"Abstract base class for all entities in the system.\n Demonstrates abstract class with generic type parameter.\n\n @param \u003cID\u003e the type of the entity identifier\n @author Domain Model Team\n @version 2.5.0\n @since 1.0.0\n @see Repository","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]},{"interfaces":["java.lang.Comparable\u003cat.videc.dummy.Priority\u003e"],"constants":[],"fields":[],"constructors":[],"methods":[],"kind":"enum","name":"Priority","qualifiedName":"at.videc.dummy.Priority","modifiers":["public","final"],"javadoc":{"description":"Enumeration for task priorities.\n Simple enum with interface implementation.\n\n @author Task Management Team\n @version 1.0.0\n @since 1.0.0","tags":[]},"annotations":[],"typeParameters":[],"innerTypes":[]}]}]});</script>
