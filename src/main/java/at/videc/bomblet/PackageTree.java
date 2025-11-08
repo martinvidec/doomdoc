@@ -25,6 +25,7 @@ public class PackageTree {
         this.model = new DocumentationModel();
         this.gson = new GsonBuilder()
                 .setPrettyPrinting()
+                .disableHtmlEscaping()
                 .create();
     }
 
@@ -37,6 +38,7 @@ public class PackageTree {
         this.model = model;
         this.gson = new GsonBuilder()
                 .setPrettyPrinting()
+                .disableHtmlEscaping()
                 .create();
     }
 
@@ -112,7 +114,9 @@ public class PackageTree {
      * @return compact JSON string representation of the package tree
      */
     public String toCompactJson() {
-        Gson compactGson = new Gson();
+        Gson compactGson = new GsonBuilder()
+                .disableHtmlEscaping()
+                .create();
         return compactGson.toJson(model);
     }
 
@@ -133,7 +137,9 @@ public class PackageTree {
             legacyMap.put(packageInfo.getName(), classNames);
         }
 
-        Gson compactGson = new Gson();
+        Gson compactGson = new GsonBuilder()
+                .disableHtmlEscaping()
+                .create();
         return compactGson.toJson(legacyMap);
     }
 

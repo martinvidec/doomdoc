@@ -4,15 +4,15 @@
 
 /* Detail Container */
 .detail-container {
-    padding: var(--spacing-lg);
+    padding: 0;
     font-family: var(--font-family-base);
 }
 
 /* Type Header */
 .type-header {
     border-bottom: 2px solid var(--color-primary);
-    padding-bottom: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
 }
 
 .type-title {
@@ -61,7 +61,7 @@
 
 /* Modifiers */
 .modifiers {
-    margin: var(--spacing-md) 0;
+    margin: var(--spacing-sm) 0;
 }
 
 .modifier {
@@ -108,9 +108,9 @@
 /* JavaDoc */
 .javadoc-section {
     background-color: var(--color-bg-secondary);
-    border-left: 4px solid var(--color-primary);
-    padding: var(--spacing-md);
-    margin: var(--spacing-md) 0;
+    border-left: 3px solid var(--color-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-sm) 0;
     border-radius: var(--radius-md);
 }
 
@@ -121,12 +121,12 @@
 }
 
 .javadoc-tags {
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
 }
 
 .javadoc-tag {
-    margin: var(--spacing-sm) 0;
-    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
     background-color: var(--color-bg-primary);
     border-radius: var(--radius-md);
 }
@@ -150,18 +150,18 @@
 
 /* Annotations */
 .annotations {
-    margin: var(--spacing-md) 0;
+    margin: var(--spacing-xs) 0;
 }
 
 .annotation {
     display: block;
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin: 3px 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: 2px 0;
     background-color: var(--color-warning-light);
-    border-left: 3px solid var(--color-warning);
-    border-radius: var(--radius-md);
+    border-left: 2px solid var(--color-warning);
+    border-radius: var(--radius-sm);
     font-family: var(--font-family-mono);
-    font-size: 13px;
+    font-size: 11px;
     color: var(--color-warning-dark);
 }
 
@@ -176,10 +176,10 @@
 
 /* Inheritance */
 .inheritance-section {
-    margin: var(--spacing-md) 0;
-    padding: var(--spacing-md);
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
     background-color: var(--color-primary-lightest);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
 }
 
 .inheritance-label {
@@ -200,10 +200,10 @@
 
 /* Type Parameters */
 .type-parameters {
-    margin: var(--spacing-md) 0;
-    padding: var(--spacing-md);
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
     background-color: var(--color-bg-code);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
 }
 
 .type-parameter {
@@ -214,7 +214,7 @@
 
 /* Members Section */
 .members-section {
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
 }
 
 .members-section-title {
@@ -222,17 +222,17 @@
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
     border-bottom: 1px solid var(--color-border);
-    padding-bottom: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
 }
 
 /* Member Item (Field, Method, Constructor) */
 .member-item {
-    margin: var(--spacing-md) 0;
-    padding: var(--spacing-md);
+    margin: var(--spacing-sm) 0;
+    padding: var(--spacing-sm);
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
     transition: box-shadow var(--transition-base);
 }
 
@@ -242,11 +242,11 @@
 
 .member-signature {
     font-family: var(--font-family-mono);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-small);
     color: var(--color-text-primary);
     background-color: var(--color-bg-secondary);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
     overflow-x: auto;
 }
 
@@ -298,16 +298,16 @@
 /* Enum Constants */
 .enum-constants {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: var(--spacing-md);
-    margin: var(--spacing-md) 0;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
 }
 
 .enum-constant {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
     background-color: var(--color-warning-light);
-    border-left: 4px solid var(--color-warning);
-    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-warning);
+    border-radius: var(--radius-sm);
 }
 
 .enum-constant-name {
@@ -318,15 +318,15 @@
 
 /* Annotation Elements */
 .annotation-elements {
-    margin: var(--spacing-md) 0;
+    margin: var(--spacing-sm) 0;
 }
 
 .annotation-element {
-    margin: var(--spacing-md) 0;
-    padding: var(--spacing-md);
+    margin: var(--spacing-sm) 0;
+    padding: var(--spacing-sm);
     background-color: var(--color-bg-secondary);
-    border-left: 4px solid var(--color-purple);
-    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-purple);
+    border-radius: var(--radius-sm);
 }
 
 .annotation-element-name {
@@ -359,8 +359,8 @@
 /* Package View */
 .package-header {
     border-bottom: 2px solid var(--color-success);
-    padding-bottom: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
 }
 
 .package-name {
@@ -371,7 +371,7 @@
 }
 
 .package-types {
-    margin-top: var(--spacing-lg);
+    margin-top: var(--spacing-md);
 }
 
 .package-type-list {
@@ -380,11 +380,11 @@
 }
 
 .package-type-item {
-    padding: var(--spacing-md);
-    margin: var(--spacing-sm) 0;
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
     background-color: var(--color-bg-secondary);
-    border-left: 4px solid var(--color-primary);
-    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-primary);
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: background-color var(--transition-base);
 }

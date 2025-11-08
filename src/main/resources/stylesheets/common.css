@@ -49,25 +49,25 @@
     --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --font-family-mono: 'Courier New', Consolas, Monaco, monospace;
 
-    --font-size-base: 14px;
-    --font-size-small: 12px;
-    --font-size-large: 16px;
-    --font-size-h1: 28px;
-    --font-size-h2: 20px;
-    --font-size-h3: 16px;
+    --font-size-base: 13px;
+    --font-size-small: 11px;
+    --font-size-large: 14px;
+    --font-size-h1: 22px;
+    --font-size-h2: 16px;
+    --font-size-h3: 14px;
 
     --font-weight-normal: 400;
-    --font-weight-bold: 700;
+    --font-weight-bold: 600;
 
-    --line-height-base: 1.6;
+    --line-height-base: 1.4;
     --line-height-tight: 1.2;
 
-    /* Spacing */
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 12px;
-    --spacing-lg: 20px;
-    --spacing-xl: 30px;
+    /* Spacing - Compact for technical docs */
+    --spacing-xs: 2px;
+    --spacing-sm: 4px;
+    --spacing-md: 6px;
+    --spacing-lg: 10px;
+    --spacing-xl: 16px;
 
     /* Border Radius */
     --radius-sm: 3px;
@@ -86,8 +86,8 @@
     --transition-slow: 0.3s ease;
 
     /* Layout */
-    --sidebar-width: 280px;
-    --header-height: 60px;
+    --sidebar-width: 260px;
+    --header-height: 50px;
 }
 
 /* Base Styles */
@@ -117,7 +117,7 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--color-bg-tertiary);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
     box-shadow: 2px 0 8px var(--color-shadow);
     overflow-y: auto;
     display: flex;
@@ -126,7 +126,7 @@ body {
 
 .content {
     flex-grow: 1;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     overflow-y: auto;
     background-color: var(--color-bg-primary);
 }
@@ -134,12 +134,12 @@ body {
 /* Search Input */
 .sidebar input[type="text"] {
     width: 100%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-small);
     background-color: var(--color-bg-primary);
     transition: border-color var(--transition-base);
 }
@@ -156,7 +156,7 @@ body {
 
 /* Document Title */
 #docTitle {
-    margin: 0 0 var(--spacing-lg) 0;
+    margin: 0 0 var(--spacing-md) 0;
     font-size: var(--font-size-h1);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);

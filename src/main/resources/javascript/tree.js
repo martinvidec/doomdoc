@@ -310,7 +310,7 @@ function renderJavaDoc(javadoc) {
     var html = '<div class="javadoc-section">';
 
     if (javadoc.description) {
-        html += '<div class="javadoc-description">' + escapeHtml(javadoc.description) + '</div>';
+        html += '<div class="javadoc-description">' + javadoc.description + '</div>';
     }
 
     if (javadoc.tags && javadoc.tags.length > 0) {
@@ -332,7 +332,7 @@ function renderJavaDoc(javadoc) {
             }
 
             if (tag.description) {
-                html += '<span class="javadoc-tag-description">' + escapeHtml(tag.description) + '</span>';
+                html += '<span class="javadoc-tag-description">' + tag.description + '</span>';
             }
 
             if (tag.content) {
