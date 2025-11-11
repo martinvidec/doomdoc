@@ -11,6 +11,7 @@ DoomDoc is a Java doclet generator that creates searchable HTML documentation fr
 - Single HTML file output with all assets inlined
 - No external JavaScript or CSS libraries
 - Design principles: simplicity and performance
+- UI design follows JSDuck principles for familiar developer experience
 
 ## Important Documents
 
@@ -58,7 +59,29 @@ After making changes, always validate:
 2. Generate docs: Run the javadoc command above
 3. Verify output: `ls -la output.html` and `grep "generateTree" output.html`
 
-Expected result: `output.html` should be ~5KB and contain package/class data for at.videc and at.videc.dummy packages.
+Expected result: `output.html` should contain complete package/class data with all members, methods, and JavaDoc.
+
+## Current Features
+
+**Documentation Extraction:**
+- Complete JavaDoc parsing with all tags (@param, @return, @throws, @see, @since, @author, @deprecated, etc.)
+- Full member extraction (fields, methods, constructors, enum constants, annotation elements)
+- Modifiers and access levels (public, private, protected, static, final, abstract, etc.)
+- Type parameters and generics
+- Annotations with values
+- Inheritance hierarchy (extends, implements)
+- HTML tags in JavaDoc are preserved and rendered correctly
+- Inline tags ({@link}, {@code}, {@literal}) are processed
+
+**UI Features:**
+- Single-file HTML output (all CSS/JS inlined)
+- Real-time search with highlighting
+- Collapsible/expandable package tree
+- Responsive 3-column layout
+- Compact, high-density design optimized for technical documentation
+- Syntax highlighting for code elements
+- Member grouping (fields, constructors, methods)
+- Type badges (class, interface, enum, annotation)
 
 ## Architecture
 
@@ -72,10 +95,17 @@ Expected result: `output.html` should be ~5KB and contain package/class data for
 - Serializes package structure to JSON using Gson
 - Outputs single HTML file with embedded tree generation call
 
+**UI Structure**
+The generated HTML documentation has a 3-part layout:
+1. **Search Bar** (top) - Faceted search for filtering classes, methods, and fields
+2. **Component Tree** (left sidebar) - Hierarchical package/class navigation
+3. **Detail View** (main content) - Displays documentation for selected element
+
 **Component Architecture**
 The UI follows a strict component pattern:
 - Each component = 1 JavaScript file + 1 CSS file
 - Tree component: `tree.js` + `tree.css`
+- Detail view: `detail.css` for member rendering
 - Common styles: `common.css`
 
 ### Key Design Patterns
@@ -92,15 +122,19 @@ All CSS and JavaScript files are read from `src/main/resources/` at generation t
 
 **Data Flow**
 
-*Current implementation:*
 1. Doclet API provides `TypeElement` instances for all included classes
-2. Elements grouped into `Map<String, List<String>>` by package
-3. Map serialized to JSON via Gson
-4. JSON passed to `generateTree()` JavaScript function
-5. Tree dynamically generated in DOM on page load
-
-*Target architecture (see DATA_STRUCTURES.md):*
-The goal is to extract complete information from Java classes including fields, methods, constructors, JavaDoc comments, annotations, and generics into a comprehensive JSON structure. This will enable rich detail views and full-text search. Refer to DATA_STRUCTURES.md for the complete JSON schema.
+2. `TypeElementConverter` extracts complete information (see DATA_STRUCTURES.md):
+   - Class/Interface/Enum/Annotation metadata
+   - Fields with types, modifiers, annotations
+   - Constructors with parameters and exceptions
+   - Methods with return types, parameters, exceptions
+   - JavaDoc with all tags parsed
+   - Type parameters and generics
+   - Inheritance relationships
+3. `PackageTree` organizes types by package into `DocumentationModel`
+4. Model serialized to JSON via Gson (with HTML escaping disabled)
+5. JSON embedded in HTML and passed to `generateTree()` JavaScript function
+6. Tree and detail views dynamically generated in DOM on page load
 
 ## Development Guidelines
 
@@ -113,12 +147,27 @@ The goal is to extract complete information from Java classes including fields, 
 
 ### Tree Component Specifications
 When modifying tree functionality (src/main/resources/javascript/tree.js):
-- Root element may have detail view
-- Packages have detail views
-- Classes have detail views
-- Child nodes only visible when parent expanded
-- Search results highlighted and parents auto-expanded
-- Tree must be expandable, collapsible, searchable, filterable, scrollable, resizable
+
+**Structure:**
+- Tree has one root element (always expanded)
+- Packages are nodes (expandable/collapsible, have detail views)
+- Classes are leafs (have detail views, not expandable)
+- Nodes may contain other nodes or leafs
+- Child nodes are indented with visual hierarchy (border-left)
+- Leafs must not be visible when parent node is collapsed
+- Given two classes in the same package, there should be one node for the package and two leafs for the classes
+
+**Behavior:**
+- Tree is expandable and collapsible
+- Tree is searchable (search bar at top)
+- Tree is filterable
+- Tree is scrollable
+- Tree is resizable
+- Search results are highlighted and parent nodes auto-expanded
+
+**Files:**
+- Code: `src/main/resources/javascript/tree.js`
+- Styles: `src/main/resources/stylesheets/tree.css`
 
 ### Making Changes
 
@@ -160,7 +209,19 @@ README.md                     # Project description and requirements
 src/main/java/at/videc/
 ├── DoomDoclet.java           # Main doclet implementation
 ├── Main.java                 # Entry point class
-└── BOMB.java                 # Annotation interface
+├── BOMB.java                 # Annotation interface
+└── bomblet/                  # Core extraction logic
+    ├── PackageTree.java      # Package/type organization
+    ├── TypeElementConverter.java  # Member & JavaDoc extraction
+    └── dto/                  # Data Transfer Objects (JSON schema)
+        ├── DocumentationModel.java
+        ├── PackageInfo.java
+        ├── TypeInfo.java (+ ClassInfo, InterfaceInfo, EnumInfo, AnnotationInfo)
+        ├── FieldInfo.java
+        ├── MethodInfo.java
+        ├── ConstructorInfo.java
+        ├── JavaDocComment.java
+        └── ... (other DTOs per DATA_STRUCTURES.md)
 
 src/test/java/at/videc/
 ├── DoomDocTest.java          # Doclet integration test
@@ -171,10 +232,11 @@ src/test/java/at/videc/
 # UI Resources
 src/main/resources/
 ├── stylesheets/
-│   ├── common.css            # Global styles
-│   └── tree.css              # Tree component styles
+│   ├── common.css            # Global styles (layout, colors, spacing)
+│   ├── tree.css              # Tree component styles
+│   └── detail.css            # Detail view styles (members, javadoc)
 └── javascript/
-    └── tree.js               # Tree component logic
+    └── tree.js               # Tree component logic and detail rendering
 
 # Build Artifacts
 target/                       # Generated by Maven
