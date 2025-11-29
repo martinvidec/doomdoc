@@ -10,9 +10,9 @@
 
 /* Type Header */
 .type-header {
-    border-bottom: 2px solid var(--color-primary);
-    padding-bottom: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-primary);
+    padding-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
 }
 
 .type-title {
@@ -24,9 +24,9 @@
 
 .type-kind {
     display: inline-block;
-    padding: var(--spacing-xs) var(--spacing-md);
-    margin-left: var(--spacing-md);
-    border-radius: var(--radius-pill);
+    padding: 1px var(--spacing-sm);
+    margin-left: var(--spacing-sm);
+    border-radius: var(--radius-sm);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
@@ -56,20 +56,20 @@
     font-size: var(--font-size-base);
     color: var(--color-text-muted);
     font-family: var(--font-family-mono);
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
 }
 
 /* Modifiers */
 .modifiers {
-    margin: var(--spacing-sm) 0;
+    margin: var(--spacing-xs) 0;
 }
 
 .modifier {
     display: inline-block;
-    padding: 2px var(--spacing-sm);
-    margin-right: var(--spacing-sm);
+    padding: 1px var(--spacing-xs);
+    margin-right: var(--spacing-xs);
     background-color: var(--color-bg-hover);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     font-size: var(--font-size-small);
     font-family: var(--font-family-mono);
     color: var(--color-text-secondary);
@@ -107,11 +107,9 @@
 
 /* JavaDoc */
 .javadoc-section {
-    background-color: var(--color-bg-secondary);
-    border-left: 3px solid var(--color-primary);
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin: var(--spacing-sm) 0;
-    border-radius: var(--radius-md);
+    border-left: 2px solid var(--color-primary);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
 }
 
 .javadoc-description {
@@ -121,27 +119,25 @@
 }
 
 .javadoc-tags {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
 }
 
 .javadoc-tag {
-    margin: var(--spacing-xs) 0;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background-color: var(--color-bg-primary);
-    border-radius: var(--radius-md);
+    margin: 1px 0;
+    padding: 1px 0;
 }
 
 .javadoc-tag-kind {
     font-weight: var(--font-weight-bold);
     color: var(--color-primary);
-    margin-right: var(--spacing-sm);
+    margin-right: var(--spacing-xs);
     font-family: var(--font-family-mono);
 }
 
 .javadoc-tag-name {
     font-family: var(--font-family-mono);
     color: var(--color-purple);
-    margin-right: var(--spacing-sm);
+    margin-right: var(--spacing-xs);
 }
 
 .javadoc-tag-description {
@@ -155,11 +151,9 @@
 
 .annotation {
     display: block;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    margin: 2px 0;
-    background-color: var(--color-warning-light);
-    border-left: 2px solid var(--color-warning);
-    border-radius: var(--radius-sm);
+    padding: 1px var(--spacing-xs);
+    margin: 1px 0;
+    border-left: 1px solid var(--color-warning);
     font-family: var(--font-family-mono);
     font-size: 11px;
     color: var(--color-warning-dark);
@@ -170,51 +164,46 @@
 }
 
 .annotation-values {
-    margin-left: var(--spacing-md);
+    margin-left: var(--spacing-sm);
     font-style: italic;
 }
 
 /* Inheritance */
 .inheritance-section {
     margin: var(--spacing-xs) 0;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--color-primary-lightest);
-    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-left: 1px solid var(--color-primary-light);
 }
 
 .inheritance-label {
     font-weight: var(--font-weight-bold);
     color: var(--color-primary);
-    margin-right: var(--spacing-sm);
+    margin-right: var(--spacing-xs);
 }
 
 .inheritance-type {
     font-family: var(--font-family-mono);
     color: var(--color-text-primary);
-    padding: 2px var(--spacing-sm);
-    background-color: var(--color-bg-primary);
-    border-radius: var(--radius-sm);
-    margin-right: var(--spacing-sm);
+    margin-right: var(--spacing-xs);
     display: inline-block;
 }
 
 /* Type Parameters */
 .type-parameters {
     margin: var(--spacing-xs) 0;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--color-bg-code);
-    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-left: 1px solid var(--color-border);
 }
 
 .type-parameter {
     font-family: var(--font-family-mono);
     color: var(--color-purple);
-    margin-right: var(--spacing-md);
+    margin-right: var(--spacing-sm);
 }
 
 /* Members Section */
 .members-section {
-    margin-top: var(--spacing-lg);
+    margin-top: var(--spacing-md);
 }
 
 .members-section-title {
@@ -222,30 +211,28 @@
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
     border-bottom: 1px solid var(--color-border);
-    padding-bottom: var(--spacing-xs);
-    margin-bottom: var(--spacing-sm);
+    padding-bottom: 1px;
+    margin-bottom: var(--spacing-xs);
 }
 
 /* Member Item (Field, Method, Constructor) */
 .member-item {
-    margin: var(--spacing-sm) 0;
-    padding: var(--spacing-sm);
-    background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--radius-md);
-    transition: box-shadow var(--transition-base);
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-left: 1px solid var(--color-border-light);
+    transition: border-color var(--transition-fast);
 }
 
 .member-item:hover {
-    box-shadow: var(--shadow-md);
+    border-left-color: var(--color-primary);
 }
 
 .member-signature {
     font-family: var(--font-family-mono);
     font-size: var(--font-size-small);
     color: var(--color-text-primary);
-    background-color: var(--color-bg-secondary);
-    padding: var(--spacing-sm);
+    background-color: var(--color-bg-code);
+    padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-sm);
     overflow-x: auto;
 }
@@ -264,7 +251,7 @@
 }
 
 .member-parameter {
-    margin-left: var(--spacing-sm);
+    margin-left: var(--spacing-xs);
 }
 
 .member-parameter-type {
@@ -277,7 +264,7 @@
 }
 
 .member-exceptions {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
     font-size: var(--font-size-small);
     color: var(--color-danger);
 }
@@ -287,27 +274,24 @@
 }
 
 .member-constant-value {
-    margin-top: var(--spacing-sm);
-    padding: var(--spacing-sm);
-    background-color: var(--color-primary-lightest);
-    border-radius: var(--radius-md);
+    margin-top: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-left: 1px solid var(--color-primary-light);
     font-family: var(--font-family-mono);
-    font-size: 13px;
+    font-size: var(--font-size-base);
 }
 
 /* Enum Constants */
 .enum-constants {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: var(--spacing-sm);
-    margin: var(--spacing-sm) 0;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--spacing-xs);
+    margin: var(--spacing-xs) 0;
 }
 
 .enum-constant {
-    padding: var(--spacing-sm);
-    background-color: var(--color-warning-light);
-    border-left: 3px solid var(--color-warning);
-    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-left: 2px solid var(--color-warning);
 }
 
 .enum-constant-name {
@@ -318,15 +302,13 @@
 
 /* Annotation Elements */
 .annotation-elements {
-    margin: var(--spacing-sm) 0;
+    margin: var(--spacing-xs) 0;
 }
 
 .annotation-element {
-    margin: var(--spacing-sm) 0;
-    padding: var(--spacing-sm);
-    background-color: var(--color-bg-secondary);
-    border-left: 3px solid var(--color-purple);
-    border-radius: var(--radius-sm);
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-left: 2px solid var(--color-purple);
 }
 
 .annotation-element-name {
@@ -338,11 +320,11 @@
 .annotation-element-type {
     color: var(--color-primary);
     font-family: var(--font-family-mono);
-    margin-left: var(--spacing-md);
+    margin-left: var(--spacing-sm);
 }
 
 .annotation-element-default {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
     font-size: var(--font-size-small);
     color: var(--color-text-muted);
     font-family: var(--font-family-mono);
@@ -350,7 +332,7 @@
 
 /* Empty State */
 .empty-state {
-    padding: 40px;
+    padding: var(--spacing-xl);
     text-align: center;
     color: var(--color-text-light);
     font-style: italic;
@@ -358,9 +340,9 @@
 
 /* Package View */
 .package-header {
-    border-bottom: 2px solid var(--color-success);
-    padding-bottom: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-success);
+    padding-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
 }
 
 .package-name {
@@ -371,7 +353,7 @@
 }
 
 .package-types {
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
 }
 
 .package-type-list {
@@ -380,16 +362,15 @@
 }
 
 .package-type-item {
-    padding: var(--spacing-sm);
-    margin: var(--spacing-xs) 0;
-    background-color: var(--color-bg-secondary);
-    border-left: 3px solid var(--color-primary);
-    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: 1px 0;
+    border-left: 2px solid var(--color-primary);
     cursor: pointer;
-    transition: background-color var(--transition-base);
+    transition: border-color var(--transition-fast);
 }
 
 .package-type-item:hover {
+    border-left-color: var(--color-primary-dark);
     background-color: var(--color-bg-hover);
 }
 
@@ -399,7 +380,7 @@
 }
 
 .package-type-kind {
-    margin-left: var(--spacing-md);
+    margin-left: var(--spacing-sm);
     font-size: var(--font-size-small);
     color: var(--color-text-muted);
 }

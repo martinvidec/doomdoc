@@ -49,25 +49,25 @@
     --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --font-family-mono: 'Courier New', Consolas, Monaco, monospace;
 
-    --font-size-base: 13px;
+    --font-size-base: 12px;
     --font-size-small: 11px;
-    --font-size-large: 14px;
-    --font-size-h1: 22px;
-    --font-size-h2: 16px;
-    --font-size-h3: 14px;
+    --font-size-large: 13px;
+    --font-size-h1: 20px;
+    --font-size-h2: 15px;
+    --font-size-h3: 13px;
 
     --font-weight-normal: 400;
     --font-weight-bold: 600;
 
-    --line-height-base: 1.4;
-    --line-height-tight: 1.2;
+    --line-height-base: 1.35;
+    --line-height-tight: 1.15;
 
-    /* Spacing - Compact for technical docs */
+    /* Spacing - Maximum density for technical docs */
     --spacing-xs: 2px;
-    --spacing-sm: 4px;
-    --spacing-md: 6px;
-    --spacing-lg: 10px;
-    --spacing-xl: 16px;
+    --spacing-sm: 3px;
+    --spacing-md: 5px;
+    --spacing-lg: 8px;
+    --spacing-xl: 12px;
 
     /* Border Radius */
     --radius-sm: 3px;
@@ -75,10 +75,10 @@
     --radius-lg: 6px;
     --radius-pill: 12px;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Shadows - Minimized for less visual weight */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 3px 8px rgba(0, 0, 0, 0.1);
 
     /* Transitions */
     --transition-fast: 0.15s ease;
@@ -117,8 +117,8 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--color-bg-tertiary);
-    padding: var(--spacing-md);
-    box-shadow: 2px 0 8px var(--color-shadow);
+    padding: var(--spacing-sm) var(--spacing-sm);
+    box-shadow: 1px 0 4px var(--color-shadow);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -126,7 +126,7 @@ body {
 
 .content {
     flex-grow: 1;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     overflow-y: auto;
     background-color: var(--color-bg-primary);
 }
@@ -134,12 +134,12 @@ body {
 /* Search Input */
 .sidebar input[type="text"] {
     width: 100%;
-    padding: var(--spacing-sm) var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-family: var(--font-family-base);
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-base);
     background-color: var(--color-bg-primary);
     transition: border-color var(--transition-base);
 }
@@ -147,7 +147,7 @@ body {
 .sidebar input[type="text"]:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
 .sidebar input[type="text"]::placeholder {
@@ -156,10 +156,11 @@ body {
 
 /* Document Title */
 #docTitle {
-    margin: 0 0 var(--spacing-md) 0;
+    margin: 0 0 var(--spacing-sm) 0;
     font-size: var(--font-size-h1);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
 }
 
 /* Common Utility Classes */
@@ -182,8 +183,8 @@ body {
 /* Code Elements */
 code {
     font-family: var(--font-family-mono);
-    font-size: 0.9em;
-    padding: 2px 6px;
+    font-size: 0.92em;
+    padding: 1px 4px;
     background-color: var(--color-bg-code);
     border-radius: var(--radius-sm);
     color: var(--color-purple);
@@ -191,7 +192,8 @@ code {
 
 pre {
     font-family: var(--font-family-mono);
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
     background-color: var(--color-bg-secondary);
     border-radius: var(--radius-md);
     overflow-x: auto;
@@ -217,8 +219,8 @@ a:hover {
 
 /* Scrollbar Styling (Webkit browsers) */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {

@@ -15,11 +15,11 @@
 /* Tree Items */
 #packageTree li {
     cursor: pointer;
-    padding: var(--spacing-xs);
-    border-radius: var(--radius-md);
-    transition: background-color var(--transition-slow), color var(--transition-slow);
+    padding: 1px var(--spacing-xs);
+    border-radius: 0;
+    transition: background-color var(--transition-fast);
     list-style-type: none;
-    margin-bottom: 2px;
+    margin-bottom: 0;
 }
 
 #packageTree li:hover {
@@ -29,11 +29,12 @@
 /* Tree Elements (Packages and Types) */
 .element {
     display: block;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-md);
+    padding: 2px var(--spacing-sm);
+    border-radius: var(--radius-sm);
     transition: background-color var(--transition-base), color var(--transition-base);
     color: var(--color-text-primary);
     font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-tight);
 }
 
 .element:hover {
@@ -55,7 +56,7 @@
 /* Type Elements (Class, Interface, Enum, Annotation) */
 .element.type {
     font-size: var(--font-size-base);
-    padding-left: var(--spacing-md);
+    padding-left: var(--spacing-sm);
 }
 
 .element.type.class:hover {
@@ -82,7 +83,7 @@
 .caret {
     cursor: pointer;
     user-select: none;
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-base);
     color: var(--color-primary);
     transition: transform var(--transition-slow);
     display: inline-flex;
@@ -93,7 +94,8 @@
 .caret::before {
     content: "\25B6";
     display: inline-block;
-    margin-right: var(--spacing-sm);
+    margin-right: var(--spacing-xs);
+    font-size: 10px;
     transition: transform var(--transition-base);
     flex-shrink: 0;
 }
@@ -105,10 +107,10 @@
 /* Nested Elements */
 .nested {
     display: none;
-    padding-left: var(--spacing-lg);
-    border-left: 2px solid var(--color-primary-light);
-    margin-left: var(--spacing-sm);
-    margin-top: var(--spacing-xs);
+    padding-left: var(--spacing-md);
+    border-left: 1px solid var(--color-primary-light);
+    margin-left: var(--spacing-xs);
+    margin-top: 0;
 }
 
 .nested.active {
@@ -118,8 +120,8 @@
 /* Active/Selected State */
 .element.selected {
     background-color: var(--color-primary-lightest);
-    border-left: 3px solid var(--color-primary);
-    padding-left: calc(var(--spacing-sm) - 3px);
+    border-left: 2px solid var(--color-primary);
+    padding-left: calc(var(--spacing-sm) - 2px);
     font-weight: var(--font-weight-bold);
 }
 
@@ -135,18 +137,18 @@
         background-color: var(--color-warning-light);
     }
     50% {
-        background-color: var(--color-warning);
+        background-color: #fff8dc;
     }
 }
 
 /* Tree Item Icons (Optional Enhancement) */
 .tree-icon {
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-right: var(--spacing-xs);
+    width: 14px;
+    height: 14px;
+    margin-right: 2px;
     text-align: center;
-    font-size: var(--font-size-small);
+    font-size: 10px;
     color: var(--color-text-muted);
 }
 
