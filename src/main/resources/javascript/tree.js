@@ -1,5 +1,6 @@
 // Global state
 var documentationModel = null;
+var currentSelectedElement = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     var toggler = document.getElementsByClassName("caret");
@@ -138,6 +139,9 @@ function showPackage(packageName) {
         return;
     }
 
+    // Highlight the selected package node in the tree
+    highlightTreeNode(packageName, null);
+
     var html = '<div class="detail-container">';
     html += '<div class="package-header">';
     html += '<div class="package-name">' + escapeHtml(packageName) + '</div>';
@@ -177,6 +181,9 @@ function showType(packageName, typeName) {
         showError("Type not found: " + packageName + "." + typeName);
         return;
     }
+
+    // Highlight the selected type node in the tree
+    highlightTreeNode(packageName, typeName);
 
     var html = '<div class="detail-container">';
     html += renderTypeHeader(typeInfo);
@@ -666,4 +673,44 @@ function escapeHtml(text) {
     };
 
     return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+/**
+ * Highlights the selected tree node and removes previous selection
+ * @param {string} packageName - The package name
+ * @param {string} typeName - The type name (null for package nodes)
+ */
+function highlightTreeNode(packageName, typeName) {
+    // Remove previous selection
+    if (currentSelectedElement) {
+        currentSelectedElement.classList.remove('selected');
+        currentSelectedElement = null;
+    }
+
+    // Find and highlight the new selection
+    if (typeName) {
+        // Highlighting a type node (class, interface, etc.)
+        var elements = document.querySelectorAll('.element');
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            var onclick = element.getAttribute('onclick');
+            if (onclick && onclick.indexOf("showType('" + packageName + "', '" + typeName + "')") !== -1) {
+                element.classList.add('selected');
+                currentSelectedElement = element;
+                break;
+            }
+        }
+    } else {
+        // Highlighting a package node
+        var carets = document.querySelectorAll('.caret');
+        for (var i = 0; i < carets.length; i++) {
+            var caret = carets[i];
+            var onclick = caret.getAttribute('onclick');
+            if (onclick && onclick.indexOf("showPackage('" + packageName + "')") !== -1) {
+                caret.classList.add('selected');
+                currentSelectedElement = caret;
+                break;
+            }
+        }
+    }
 }

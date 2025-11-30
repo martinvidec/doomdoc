@@ -55,7 +55,9 @@ public class DoomDoclet extends StandardDoclet {
             e.printStackTrace();
             return false;
         }
-        html.append("</head><body><div class=\"container\">");
+        html.append("</head><body>");
+        html.append("<div class=\"title-bar\"><div class=\"title-bar-content\">API Documentation</div></div>");
+        html.append("<div class=\"container\">");
         html.append("<div class=\"sidebar\"><input type=\"text\" id=\"search\" placeholder=\"Search...\" onkeyup=\"search()\">");
         html.append("<ul id=\"packageTree\"></ul></div>");
         html.append("<div class=\"content\"><h1 id=\"docTitle\">Documentation</h1><div id=\"docContent\"></div></div>");

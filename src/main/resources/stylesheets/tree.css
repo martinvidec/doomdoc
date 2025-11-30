@@ -125,6 +125,14 @@
     font-weight: var(--font-weight-bold);
 }
 
+.caret.selected {
+    background-color: var(--color-primary-lightest);
+    border-left: 2px solid var(--color-primary);
+    padding-left: calc(var(--spacing-sm) - 2px);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark);
+}
+
 /* Search Highlight */
 .element.highlight {
     background-color: var(--color-warning-light);
