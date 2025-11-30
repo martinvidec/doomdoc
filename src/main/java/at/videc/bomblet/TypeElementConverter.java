@@ -399,12 +399,30 @@ public class TypeElementConverter {
                 break;
 
             case "since":
+                if (blockTag instanceof SinceTree) {
+                    SinceTree sinceTree = (SinceTree) blockTag;
+                    tag.setDescription(extractText(sinceTree.getBody()));
+                }
+                break;
+
             case "author":
+                if (blockTag instanceof AuthorTree) {
+                    AuthorTree authorTree = (AuthorTree) blockTag;
+                    tag.setDescription(extractText(authorTree.getName()));
+                }
+                break;
+
             case "version":
+                if (blockTag instanceof VersionTree) {
+                    VersionTree versionTree = (VersionTree) blockTag;
+                    tag.setDescription(extractText(versionTree.getBody()));
+                }
+                break;
+
             case "deprecated":
-                if (blockTag instanceof UnknownBlockTagTree) {
-                    UnknownBlockTagTree unknownTag = (UnknownBlockTagTree) blockTag;
-                    tag.setDescription(extractText(unknownTag.getContent()));
+                if (blockTag instanceof DeprecatedTree) {
+                    DeprecatedTree deprecatedTree = (DeprecatedTree) blockTag;
+                    tag.setDescription(extractText(deprecatedTree.getBody()));
                 }
                 break;
 
