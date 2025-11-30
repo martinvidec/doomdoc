@@ -56,12 +56,6 @@ public class DoomDoclet extends StandardDoclet {
             return false;
         }
         html.append("</head><body>");
-        html.append("<div class=\"title-bar\"><div class=\"title-bar-content\">API Documentation</div></div>");
-        html.append("<div class=\"container\">");
-        html.append("<div class=\"sidebar\"><input type=\"text\" id=\"search\" placeholder=\"Search...\" onkeyup=\"search()\">");
-        html.append("<ul id=\"packageTree\"></ul></div>");
-        html.append("<div class=\"content\"><h1 id=\"docTitle\">Documentation</h1><div id=\"docContent\"></div></div>");
-        html.append("</div></body></html>");
 
         // Build package tree from type elements
         PackageTree packageTree = new PackageTree();
@@ -72,11 +66,24 @@ public class DoomDoclet extends StandardDoclet {
                 .map(e -> (TypeElement) e)
                 .collect(Collectors.toList());
 
+        // Collect all package names to determine project name
+        Set<String> packageNames = new TreeSet<>();
         for (TypeElement typeElement : typeElements) {
             String packageName = environment.getElementUtils().getPackageOf(typeElement).getQualifiedName().toString();
+            packageNames.add(packageName);
             TypeInfo typeInfo = converter.convert(typeElement);
             packageTree.addType(packageName, typeInfo);
         }
+
+        // Determine project name from root package
+        String projectName = determineProjectName(packageNames);
+
+        html.append("<div class=\"title-bar\"><div class=\"title-bar-content\">").append(projectName).append("</div></div>");
+        html.append("<div class=\"container\">");
+        html.append("<div class=\"sidebar\"><input type=\"text\" id=\"search\" placeholder=\"Search...\" onkeyup=\"search()\">");
+        html.append("<ul id=\"packageTree\"></ul></div>");
+        html.append("<div class=\"content\"><h1 id=\"docTitle\">Documentation</h1><div id=\"docContent\"></div></div>");
+        html.append("</div></body></html>");
 
         // Generate tree view for packages and classes
         // Using full DTO structure for rich documentation display
@@ -91,6 +98,32 @@ public class DoomDoclet extends StandardDoclet {
         }
 
         return true;
+    }
+
+    /**
+     * Determines the project name from the set of package names.
+     * Uses the root package name to derive a meaningful project title.
+     * @param packageNames set of all package names in the documentation
+     * @return a formatted project name for the title bar
+     */
+    private String determineProjectName(Set<String> packageNames) {
+        if (packageNames.isEmpty()) {
+            return "API Documentation";
+        }
+
+        // Find the shortest package name (likely the root package)
+        String rootPackage = packageNames.stream()
+                .min(Comparator.comparingInt(String::length))
+                .orElse("");
+
+        if (rootPackage.isEmpty()) {
+            return "API Documentation";
+        }
+
+        // Format the package name for display
+        // Convert "at.videc" to "at.videc Documentation"
+        // or "com.example.myproject" to "com.example.myproject Documentation"
+        return rootPackage + " Documentation";
     }
 
     /**

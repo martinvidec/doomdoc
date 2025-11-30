@@ -510,10 +510,19 @@ function renderAnnotationMembers(annotationInfo) {
  */
 function renderField(field) {
     var html = '<div class="member-item">';
-    html += renderModifiers(field.modifiers);
-    html += renderAnnotations(field.annotations);
 
+    // Render annotations first (on separate line if present)
+    if (field.annotations && field.annotations.length > 0) {
+        html += renderAnnotations(field.annotations);
+    }
+
+    // Render modifiers and signature together on one line
     html += '<div class="member-signature">';
+    if (field.modifiers && field.modifiers.length > 0) {
+        field.modifiers.forEach(function(modifier) {
+            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
+        });
+    }
     html += '<span class="member-type">' + escapeHtml(field.type) + '</span> ';
     html += '<span class="member-name">' + escapeHtml(field.name) + '</span>';
     html += '</div>';
@@ -532,10 +541,19 @@ function renderField(field) {
  */
 function renderConstructor(constructor) {
     var html = '<div class="member-item">';
-    html += renderModifiers(constructor.modifiers);
-    html += renderAnnotations(constructor.annotations);
 
+    // Render annotations first (on separate line if present)
+    if (constructor.annotations && constructor.annotations.length > 0) {
+        html += renderAnnotations(constructor.annotations);
+    }
+
+    // Render modifiers and signature together on one line
     html += '<div class="member-signature">';
+    if (constructor.modifiers && constructor.modifiers.length > 0) {
+        constructor.modifiers.forEach(function(modifier) {
+            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
+        });
+    }
     html += '<span class="member-name">' + escapeHtml(constructor.name) + '</span>';
     html += '(';
     if (constructor.parameters && constructor.parameters.length > 0) {
@@ -570,10 +588,19 @@ function renderConstructor(constructor) {
  */
 function renderMethod(method) {
     var html = '<div class="member-item">';
-    html += renderModifiers(method.modifiers);
-    html += renderAnnotations(method.annotations);
 
+    // Render annotations first (on separate line if present)
+    if (method.annotations && method.annotations.length > 0) {
+        html += renderAnnotations(method.annotations);
+    }
+
+    // Render modifiers and signature together on one line
     html += '<div class="member-signature">';
+    if (method.modifiers && method.modifiers.length > 0) {
+        method.modifiers.forEach(function(modifier) {
+            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
+        });
+    }
     if (method.typeParameters && method.typeParameters.length > 0) {
         html += '&lt;';
         html += method.typeParameters.map(function(tp) {

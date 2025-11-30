@@ -11,10 +11,8 @@ import java.util.Objects;
  * Represents a user in the system.
  * Demonstrates comprehensive class with all features: fields, constructors, methods,
  * annotations, generics, inheritance, and extensive JavaDoc.
- *
  * <p>A user can have multiple roles and belongs to groups. Users are validated
- * according to business rules and can be persisted to a repository.
- *
+ * according to business rules and can be persisted to a repository.</p>
  * <h2>Usage Example:</h2>
  * <pre>{@code
  * User user = new User("john.doe", "john@example.com");
