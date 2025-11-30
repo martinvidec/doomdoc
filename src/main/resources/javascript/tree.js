@@ -516,15 +516,24 @@ function renderField(field) {
         html += renderAnnotations(field.annotations);
     }
 
-    // Render modifiers and signature together on one line
+    // Render signature: name : type modifiers
     html += '<div class="member-signature">';
+
+    // Field name first
+    html += '<span class="member-name">' + escapeHtml(field.name) + '</span>';
+
+    // Colon separator and type
+    html += ' <span class="member-separator">:</span> ';
+    html += '<span class="member-type">' + escapeHtml(field.type) + '</span>';
+
+    // Modifiers last
     if (field.modifiers && field.modifiers.length > 0) {
+        html += ' ';
         field.modifiers.forEach(function(modifier) {
             html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
         });
     }
-    html += '<span class="member-type">' + escapeHtml(field.type) + '</span> ';
-    html += '<span class="member-name">' + escapeHtml(field.name) + '</span>';
+
     html += '</div>';
 
     if (field.constantValue !== null && field.constantValue !== undefined) {
@@ -547,14 +556,13 @@ function renderConstructor(constructor) {
         html += renderAnnotations(constructor.annotations);
     }
 
-    // Render modifiers and signature together on one line
+    // Render signature: name(params) modifiers
     html += '<div class="member-signature">';
-    if (constructor.modifiers && constructor.modifiers.length > 0) {
-        constructor.modifiers.forEach(function(modifier) {
-            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
-        });
-    }
+
+    // Constructor name first
     html += '<span class="member-name">' + escapeHtml(constructor.name) + '</span>';
+
+    // Parameters
     html += '(';
     if (constructor.parameters && constructor.parameters.length > 0) {
         var params = constructor.parameters.map(function(param) {
@@ -568,6 +576,15 @@ function renderConstructor(constructor) {
         html += params.join(', ');
     }
     html += ')';
+
+    // Modifiers last
+    if (constructor.modifiers && constructor.modifiers.length > 0) {
+        html += ' ';
+        constructor.modifiers.forEach(function(modifier) {
+            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
+        });
+    }
+
     html += '</div>';
 
     if (constructor.exceptions && constructor.exceptions.length > 0) {
@@ -594,22 +611,13 @@ function renderMethod(method) {
         html += renderAnnotations(method.annotations);
     }
 
-    // Render modifiers and signature together on one line
+    // Render signature: name(params) : returnType modifiers
     html += '<div class="member-signature">';
-    if (method.modifiers && method.modifiers.length > 0) {
-        method.modifiers.forEach(function(modifier) {
-            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
-        });
-    }
-    if (method.typeParameters && method.typeParameters.length > 0) {
-        html += '&lt;';
-        html += method.typeParameters.map(function(tp) {
-            return escapeHtml(tp.name);
-        }).join(', ');
-        html += '&gt; ';
-    }
-    html += '<span class="member-type">' + escapeHtml(method.returnType) + '</span> ';
+
+    // Method name first
     html += '<span class="member-name">' + escapeHtml(method.name) + '</span>';
+
+    // Parameters
     html += '(';
     if (method.parameters && method.parameters.length > 0) {
         var params = method.parameters.map(function(param) {
@@ -623,6 +631,28 @@ function renderMethod(method) {
         html += params.join(', ');
     }
     html += ')';
+
+    // Colon separator and return type
+    html += ' <span class="member-separator">:</span> ';
+    html += '<span class="member-type">' + escapeHtml(method.returnType) + '</span>';
+
+    // Type parameters (if any)
+    if (method.typeParameters && method.typeParameters.length > 0) {
+        html += '&lt;';
+        html += method.typeParameters.map(function(tp) {
+            return escapeHtml(tp.name);
+        }).join(', ');
+        html += '&gt;';
+    }
+
+    // Modifiers last
+    if (method.modifiers && method.modifiers.length > 0) {
+        html += ' ';
+        method.modifiers.forEach(function(modifier) {
+            html += '<span class="modifier-inline ' + modifier + '">' + escapeHtml(modifier) + '</span> ';
+        });
+    }
+
     html += '</div>';
 
     if (method.exceptions && method.exceptions.length > 0) {
