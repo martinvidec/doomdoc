@@ -38,8 +38,8 @@
 }
 
 .element:hover {
-    background-color: var(--color-primary);
-    color: var(--color-bg-primary);
+    background-color: var(--color-primary) !important;
+    color: var(--color-bg-primary) !important;
 }
 
 /* Package Elements */
@@ -108,7 +108,7 @@
 .nested {
     display: none;
     padding-left: var(--spacing-md);
-    border-left: 1px solid var(--color-primary-light);
+    /*border-left: 1px solid var(--color-primary-light);*/
     margin-left: var(--spacing-xs);
     margin-top: 0;
 }
@@ -120,15 +120,11 @@
 /* Active/Selected State */
 .element.selected {
     background-color: var(--color-primary-lightest);
-    border-left: 2px solid var(--color-primary);
-    padding-left: calc(var(--spacing-sm) - 2px);
     font-weight: var(--font-weight-bold);
 }
 
 .caret.selected {
     background-color: var(--color-primary-lightest);
-    border-left: 2px solid var(--color-primary);
-    padding-left: calc(var(--spacing-sm) - 2px);
     font-weight: var(--font-weight-bold);
     color: var(--color-primary-dark);
 }
@@ -136,7 +132,6 @@
 /* Search Highlight */
 .element.highlight {
     background-color: var(--color-warning-light);
-    border: 1px solid var(--color-warning);
     animation: highlight-pulse 1s ease-in-out;
 }
 
