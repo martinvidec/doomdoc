@@ -256,15 +256,53 @@ Then run: `mvn javadoc:javadoc`
 
 MIT License - see LICENSE file for details.
 
+## Development Workflow
+
+DoomDoc uses an integrated workflow with JIRA and GitHub for structured development. See [WORKFLOW.md](WORKFLOW.md) for complete details.
+
+### Quick Setup
+
+1. **Install Git Hooks** (validates branch names and commit messages):
+   ```bash
+   ./scripts/setup-hooks.sh
+   ```
+
+2. **Branch Naming** - Always include JIRA ticket reference:
+   ```bash
+   git checkout -b feature/DOOM-123-add-dark-mode
+   git checkout -b bugfix/DOOM-456-fix-search-bug
+   ```
+
+3. **Commit Format** - Start with JIRA ticket:
+   ```bash
+   git commit -m "DOOM-123: Add dark mode toggle functionality"
+   ```
+
+4. **Pull Request Title** - Include JIRA reference:
+   ```
+   [DOOM-123] Add dark mode toggle functionality
+   ```
+
+### Automated Validation
+
+GitHub Actions automatically:
+- Validates PR titles contain JIRA ticket reference
+- Validates branch names follow naming convention
+- Builds project and generates documentation
+- Can optionally update JIRA status (see `.github/JIRA_API_SETUP.md`)
+
 ## Contributing
 
-Contributions are welcome! Please read [CLAUDE.md](CLAUDE.md) for development guidelines.
+Contributions are welcome! Please read [CLAUDE.md](CLAUDE.md) for development guidelines and [WORKFLOW.md](WORKFLOW.md) for the complete development workflow.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+**JIRA Project Key:** `DOOM`
+
+1. Pick an open JIRA ticket or create a new one
+2. Create your feature branch (`git checkout -b feature/DOOM-XXX-description`)
+3. Install Git hooks (`./scripts/setup-hooks.sh`)
+4. Commit your changes (`git commit -m 'DOOM-XXX: Description'`)
+5. Push to the branch (`git push origin feature/DOOM-XXX-description`)
+6. Open a Pull Request with title `[DOOM-XXX] Description`
 
 ## Roadmap
 
