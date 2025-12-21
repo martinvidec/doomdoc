@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Git pre-push hook
+# Validates that branch names follow the JIRA integration pattern
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Get current branch name
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Allowed branch patterns
+# - main/master (protected branches)
+# - feature/DOOM-XXX-description
+# - bugfix/DOOM-XXX-description
+# - improvement/DOOM-XXX-description
+# - docs/DOOM-XXX-description
+# - refactor/DOOM-XXX-description
+
+VALID_PATTERN="^(main|master|feature|bugfix|improvement|docs|refactor)/(DOOM-[0-9]+-.+|$)"
+
+# Allow pushing to main/master without JIRA ticket
+if [[ "$BRANCH" == "main" ]] || [[ "$BRANCH" == "master" ]]; then
+    echo -e "${GREEN}✓${NC} Pushing to protected branch: $BRANCH"
+    exit 0
+fi
+
+# Validate branch name pattern
+if [[ ! "$BRANCH" =~ ^(feature|bugfix|improvement|docs|refactor)/DOOM-[0-9]+-.+ ]]; then
+    echo -e "${RED}✗ Branch name validation failed${NC}"
+    echo ""
+    echo -e "${YELLOW}Branch names must follow the pattern:${NC}"
+    echo "  <type>/DOOM-XXX-<description>"
+    echo ""
+    echo "Valid types:"
+    echo "  - feature     (new features)"
+    echo "  - bugfix      (bug fixes)"
+    echo "  - improvement (improvements to existing features)"
+    echo "  - docs        (documentation changes)"
+    echo "  - refactor    (code refactoring)"
+    echo ""
+    echo "Examples:"
+    echo "  feature/DOOM-123-add-search-functionality"
+    echo "  bugfix/DOOM-456-fix-tree-collapse"
+    echo "  improvement/DOOM-789-optimize-rendering"
+    echo ""
+    echo "Your branch:"
+    echo "  $BRANCH"
+    echo ""
+    echo "To rename your branch:"
+    echo "  git branch -m <type>/DOOM-XXX-<description>"
+    echo ""
+    echo "To bypass this check (not recommended), use: git push --no-verify"
+    exit 1
+fi
+
+echo -e "${GREEN}✓${NC} Branch name format is valid: $BRANCH"
+exit 0

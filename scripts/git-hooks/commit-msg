@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Git commit-msg hook
+# Validates that commit messages contain a JIRA ticket reference (DOOM-XXX)
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Pattern for JIRA ticket (DOOM-XXX)
+JIRA_PATTERN="^DOOM-[0-9]+"
+
+# Check if this is a merge commit (skip validation)
+if echo "$COMMIT_MSG" | grep -q "^Merge"; then
+    echo -e "${GREEN}✓${NC} Merge commit detected, skipping JIRA ticket validation"
+    exit 0
+fi
+
+# Check if commit message starts with JIRA ticket
+if ! echo "$COMMIT_MSG" | grep -qE "$JIRA_PATTERN"; then
+    echo -e "${RED}✗ Commit message validation failed${NC}"
+    echo ""
+    echo -e "${YELLOW}Commit messages must start with a JIRA ticket reference.${NC}"
+    echo ""
+    echo "Format: DOOM-XXX: <description>"
+    echo ""
+    echo "Examples:"
+    echo "  DOOM-123: Add search highlighting functionality"
+    echo "  DOOM-456: Fix tree collapse bug"
+    echo ""
+    echo "Your commit message:"
+    echo "  $COMMIT_MSG"
+    echo ""
+    echo "To bypass this check (not recommended), use: git commit --no-verify"
+    exit 1
+fi
+
+echo -e "${GREEN}✓${NC} Commit message format is valid"
+exit 0

@@ -754,6 +754,8 @@ function highlightTreeNode(packageName, typeName) {
             if (onclick && onclick.indexOf("showType('" + packageName + "', '" + typeName + "')") !== -1) {
                 element.classList.add('selected');
                 currentSelectedElement = element;
+                // Ensure parent package is expanded and visible
+                expandParent(element.parentElement);
                 break;
             }
         }
