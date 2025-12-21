@@ -13,6 +13,239 @@ DoomDoc is a Java doclet generator that creates searchable HTML documentation fr
 - Design principles: simplicity and performance
 - UI design follows JSDuck principles for familiar developer experience
 
+**JIRA Integration:**
+- JIRA Project Name: DoomDoc
+- JIRA Project Key: DOOM
+- JIRA URL: https://rx451g.atlassian.net
+
+**Confluence Integration:**
+- Confluence Space: DoomDoc
+- Confluence URL: https://rx451g.atlassian.net/wiki/spaces/DoomDoc
+
+## Development Workflow with Jira/Confluence Integration
+
+This workflow leverages the Jira and Confluence MCP integration to streamline development and maintain synchronized documentation.
+
+### Session Start Protocol
+
+At the beginning of each Claude Code session, follow these steps:
+
+1. **Check Repository Status**
+   ```bash
+   git status
+   git fetch origin
+   git log --oneline HEAD..origin/main  # Check if behind main
+   ```
+   - Ensure the repository is clean and up-to-date with remote
+   - Pull latest changes if needed: `git pull origin main`
+
+2. **Query Jira for Tasks**
+   - Search for open tasks in the DOOM project
+   - Identify tasks with status "To Do" or "In Progress"
+   - Use Jira MCP tools to fetch task details
+
+3. **Ask User for Task Selection**
+   - Present available tasks to the user
+   - For "In Progress" tasks, note the last update and current state
+   - Allow user to select which task to work on next
+
+### Branch Naming Convention
+
+**Format:** `{type}/DOOM-{ticket-number}-{short-description}`
+
+**Branch Types:**
+- `feature/` - New features or enhancements
+- `bugfix/` - Bug fixes
+- `hotfix/` - Critical production fixes
+- `chore/` - Maintenance tasks (dependencies, refactoring, tooling)
+- `docs/` - Documentation-only changes
+
+**Examples:**
+```bash
+feature/DOOM-123-add-dark-mode
+bugfix/DOOM-456-fix-search-highlighting
+hotfix/DOOM-789-critical-rendering-bug
+chore/DOOM-234-update-maven-dependencies
+docs/DOOM-567-api-documentation
+```
+
+**Rules:**
+- Always include the JIRA ticket key (DOOM-XXX)
+- Use lowercase with hyphens for readability
+- Keep description short (3-5 words max)
+- Description should be meaningful but concise
+- Compatible with GitHub Actions validation
+
+### Implementation Workflow
+
+#### 1. Create Feature Branch
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/DOOM-XXX-short-description
+```
+
+#### 2. Create Technical Specification (BEFORE Implementation)
+
+**In Confluence:**
+- Create a new page under the main DoomDoc space
+- Title: "[DOOM-XXX] Feature/Fix Name - Technical Specification"
+- Parent page: "Developer Guide" or create a "Technical Specifications" parent page
+- Include:
+  - **Overview**: Brief description of the task
+  - **Requirements**: What needs to be accomplished
+  - **Technical Approach**: Architecture decisions, design patterns
+  - **Implementation Details**: Key classes/methods to modify or create
+  - **Testing Strategy**: How to validate the implementation
+  - **Risks and Considerations**: Potential issues or edge cases
+
+**Link Specification to Jira:**
+- Use Jira MCP tools to add a comment to the task with the Confluence page URL
+- Use `jira_create_remote_issue_link` to create a proper link to the Confluence page
+- Example:
+  ```
+  Technical Specification: [View in Confluence](https://rx451g.atlassian.net/wiki/spaces/DoomDoc/pages/...)
+  ```
+
+#### 3. Update Jira Task Status
+
+Before starting implementation:
+- Transition task to "In Progress" using `jira_transition_issue`
+- Add a comment with the branch name and Confluence spec link
+- Use `jira_add_worklog` to track time if needed
+
+#### 4. Implement the Feature/Fix
+
+Follow the technical specification and development guidelines:
+- Write code following SOLID, DRY, KISS principles
+- Validate frequently using build commands
+- Update specification in Confluence if approach changes
+- Add comments to Jira task for significant progress or blockers
+
+#### 5. Update Jira During Implementation
+
+**Progress Updates:**
+- Add comments to track implementation progress
+- If blockers arise, update the task with details
+- Link related tasks if dependencies are discovered
+- Use `jira_add_comment` for status updates
+
+**Example Progress Comments:**
+```
+"Implemented core functionality for dark mode toggle in tree.css and common.css"
+"Encountered issue with state persistence - investigating localStorage approach"
+"Completed implementation, ready for testing"
+```
+
+#### 6. Complete Implementation
+
+Before creating PR:
+- Run full validation workflow:
+  ```bash
+  mvn clean compile package -DskipTests
+  javadoc -doclet at.videc.DoomDoclet ...
+  # Verify output.html
+  ```
+- Update Confluence specification with any final changes
+- Add completion comment to Jira task
+
+#### 7. Create Pull Request
+
+```bash
+git add .
+git commit -m "DOOM-XXX: Brief description of changes
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+
+git push origin feature/DOOM-XXX-short-description
+```
+
+Create PR using GitHub CLI:
+```bash
+gh pr create --title "[DOOM-XXX] Feature/Fix Name" --body "$(cat <<'EOF'
+## Summary
+- Bullet point summary of changes
+- Link to Confluence spec: [Technical Specification](https://rx451g.atlassian.net/wiki/...)
+
+## Jira Task
+Closes DOOM-XXX
+
+## Test Plan
+- [ ] Build succeeds: `mvn clean package -DskipTests`
+- [ ] Documentation generates: `javadoc -doclet at.videc.DoomDoclet ...`
+- [ ] Manual testing completed
+- [ ] No regressions in existing functionality
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
+```
+
+#### 8. Update Jira After PR Creation
+
+- Add PR link to Jira task using `jira_create_remote_issue_link`
+- Transition task to "In Review" or appropriate status
+- Add comment with PR URL
+
+### Documentation Strategy
+
+**All documentation is created in Confluence, not in the repository.**
+
+**Documentation Types:**
+
+1. **Technical Specifications** (Before Implementation)
+   - Location: Confluence under "Technical Specifications" parent page
+   - One spec per JIRA task
+   - Linked from Jira task
+
+2. **User Documentation** (After Implementation)
+   - Location: Confluence main pages
+   - Update existing pages or create new ones
+   - Reference from JIRA task for visibility
+
+3. **API Documentation** (Generated)
+   - Generated via DoomDoc itself
+   - `output.html` not committed to repository
+   - Can be uploaded as Confluence attachment if needed
+
+4. **Code Comments** (Inline)
+   - JavaDoc comments in source code (minimal, only where needed)
+   - Focus on "why" not "what"
+
+**DO NOT create:**
+- Markdown documentation files in repository (except CLAUDE.md, README.md, DATA_STRUCTURES.md)
+- Duplicate documentation in multiple locations
+- Extensive inline code comments for self-explanatory code
+
+### Resuming In-Progress Tasks
+
+When starting a new session with a task "In Progress":
+
+1. Query Jira for the task details using `jira_get_issue`
+2. Read latest comments to understand current state
+3. Find the Confluence specification via task links
+4. Check out the existing branch:
+   ```bash
+   git fetch origin
+   git checkout feature/DOOM-XXX-short-description
+   git pull origin feature/DOOM-XXX-short-description
+   ```
+5. Review recent commits to understand what was completed
+6. Continue from where previous session left off
+7. Add comment to Jira: "Resuming work on this task"
+
+### Important Notes
+
+- **Always create Confluence spec BEFORE starting implementation**
+- **Update Jira status transitions as you progress**
+- **Link all artifacts (branches, PRs, specs) in Jira task**
+- **Keep Confluence as single source of truth for documentation**
+- **Use Jira comments for progress updates and blockers**
+- **Never create divergent documentation in multiple places**
+
 ## Important Documents
 
 **DATA_STRUCTURES.md**
