@@ -22,6 +22,18 @@ DoomDoc is a Java doclet generator that creates searchable HTML documentation fr
 - Confluence Space: DoomDoc
 - Confluence URL: https://rx451g.atlassian.net/wiki/spaces/DoomDoc
 
+## Quick Navigation
+
+- [Component Map](#component-map) - Find code quickly by functionality
+- [Common Tasks](#common-modification-patterns) - How-to guides for typical tasks
+- [Architecture](#architecture) - System design and data flow
+- [Build Commands](#build-and-test-commands) - Compile, test, and generate docs
+- [Workflow](#development-workflow-with-jiraconfluence-integration) - Development process
+- [Search Keywords](#search-keywords) - Find information by topic
+- [Recent Changes](#recent-changes) - Latest architectural updates
+- [External Docs](#external-documentation) - Confluence and JIRA links
+- [Data Structures](DATA_STRUCTURES.md) - Complete JSON schema reference
+
 ## Development Workflow with Jira/Confluence Integration
 
 This workflow leverages the Jira and Confluence MCP integration to streamline development and maintain synchronized documentation.
@@ -246,6 +258,73 @@ When starting a new session with a task "In Progress":
 - **Use Jira comments for progress updates and blockers**
 - **Never create divergent documentation in multiple places**
 
+## Recent Changes
+
+Track recent modifications for context. Update this section when making significant architectural changes or workflow updates.
+
+### 2025-12-21
+
+**DOOM-4:** Enhance CLAUDE.md with navigation and search optimization
+- Added: Quick Navigation section
+- Added: Component Map with file:line references
+- Added: Common Modification Patterns (how-to guides)
+- Added: Search Keywords for findability
+- Added: Recent Changes tracking (this section)
+- Added: External Documentation links
+- [Confluence Spec](https://rx451g.atlassian.net/spaces/DoomDoc/pages/13697068)
+
+**DOOM-2:** Removed duplicate documentation
+- Deleted: WORKFLOW.md, .github/README.md, .github/JIRA_API_SETUP.md, .github/copilot-instructions.md
+- Updated: README.md references to point to CLAUDE.md
+- Migrated: JIRA API Setup Guide to Confluence
+- Repository now contains only: CLAUDE.md, README.md, DATA_STRUCTURES.md
+- [Confluence Spec](https://rx451g.atlassian.net/wiki/spaces/DoomDoc/pages/13762584)
+
+**DOOM-1:** Setup JIRA workflow integration
+- Added: Git hooks for branch/commit validation
+- Added: GitHub Actions for PR validation and JIRA integration
+- Added: Comprehensive workflow documentation in CLAUDE.md
+- Established: Confluence as documentation hub
+- Created: Session start protocol for Claude Code
+
+### Earlier Changes
+
+- Initial project setup with Maven, Gson, basic doclet structure
+- Implemented: Tree navigation, search functionality, JavaDoc parsing
+- UI design: JSDuck-inspired 3-column layout
+- Resource inlining: Single HTML file output
+
+**Note:** Only document architectural changes, workflow updates, or major refactoring here. Regular feature additions and bug fixes should be tracked in JIRA/Confluence only.
+
+## External Documentation
+
+### Confluence Space
+
+**Main Space:** [DoomDoc](https://rx451g.atlassian.net/wiki/spaces/DoomDoc)
+- Technical Specifications (created before each task implementation)
+- Architecture Decision Records (ADRs)
+- User guides and how-to documentation
+
+**Key Pages:**
+- [JIRA API Integration Setup Guide](https://rx451g.atlassian.net/wiki/spaces/DoomDoc/pages/13762604)
+- Technical Specifications for each DOOM-XXX task
+
+### JIRA Project
+
+**Project:** [DOOM - DoomDoc](https://rx451g.atlassian.net/browse/DOOM)
+- **Project Key:** DOOM
+- **Task Format:** DOOM-XXX
+- **Workflow:** To Do → In Progress → Done
+- **Check for:** "To Do" and "In Progress" tasks at session start
+
+### GitHub Repository
+
+**Repository:** [martinvidec/doomdoc](https://github.com/martinvidec/doomdoc)
+- **Branch naming:** `{type}/DOOM-XXX-{description}`
+- **PR titles:** Must include `[DOOM-XXX]`
+- **GitHub Actions:** Validates PR titles, branch names, runs builds
+- **Main branch:** `main` (target for all PRs)
+
 ## Important Documents
 
 **DATA_STRUCTURES.md**
@@ -368,6 +447,253 @@ All CSS and JavaScript files are read from `src/main/resources/` at generation t
 4. Model serialized to JSON via Gson (with HTML escaping disabled)
 5. JSON embedded in HTML and passed to `generateTree()` JavaScript function
 6. Tree and detail views dynamically generated in DOM on page load
+
+## Component Map
+
+Quick reference for finding code locations by functionality.
+
+### Documentation Generation Pipeline
+
+**1. DoomDoclet.java** (src/main/java/at/videc/DoomDoclet.java)
+- Entry point: `run()` method at line ~50
+- Orchestrates: Resource inlining, JSON generation, HTML output
+- Key methods: `inlineResources()`, `generateDocumentation()`
+- Related: All DTO classes, PackageTree, TypeElementConverter
+
+**2. TypeElementConverter.java** (src/main/java/at/videc/bomblet/TypeElementConverter.java)
+- Extraction engine for classes, methods, fields
+- JavaDoc parsing at line ~200
+- Returns: TypeInfo DTOs (ClassInfo, InterfaceInfo, EnumInfo, AnnotationInfo)
+- Key methods: `convert()`, `extractJavaDoc()`, `extractMethods()`
+- See: DATA_STRUCTURES.md for complete extraction schema
+
+**3. PackageTree.java** (src/main/java/at/videc/bomblet/PackageTree.java)
+- Organizes types by package hierarchy
+- Builds: DocumentationModel structure
+- Key methods: `organize()`, `buildTree()`
+- Output: Nested package structure ready for JSON serialization
+
+**4. DTO Classes** (src/main/java/at/videc/bomblet/dto/)
+- Data models (see DATA_STRUCTURES.md for complete schema)
+- TypeInfo.java - Base type representation
+- MethodInfo.java - Method signatures with parameters
+- FieldInfo.java - Field metadata
+- JavaDocComment.java - Comment structure with all tags
+- AnnotationInfo.java - Annotation metadata
+
+### UI Rendering
+
+**5. tree.js** (src/main/resources/javascript/tree.js)
+- Package tree generation: `generateTree()` function at ~50
+- Detail view rendering: `showDetail()` function at ~150
+- Search functionality: `filterTree()` function at ~200
+- Click handlers: Element selection and navigation
+- DOM manipulation: Tree expansion/collapse
+
+**6. Stylesheets** (src/main/resources/stylesheets/)
+- **common.css** - Layout, global styles, color scheme, typography
+- **tree.css** - Tree component: nodes, leafs, indentation, hover states
+- **detail.css** - Detail view: members, JavaDoc, signatures, badges
+
+### Common Code Locations
+
+**JavaDoc Tag Support:**
+- Extraction: TypeElementConverter.java:~200-300
+- DTO: JavaDocComment.java
+- Rendering: tree.js:showDetail() at ~150-200
+
+**Tree Rendering Logic:**
+- Generation: tree.js:generateTree() at ~50-150
+- Styling: tree.css
+- Node structure: Packages as nodes, classes as leafs
+
+**Search/Filter:**
+- Implementation: tree.js:filterTree() at ~200-250
+- Auto-expand: Parent nodes revealed when child matches
+- Highlighting: Matched elements get special CSS class
+
+**Package Organization:**
+- Logic: PackageTree.java:~30-100
+- Structure: Hierarchical nesting based on package names
+- Output: DocumentationModel with nested PackageInfo objects
+
+**HTML Template Generation:**
+- Template building: DoomDoclet.java:~100-200
+- Resource inlining: DoomDoclet.java:inlineResources()
+- JSON embedding: Serialized model injected into HTML
+
+## Common Modification Patterns
+
+How-to guides for typical development tasks.
+
+### Add Support for New JavaDoc Tag
+
+**When:** You need to parse and display a new @tag in JavaDoc comments
+
+**Steps:**
+1. **Extract tag** - TypeElementConverter.java:~200
+   - Add tag parsing in `extractJavaDoc()` method
+   - Example: Parse `@customTag value` from DocCommentTree
+   - Store in JavaDocComment DTO
+
+2. **Update DTO** - JavaDocComment.java
+   - Add field for new tag: `private String customTag;`
+   - Update constructor and add getter method
+   - See DATA_STRUCTURES.md for schema conventions
+
+3. **Render tag** - tree.js:showDetail()
+   - Add rendering logic around line ~170
+   - Example: `html += '<div class="tag-custom">' + doc.customTag + '</div>';`
+   - Style in detail.css: `.tag-custom { ... }`
+
+4. **Test** - Create test class with new tag
+   - Add to src/test/java/at/videc/dummy/
+   - Include /**  * @customTag test value  */ in JavaDoc
+   - Run: `mvn clean compile package -DskipTests && javadoc...`
+   - Verify in output.html
+
+**Reference:** DATA_STRUCTURES.md for JavaDoc tag structure
+
+### Add UI Component/Feature
+
+**When:** Adding new functionality to the tree or detail view
+
+**Steps:**
+1. **JavaScript** - tree.js
+   - Add function for new feature
+   - Hook into existing event handlers or create new ones
+   - Example: Search is in `filterTree()` at line ~200
+   - Keep code modular and well-commented
+
+2. **CSS** - tree.css or detail.css
+   - Add styles for new component
+   - Follow existing naming conventions: `.component-name`
+   - Use existing color scheme from common.css
+   - Test responsiveness at different viewport sizes
+
+3. **Test rendering:**
+   ```bash
+   mvn clean compile package -DskipTests
+   javadoc -doclet at.videc.DoomDoclet \
+     -docletpath target/classes:target/dependencies/gson-2.8.9.jar \
+     -classpath target/dependencies/gson-2.8.9.jar \
+     -sourcepath ./src/main/java \
+     -subpackages at.videc
+   open output.html  # or your browser
+   ```
+
+**Note:** All JavaScript/CSS is inlined at generation time. Full rebuild required to see changes.
+
+### Modify Extraction Logic
+
+**When:** Changing what information is extracted from Java source files
+
+**Steps:**
+1. **Update converter** - TypeElementConverter.java
+   - Modify extraction methods for your target element type
+   - Fields: around line ~150
+   - Methods: around line ~250
+   - Constructors: around line ~300
+   - Preserve existing extraction for backward compatibility
+
+2. **Update DTO** - Corresponding DTO in bomblet/dto/
+   - Add or modify fields in the appropriate DTO class
+   - Example: Add field to MethodInfo.java for new method metadata
+   - Update DATA_STRUCTURES.md if this changes the schema
+
+3. **Update rendering** - tree.js:showDetail()
+   - Modify detail view rendering to display new data
+   - Add appropriate HTML structure and CSS classes
+   - Consider edge cases (null values, empty lists, etc.)
+
+4. **Validate:**
+   ```bash
+   mvn clean compile package -DskipTests
+   javadoc -doclet at.videc.DoomDoclet ...
+   grep "newField" output.html  # Check if new data appears
+   ```
+
+**Important:** Always check DATA_STRUCTURES.md before and after schema changes.
+
+### Debug Doclet Issues
+
+**When:** Doclet fails to run or generates incorrect output
+
+**Common Issues:**
+
+**Build fails:**
+- Run `mvn clean` to remove stale artifacts
+- Then `mvn compile` to rebuild fresh
+- Check for Java syntax errors in source files
+- Verify pom.xml dependencies
+
+**Empty output.html:**
+- Ensure Gson JAR exists: `ls target/dependencies/gson-2.8.9.jar`
+- Check docletpath includes both: `target/classes:target/dependencies/gson-2.8.9.jar`
+- Verify source path is correct: `./src/main/java`
+- Run with `-verbose` flag for detailed output
+
+**Missing data in output:**
+- Add debug output in TypeElementConverter: `System.out.println()`
+- Check if extraction methods are called: Add logging
+- Verify DTO objects are populated correctly
+- Inspect JSON in output.html source (search for "generateTree")
+
+**CSS not applied:**
+- Verify CSS files exist in: `src/main/resources/stylesheets/`
+- Check file names: common.css, tree.css, detail.css
+- Rebuild after CSS changes: `mvn clean compile package`
+- Inspect `<style>` tags in output.html to confirm CSS was inlined
+
+**Debug steps:**
+1. Add `System.out.println()` statements in DoomDoclet.java
+2. Rebuild: `mvn clean compile package -DskipTests`
+3. Run javadoc command and watch console output
+4. Inspect output.html source for embedded JSON/CSS/JS
+5. Use browser dev tools to check JavaScript console for errors
+
+## Search Keywords
+
+Quick lookup by topic - helps find relevant information quickly.
+
+### By Functionality
+
+- **JavaDoc parsing, tag extraction:** TypeElementConverter.java, JavaDocComment.java
+- **Tree rendering, navigation:** tree.js, tree.css
+- **Package organization, hierarchy:** PackageTree.java, DocumentationModel.java
+- **Search, filtering:** tree.js:filterTree() at ~200-250
+- **Detail view, member display:** tree.js:showDetail() at ~150-200, detail.css
+- **CSS styling, layout:** common.css, tree.css, detail.css
+- **JSON generation, serialization:** DoomDoclet.java, Gson usage
+- **Resource inlining:** DoomDoclet.java:inlineResources()
+- **Build, compilation, Maven:** pom.xml, Build Commands section above
+- **Testing, validation:** See "Validation Workflow" section
+
+### By File Type
+
+- **Doclet logic:** DoomDoclet.java, TypeElementConverter.java, PackageTree.java
+- **Data models (DTOs):** bomblet/dto/*.java (see DATA_STRUCTURES.md)
+- **UI components:** tree.js, *.css files
+- **Configuration:** pom.xml
+- **Documentation:** CLAUDE.md (this file), DATA_STRUCTURES.md, README.md
+- **Tests:** src/test/java/at/videc/DoomDocTest.java, dummy/*.java
+
+### By Technology
+
+- **Maven:** Build system, dependency management, pom.xml
+- **JavaDoc API:** Doclet framework, TypeElement, ExecutableElement, DocCommentTree
+- **Gson:** JSON serialization (version 2.8.9), HTML escaping disabled
+- **JavaScript:** Vanilla JS, no frameworks, tree.js
+- **CSS:** Pure CSS, no preprocessors, common.css/tree.css/detail.css
+
+### By Common Task
+
+- **Add new JavaDoc tag:** See "Common Modification Patterns" → "Add Support for New JavaDoc Tag"
+- **Add UI feature:** See "Common Modification Patterns" → "Add UI Component/Feature"
+- **Change extraction logic:** See "Common Modification Patterns" → "Modify Extraction Logic"
+- **Debug issues:** See "Common Modification Patterns" → "Debug Doclet Issues"
+- **Understand data flow:** See "Architecture" → "Data Flow"
+- **Find file locations:** See "Component Map" above
 
 ## Development Guidelines
 
