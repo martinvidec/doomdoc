@@ -258,7 +258,9 @@ MIT License - see LICENSE file for details.
 
 ## Development Workflow
 
-DoomDoc uses an integrated workflow with JIRA and GitHub for structured development. See [WORKFLOW.md](WORKFLOW.md) for complete details.
+DoomDoc uses an integrated workflow with JIRA, Confluence, and GitHub for structured development.
+
+For complete development guidelines and workflow documentation, see [CLAUDE.md](CLAUDE.md).
 
 ### Quick Setup
 
@@ -289,11 +291,11 @@ GitHub Actions automatically:
 - Validates PR titles contain JIRA ticket reference
 - Validates branch names follow naming convention
 - Builds project and generates documentation
-- Can optionally update JIRA status (see `.github/JIRA_API_SETUP.md`)
+- Can optionally update JIRA status (see JIRA API Integration Setup Guide in Confluence)
 
 ## Contributing
 
-Contributions are welcome! Please read [CLAUDE.md](CLAUDE.md) for development guidelines and [WORKFLOW.md](WORKFLOW.md) for the complete development workflow.
+Contributions are welcome! Please read [CLAUDE.md](CLAUDE.md) for development guidelines and complete workflow documentation.
 
 **JIRA Project Key:** `DOOM`
 
