@@ -745,6 +745,26 @@ When modifying tree functionality (src/main/resources/javascript/tree.js):
 - Gson 2.8.9 is required dependency
 - JUnit 4.12 for testing
 
+### When to Build and Test
+
+**IMPORTANT: Only build and test when source code or configuration changes.**
+
+**Requires build (`mvn clean compile package -DskipTests`):**
+- Changes to Java source files (*.java in src/main/java/ or src/test/java/)
+- Changes to UI resources (*.js, *.css in src/main/resources/)
+- Changes to pom.xml (dependencies, build configuration)
+- Changes that affect the generated output.html
+
+**Does NOT require build:**
+- Changes to documentation files only (CLAUDE.md, README.md, DATA_STRUCTURES.md)
+- Changes to Confluence pages
+- Jira task updates
+- Git/GitHub configuration (.gitignore, .github/workflows/)
+- Branch operations, commits, PR descriptions
+
+**Context savings:**
+Skip unnecessary builds to reduce token usage and improve response time. Documentation-only changes can be committed directly without validation workflow.
+
 ### Known Issues
 - Duplicate maven-surefire-plugin declaration in pom.xml (non-critical warning)
 - DoomDocTest.testDoomDoclet always fails - this is expected (placeholder test)
