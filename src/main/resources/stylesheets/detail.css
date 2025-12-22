@@ -59,131 +59,153 @@
     margin-top: var(--spacing-xs);
 }
 
-/* Modifiers */
+/* Modifiers - Neutral Monochrome Styling */
 .modifiers {
     margin: var(--spacing-xs) 0;
 }
 
 .modifier {
     display: inline-block;
-    padding: 1px var(--spacing-xs);
-    margin-right: var(--spacing-xs);
-    background-color: var(--color-bg-hover);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-small);
+    padding: 1px 6px;
+    margin-right: var(--spacing-2xs);
+    border-radius: 2px;
+    font-size: var(--font-size-xs);
     font-family: var(--font-family-mono);
-    color: var(--color-text-secondary);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: lowercase;
+
+    /* Neutral monochrome - reduces visual noise */
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+/* Subtle variations for critical distinctions only */
 .modifier.public {
-    background-color: var(--color-success-light);
-    color: var(--color-success-dark);
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .modifier.private {
-    background-color: var(--color-danger-light);
-    color: var(--color-danger-dark);
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.65);
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .modifier.protected {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.62);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.modifier.static,
+.modifier.final,
+.modifier.abstract {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Deprecated gets functional color (semantic meaning) */
+.modifier.deprecated {
     background-color: var(--color-warning-light);
     color: var(--color-warning-dark);
+    text-decoration: line-through;
 }
 
-.modifier.static {
-    background-color: var(--color-info-light);
-    color: var(--color-info-dark);
-}
-
-.modifier.final {
-    background-color: var(--color-bg-hover);
-    color: var(--color-text-secondary);
-}
-
-.modifier.abstract {
-    background-color: var(--color-bg-tertiary);
-    color: var(--color-text-primary);
-}
-
-/* Inline modifiers (within member signature) */
+/* Inline modifiers (within member signature) - same neutral styling */
 .modifier-inline {
     display: inline-block;
-    padding: 1px var(--spacing-xs);
-    margin-right: var(--spacing-xs);
-    background-color: var(--color-bg-hover);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-small);
+    padding: 1px 6px;
+    margin-right: var(--spacing-2xs);
+    border-radius: 2px;
+    font-size: var(--font-size-xs);
     font-family: var(--font-family-mono);
-    color: var(--color-text-secondary);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: lowercase;
+
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .modifier-inline.public {
-    background-color: var(--color-success-light);
-    color: var(--color-success-dark);
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .modifier-inline.private {
-    background-color: var(--color-danger-light);
-    color: var(--color-danger-dark);
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.65);
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .modifier-inline.protected {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.62);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.modifier-inline.static,
+.modifier-inline.final,
+.modifier-inline.abstract {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.modifier-inline.deprecated {
     background-color: var(--color-warning-light);
     color: var(--color-warning-dark);
+    text-decoration: line-through;
 }
 
-.modifier-inline.static {
-    background-color: var(--color-info-light);
-    color: var(--color-info-dark);
-}
-
-.modifier-inline.final {
-    background-color: var(--color-bg-hover);
-    color: var(--color-text-secondary);
-}
-
-.modifier-inline.abstract {
-    background-color: var(--color-bg-tertiary);
-    color: var(--color-text-primary);
-}
-
-/* JavaDoc */
+/* JavaDoc - Improved Spacing */
 .javadoc-section {
-    border-left: 2px solid var(--color-primary);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    margin: var(--spacing-xs) 0;
+    grid-area: javadoc;
+    border-left: 3px solid var(--color-border-light);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-top: var(--spacing-sm);
 }
 
 .javadoc-description {
     color: var(--color-text-primary);
-    line-height: var(--line-height-base);
+    line-height: var(--line-height-base); /* 1.5 - optimal readability */
     white-space: pre-wrap;
 }
 
 .javadoc-tags {
-    margin-top: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
 }
 
 .javadoc-tag {
-    margin: 1px 0;
-    padding: 1px 0;
+    margin: var(--spacing-xs) 0; /* 6px - improved tag separation */
+    padding: var(--spacing-2xs) 0;
+    line-height: var(--line-height-base);
 }
 
 .javadoc-tag-kind {
     font-weight: var(--font-weight-bold);
     color: var(--color-primary);
-    margin-right: var(--spacing-xs);
+    margin-right: var(--spacing-sm);
     font-family: var(--font-family-mono);
+    font-size: var(--font-size-xs);
 }
 
 .javadoc-tag-name {
     font-family: var(--font-family-mono);
     color: var(--color-purple);
-    margin-right: var(--spacing-xs);
+    margin-right: var(--spacing-sm);
+    font-size: var(--font-size-sm);
 }
 
 .javadoc-tag-description {
     color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
 }
 
 /* Annotations */
@@ -243,49 +265,72 @@
     margin-right: var(--spacing-sm);
 }
 
-/* Members Section */
+/* Members Section - Strategic Whitespace */
 .members-section {
-    margin-top: var(--spacing-md);
+    margin-top: var(--section-gap); /* 20px - clear section separation */
+}
+
+.members-section + .members-section {
+    margin-top: var(--spacing-2xl); /* 52px - major section break */
 }
 
 .members-section-title {
-    font-size: var(--font-size-h2);
+    font-size: var(--font-size-xl); /* 25px - updated from h2 */
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
     border-bottom: 1px solid var(--color-border);
-    padding-bottom: 1px;
-    margin-bottom: var(--spacing-xs);
+    padding-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
 }
 
-/* Member Item (Field, Method, Constructor) */
+/* Member Item - Grid-Based Layout for Scanability */
 .member-item {
-    margin: var(--spacing-xs) 0;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-left: 1px solid var(--color-border-light);
-    transition: border-color var(--transition-fast);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "signature signature"
+        "javadoc javadoc";
+    gap: var(--spacing-sm);
+    margin-bottom: var(--member-gap); /* 12px - breathing room */
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-left: 2px solid transparent;
+    transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .member-item:hover {
     border-left-color: var(--color-primary);
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
+/* Member Signature - Simplified for Readability */
 .member-signature {
+    grid-area: signature;
     font-family: var(--font-family-mono);
-    font-size: var(--font-size-small);
-    color: var(--color-text-primary);
-    background-color: var(--color-bg-code);
+    font-size: var(--font-size-sm); /* 12px */
+    line-height: var(--line-height-loose); /* 1.6 for code */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-2xs);
     padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-code);
     border-radius: var(--radius-sm);
-    overflow-x: auto;
 }
 
 .member-name {
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-right: var(--spacing-2xs);
 }
 
 .member-type {
     color: var(--color-purple);
+    margin-left: var(--spacing-xs);
+}
+
+.member-separator {
+    color: var(--color-text-secondary);
+    margin: 0 var(--spacing-2xs);
 }
 
 .member-parameters {
@@ -293,6 +338,7 @@
 }
 
 .member-parameter {
+    display: inline;
     margin-left: var(--spacing-xs);
 }
 
