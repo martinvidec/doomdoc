@@ -49,25 +49,51 @@
     --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --font-family-mono: 'Courier New', Consolas, Monaco, monospace;
 
-    --font-size-base: 12px;
-    --font-size-small: 11px;
-    --font-size-large: 13px;
-    --font-size-h1: 20px;
-    --font-size-h2: 15px;
-    --font-size-h3: 13px;
+    /* Typography - Perfect Fourth Scale (1.333 ratio) for clear hierarchy */
+    --font-size-xs: 11px;      /* 0.786x base - metadata */
+    --font-size-sm: 12px;      /* 0.857x base - secondary info */
+    --font-size-base: 14px;    /* 1x - body text */
+    --font-size-md: 16px;      /* 1.143x - emphasized text */
+    --font-size-lg: 19px;      /* 1.333x - h3 (Perfect Fourth) */
+    --font-size-xl: 25px;      /* 1.778x - h2 */
+    --font-size-2xl: 33px;     /* 2.357x - h1 (page title) */
 
     --font-weight-normal: 400;
     --font-weight-bold: 600;
 
-    --line-height-base: 1.35;
-    --line-height-tight: 1.15;
+    /* Line heights optimized for reading */
+    --line-height-tight: 1.2;   /* For headings */
+    --line-height-base: 1.5;    /* For body text (optimal readability) */
+    --line-height-loose: 1.6;   /* For dense code blocks */
 
-    /* Spacing - Maximum density for technical docs */
-    --spacing-xs: 2px;
-    --spacing-sm: 3px;
-    --spacing-md: 5px;
-    --spacing-lg: 8px;
-    --spacing-xl: 12px;
+    /* Letter spacing for readability */
+    --letter-spacing-tight: -0.01em;  /* For large headings */
+    --letter-spacing-normal: 0;       /* For body */
+    --letter-spacing-wide: 0.02em;    /* For small caps, labels */
+
+    /* Backward compatibility aliases */
+    --font-size-small: var(--font-size-xs);   /* 11px - deprecated, use --font-size-xs */
+    --font-size-large: var(--font-size-md);   /* 16px - deprecated, use --font-size-md */
+    --font-size-h1: var(--font-size-2xl);     /* 33px - deprecated, use --font-size-2xl */
+    --font-size-h2: var(--font-size-xl);      /* 25px - deprecated, use --font-size-xl */
+    --font-size-h3: var(--font-size-lg);      /* 19px - deprecated, use --font-size-lg */
+
+    /* Spacing - Golden Ratio (Fibonacci-based) for predictable visual rhythm */
+    --spacing-unit: 4px;
+
+    --spacing-3xs: 2px;   /* 0.5x base */
+    --spacing-2xs: 4px;   /* 1x base */
+    --spacing-xs: 6px;    /* 1.5x base */
+    --spacing-sm: 8px;    /* 2x base */
+    --spacing-md: 12px;   /* 3x base */
+    --spacing-lg: 20px;   /* 5x base - fibonacci */
+    --spacing-xl: 32px;   /* 8x base - fibonacci */
+    --spacing-2xl: 52px;  /* 13x base - fibonacci */
+
+    /* Component-specific spacing (semantic naming) */
+    --member-gap: var(--spacing-md);      /* 12px between members */
+    --section-gap: var(--spacing-lg);     /* 20px between sections */
+    --inline-gap: var(--spacing-xs);      /* 6px for inline elements */
 
     /* Border Radius */
     --radius-sm: 3px;
