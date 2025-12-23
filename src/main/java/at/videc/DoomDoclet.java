@@ -82,7 +82,7 @@ public class DoomDoclet extends StandardDoclet {
         html.append("<div class=\"container\">");
         html.append("<div class=\"sidebar\"><input type=\"text\" id=\"search\" placeholder=\"Search...\" onkeyup=\"search()\">");
         html.append("<ul id=\"packageTree\"></ul></div>");
-        html.append("<div class=\"content\"><h1 id=\"docTitle\">Documentation</h1><div id=\"docContent\"></div></div>");
+        html.append("<div class=\"content\"><div id=\"docContent\"></div></div>");
         html.append("</div></body></html>");
 
         // Generate tree view for packages and classes
