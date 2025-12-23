@@ -38,6 +38,26 @@ DoomDoc is a Java doclet generator that creates searchable HTML documentation fr
 
 This workflow leverages the Jira and Confluence MCP integration to streamline development and maintain synchronized documentation.
 
+**IMPORTANT: Use the jira-confluence-workflow Agent**
+
+To minimize context usage in the main conversation, **ALWAYS use the `jira-confluence-workflow` agent** for Jira/Confluence operations:
+
+- **Session Start:** Use agent to check for available tasks
+- **Task Creation:** Use agent to create Jira tasks + Confluence specs
+- **Task Updates:** Use agent to transition tasks, add comments
+- **PR Linking:** Use agent to link PRs to Jira tasks
+
+**Example usage:**
+```
+User: "What tasks are available?"
+Assistant: Uses Task tool with subagent_type='jira-confluence-workflow'
+
+User: "Create a new task for dark mode"
+Assistant: Uses Task tool with subagent_type='jira-confluence-workflow'
+```
+
+The agent has access to all MCP Jira/Confluence tools and knows the complete workflow. This keeps the main conversation focused on implementation.
+
 ### Session Start Protocol
 
 At the beginning of each Claude Code session, follow these steps:
@@ -51,15 +71,15 @@ At the beginning of each Claude Code session, follow these steps:
    - Ensure the repository is clean and up-to-date with remote
    - Pull latest changes if needed: `git pull origin main`
 
-2. **Query Jira for Tasks**
-   - Search for open tasks in the DOOM project
-   - Identify tasks with status "To Do" or "In Progress"
-   - Use Jira MCP tools to fetch task details
+2. **Query Jira for Tasks (via Agent)**
+   - Use `jira-confluence-workflow` agent to search for open tasks in DOOM project
+   - Agent identifies tasks with status "To Do" or "In Progress"
+   - Agent fetches task details and presents them
 
 3. **Ask User for Task Selection**
-   - Present available tasks to the user
-   - For "In Progress" tasks, note the last update and current state
-   - Allow user to select which task to work on next
+   - Agent presents available tasks to the user
+   - For "In Progress" tasks, agent notes the last update and current state
+   - User selects which task to work on next
 
 ### Branch Naming Convention
 
@@ -100,32 +120,28 @@ git checkout -b feature/DOOM-XXX-short-description
 
 #### 2. Create Technical Specification (BEFORE Implementation)
 
-**In Confluence:**
-- Create a new page under the main DoomDoc space
-- Title: "[DOOM-XXX] Feature/Fix Name - Technical Specification"
-- Parent page: "Developer Guide" or create a "Technical Specifications" parent page
-- Include:
-  - **Overview**: Brief description of the task
-  - **Requirements**: What needs to be accomplished
-  - **Technical Approach**: Architecture decisions, design patterns
-  - **Implementation Details**: Key classes/methods to modify or create
-  - **Testing Strategy**: How to validate the implementation
-  - **Risks and Considerations**: Potential issues or edge cases
+**Use the `jira-confluence-workflow` agent to:**
+- Create Confluence technical specification
+- Link specification to Jira task
+- Transition task to "In Progress"
+- Add comment with branch name and spec link
 
-**Link Specification to Jira:**
-- Use Jira MCP tools to add a comment to the task with the Confluence page URL
-- Use `jira_create_remote_issue_link` to create a proper link to the Confluence page
-- Example:
-  ```
-  Technical Specification: [View in Confluence](https://rx451g.atlassian.net/wiki/spaces/DoomDoc/pages/...)
-  ```
+The agent will create a complete specification with sections:
+- Overview, Requirements, Technical Approach
+- Implementation Details, Testing Strategy
+- Risks and Considerations
 
-#### 3. Update Jira Task Status
+**Manual alternative** (if agent unavailable):
+- Create Confluence page manually
+- Use `jira_create_remote_issue_link` to link spec
+- Use `jira_transition_issue` to move to "In Progress"
 
-Before starting implementation:
-- Transition task to "In Progress" using `jira_transition_issue`
-- Add a comment with the branch name and Confluence spec link
-- Use `jira_add_worklog` to track time if needed
+#### 3. Update Jira Task Status (via Agent)
+
+For task transitions, use the `jira-confluence-workflow` agent:
+- Agent handles: transitions, comments, worklog
+- Keeps main conversation context clean
+- Ensures consistent comment formatting
 
 #### 4. Implement the Feature/Fix
 
@@ -135,13 +151,12 @@ Follow the technical specification and development guidelines:
 - Update specification in Confluence if approach changes
 - Add comments to Jira task for significant progress or blockers
 
-#### 5. Update Jira During Implementation
+#### 5. Update Jira During Implementation (via Agent)
 
-**Progress Updates:**
-- Add comments to track implementation progress
-- If blockers arise, update the task with details
-- Link related tasks if dependencies are discovered
-- Use `jira_add_comment` for status updates
+**Use `jira-confluence-workflow` agent for progress updates:**
+- Agent adds formatted comments to track progress
+- Agent updates task status if needed
+- Agent links related tasks if dependencies discovered
 
 **Example Progress Comments:**
 ```
@@ -196,11 +211,14 @@ EOF
 )"
 ```
 
-#### 8. Update Jira After PR Creation
+#### 8. Update Jira After PR Creation (via Agent)
 
-- Add PR link to Jira task using `jira_create_remote_issue_link`
-- Transition task to "In Review" or appropriate status
-- Add comment with PR URL
+**Use `jira-confluence-workflow` agent to:**
+- Link PR to Jira task
+- Add structured comment with PR details
+- Optionally transition task to "In Review"
+
+The agent ensures consistent PR linking and comment formatting.
 
 ### Documentation Strategy
 
@@ -236,31 +254,54 @@ EOF
 
 When starting a new session with a task "In Progress":
 
-1. Query Jira for the task details using `jira_get_issue`
-2. Read latest comments to understand current state
-3. Find the Confluence specification via task links
-4. Check out the existing branch:
+1. **Use `jira-confluence-workflow` agent to:**
+   - Query task details
+   - Read latest comments
+   - Find Confluence spec link
+   - Add "Resuming work" comment
+
+2. **Check out the existing branch:**
    ```bash
    git fetch origin
    git checkout feature/DOOM-XXX-short-description
    git pull origin feature/DOOM-XXX-short-description
    ```
-5. Review recent commits to understand what was completed
-6. Continue from where previous session left off
-7. Add comment to Jira: "Resuming work on this task"
+
+3. **Review recent commits** to understand what was completed
+
+4. **Continue from where previous session left off**
 
 ### Important Notes
 
+- **Always use `jira-confluence-workflow` agent for Jira/Confluence operations**
 - **Always create Confluence spec BEFORE starting implementation**
-- **Update Jira status transitions as you progress**
-- **Link all artifacts (branches, PRs, specs) in Jira task**
+- **Update Jira status transitions as you progress (via agent)**
+- **Link all artifacts (branches, PRs, specs) in Jira task (via agent)**
 - **Keep Confluence as single source of truth for documentation**
-- **Use Jira comments for progress updates and blockers**
+- **Use agent for Jira comments for progress updates and blockers**
 - **Never create divergent documentation in multiple places**
+- **Agent minimizes context usage in main conversation**
 
 ## Recent Changes
 
 Track recent modifications for context. Update this section when making significant architectural changes or workflow updates.
+
+### 2025-12-23
+
+**Context Optimization:** Created `jira-confluence-workflow` agent
+- Added: Specialized agent for all Jira/Confluence operations
+- Location: `.claude/agents/jira-confluence-workflow.md`
+- Purpose: Minimize context usage in main conversation
+- Handles: Session start, task creation, spec creation, transitions, PR linking
+- Updated: CLAUDE.md workflow documentation to reference agent
+- Impact: Significantly reduced context consumption for Jira/Confluence interactions
+
+**DOOM-10:** UI Redesign Phase 4 - Polish (Navigation & Animations)
+- Implemented: Consistent 150ms ease-out transitions across all interactive elements
+- Added: Smooth expand/collapse animations for tree navigation
+- Added: Accessibility support for `prefers-reduced-motion`
+- Updated: tree.css, detail.css, common.css
+- Completed: Full UI Redesign series (Phases 1-4)
 
 ### 2025-12-21
 
