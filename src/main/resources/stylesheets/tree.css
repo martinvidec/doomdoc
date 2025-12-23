@@ -17,7 +17,7 @@
     cursor: pointer;
     padding: 1px var(--spacing-xs);
     border-radius: 0;
-    transition: background-color var(--transition-fast);
+    transition: background-color 150ms ease-out;
     list-style-type: none;
     margin-bottom: 0;
 }
@@ -33,7 +33,7 @@
     gap: var(--spacing-xs);
     padding: var(--spacing-2xs) var(--spacing-sm);
     border-radius: 3px;
-    transition: all 150ms ease;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
     color: var(--color-text-primary);
     font-weight: var(--font-weight-normal);
     line-height: var(--line-height-tight);
@@ -75,7 +75,7 @@
     user-select: none;
     font-size: var(--font-size-base);
     color: var(--color-primary);
-    transition: transform var(--transition-slow);
+    transition: background-color 150ms ease-out, color 150ms ease-out;
     display: inline-flex;
     align-items: center;
     width: 100%;
@@ -86,7 +86,7 @@
     display: inline-block;
     margin-right: var(--spacing-xs);
     font-size: 10px;
-    transition: transform var(--transition-base);
+    transition: transform 150ms ease-out;
     flex-shrink: 0;
 }
 
@@ -101,10 +101,16 @@
     /*border-left: 1px solid var(--color-primary-light);*/
     margin-left: var(--spacing-xs);
     margin-top: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 150ms ease-out, opacity 150ms ease-out;
 }
 
 .nested.active {
     display: block;
+    max-height: 10000px;
+    opacity: 1;
 }
 
 /* Active/Selected State - Subtle Accent */
@@ -112,12 +118,14 @@
     background-color: rgba(0, 102, 204, 0.08);
     color: var(--color-accent);
     font-weight: 500;
+    transition: background-color 150ms ease-out, color 150ms ease-out, font-weight 150ms ease-out;
 }
 
 .caret.selected {
     background-color: rgba(0, 102, 204, 0.08);
     font-weight: 500;
     color: var(--color-accent);
+    transition: background-color 150ms ease-out, color 150ms ease-out, font-weight 150ms ease-out;
 }
 
 /* Search Highlight */
@@ -169,6 +177,7 @@
 #packageTree::-webkit-scrollbar-thumb {
     background: var(--color-border);
     border-radius: var(--radius-md);
+    transition: background 150ms ease-out;
 }
 
 #packageTree::-webkit-scrollbar-thumb:hover {

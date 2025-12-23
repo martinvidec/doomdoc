@@ -203,7 +203,7 @@ body {
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
     background-color: var(--color-bg-primary);
-    transition: border-color var(--transition-base);
+    transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
 }
 
 .sidebar input[type="text"]:focus {
@@ -271,7 +271,7 @@ pre code {
 a {
     color: var(--color-primary);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color 150ms ease-out, text-decoration 150ms ease-out;
 }
 
 a:hover {
@@ -292,10 +292,22 @@ a:hover {
 ::-webkit-scrollbar-thumb {
     background: var(--color-border);
     border-radius: var(--radius-md);
+    transition: background 150ms ease-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-text-muted);
+}
+
+/* Accessibility - Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* Responsive Design */
