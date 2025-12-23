@@ -4,46 +4,62 @@
 
 /* CSS Custom Properties (Design Tokens) */
 :root {
-    /* Color Palette */
-    --color-primary: #007BFF;
-    --color-primary-dark: #0056b3;
-    --color-primary-light: #afc7da;
-    --color-primary-lightest: #e7f3ff;
+    /* ===================================
+       Color Palette - Monochrome Foundation (90%) + Functional Colors (10%)
+       =================================== */
 
-    --color-success: #28a745;
-    --color-success-light: #d4edda;
-    --color-success-dark: #155724;
+    /* Monochrome Foundation (90% of interface) */
+    --color-text-primary: #1a1a1a;      /* Improved contrast: 15.8:1 */
+    --color-text-secondary: #4a4a4a;    /* Improved contrast: 9.7:1 */
+    --color-text-tertiary: #6a6a6a;     /* Improved contrast: 5.7:1 */
+    --color-text-disabled: #9a9a9a;
+    --color-text-light: #999;           /* Backward compat alias */
+    --color-text-muted: #6a6a6a;        /* Backward compat alias */
 
-    --color-warning: #ffc107;
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #fafafa;
+    --color-bg-tertiary: #f5f5f5;
+    --color-bg-hover-subtle: rgba(0, 0, 0, 0.02);
+    --color-bg-hover: #f5f5f5;          /* Backward compat alias */
+    --color-bg-code: #f7f7f7;
+
+    --color-border-subtle: #e8e8e8;
+    --color-border-medium: #d0d0d0;
+    --color-border-strong: #b0b0b0;
+    --color-border: #d0d0d0;             /* Backward compat alias */
+    --color-border-light: #e8e8e8;       /* Backward compat alias */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Functional Colors (10% of interface - used intentionally for semantic meaning) */
+    --color-accent: #0066cc;            /* Links, focus, selection */
+    --color-accent-hover: #0052a3;
+    --color-primary: #0066cc;           /* Backward compat alias */
+    --color-primary-dark: #0052a3;      /* Backward compat alias */
+    --color-primary-light: #afc7da;     /* Backward compat alias */
+    --color-primary-lightest: #e7f3ff;  /* Backward compat alias */
+
+    --color-type: #6f42c1;              /* Type annotations (purple) */
+    --color-purple: #6f42c1;            /* Backward compat alias */
+    --color-purple-light: #e2d9f3;
+
+    --color-string: #22863a;            /* String literals (green) */
+    --color-number: #005cc5;            /* Numeric values (blue) */
+
+    --color-warning: #f0ad4e;           /* @deprecated, warnings */
     --color-warning-light: #fff3cd;
     --color-warning-dark: #856404;
 
-    --color-danger: #dc3545;
+    --color-danger: #d9534f;            /* @throws, errors */
     --color-danger-light: #f8d7da;
     --color-danger-dark: #721c24;
 
-    --color-info: #17a2b8;
-    --color-info-light: #d1ecf1;
-    --color-info-dark: #0c5460;
+    --color-success: #5cb85c;           /* Status indicators only */
+    --color-success-light: #d4edda;
+    --color-success-dark: #155724;
 
-    --color-purple: #6f42c1;
-    --color-purple-light: #e2d9f3;
-
-    /* Neutral Colors */
-    --color-text-primary: #333;
-    --color-text-secondary: #555;
-    --color-text-muted: #666;
-    --color-text-light: #999;
-
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f8f9fa;
-    --color-bg-tertiary: #f4f4f4;
-    --color-bg-hover: #e9ecef;
-    --color-bg-code: #f0f0f0;
-
-    --color-border: #ddd;
-    --color-border-light: #e0e0e0;
-    --color-shadow: rgba(0, 0, 0, 0.1);
+    /* Syntax highlighting (code blocks only) */
+    --color-keyword: #d73a49;
+    --color-comment: #6a737d;
 
     /* Typography */
     --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

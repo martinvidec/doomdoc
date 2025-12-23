@@ -23,33 +23,36 @@
 }
 
 .type-kind {
-    display: inline-block;
-    padding: 1px var(--spacing-sm);
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 6px;
     margin-left: var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.03em;
+
+    /* Subtle monochrome with semantic left border */
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.5);
+    border-left: 2px solid currentColor;
 }
 
 .type-kind.class {
-    background-color: var(--color-success);
-    color: var(--color-bg-primary);
+    border-left-color: #22863a;  /* Green - semantic for "class" */
 }
 
 .type-kind.interface {
-    background-color: var(--color-primary);
-    color: var(--color-bg-primary);
+    border-left-color: #0366d6;  /* Blue - semantic for "interface" */
 }
 
 .type-kind.enum {
-    background-color: var(--color-warning);
-    color: var(--color-text-primary);
+    border-left-color: #f0ad4e;  /* Yellow - semantic for "enum" */
 }
 
 .type-kind.annotation {
-    background-color: var(--color-purple);
-    color: var(--color-bg-primary);
+    border-left-color: #6f42c1;  /* Purple - semantic for "annotation" */
 }
 
 .type-qualified-name {
