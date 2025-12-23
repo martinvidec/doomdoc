@@ -38,6 +38,6 @@ public class DoomDocTest {
 
         // Optionally, verify specific content in the output file
         String content = Files.readString(outputFile.toPath());
-        assertTrue("Output file does not contain expected content", content.contains("<h1 id=\"docTitle\">Documentation</h1>"));
+        assertTrue("Output file does not contain expected content", content.contains("<div id=\"docContent\">"));
     }
 }

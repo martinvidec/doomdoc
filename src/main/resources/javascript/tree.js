@@ -698,13 +698,10 @@ function findType(packageName, typeName) {
 }
 
 /**
- * Sets the content and title of the detail view
+ * Sets the content of the detail view
  */
 function setContent(title, html) {
-    var docTitle = document.getElementById('docTitle');
     var docContent = document.getElementById('docContent');
-
-    if (docTitle) docTitle.textContent = title;
     if (docContent) docContent.innerHTML = html;
 }
 

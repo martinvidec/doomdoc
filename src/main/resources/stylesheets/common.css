@@ -216,15 +216,6 @@ body {
     color: var(--color-text-light);
 }
 
-/* Document Title */
-#docTitle {
-    margin: 0 0 var(--spacing-sm) 0;
-    font-size: var(--font-size-h1);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    line-height: var(--line-height-tight);
-}
-
 /* Common Utility Classes */
 .text-muted {
     color: var(--color-text-muted);
