@@ -13,37 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Search functionality for the tree
- */
-function search() {
-    var input = document.getElementById('search');
-    var filter = input.value.toUpperCase();
-    var ul = document.getElementById("packageTree");
-    var li = ul.getElementsByTagName('li');
-
-    for (var i = 0; i < li.length; i++) {
-        var span = li[i].getElementsByTagName("span")[0];
-        if (span) {
-            var txtValue = span.textContent || span.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-                expandParent(li[i]);
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    }
-
-    // Ensure parent nodes of matching elements are visible
-    for (var i = 0; i < li.length; i++) {
-        if (li[i].style.display === "") {
-            expandParent(li[i]);
-        }
-    }
-}
-
-/**
  * Expands all parent nodes of an element
+ * Used by search functionality to reveal matching items
  */
 function expandParent(element) {
     var parent = element.parentElement;

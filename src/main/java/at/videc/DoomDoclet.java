@@ -75,19 +75,35 @@ public class DoomDoclet extends StandardDoclet {
             packageTree.addType(packageName, typeInfo);
         }
 
+        // Build search index after all types are added
+        packageTree.buildSearchIndex();
+
         // Determine project name from root package
         String projectName = determineProjectName(packageNames);
 
-        html.append("<div class=\"title-bar\"><div class=\"title-bar-content\">").append(projectName).append("</div></div>");
+        // Title bar with search
+        html.append("<div class=\"title-bar\">");
+        html.append("<div class=\"title-bar-content\">").append(projectName).append("</div>");
+        html.append("<div class=\"title-bar-search-container\">");
+        html.append("<input type=\"text\" id=\"globalSearch\" class=\"title-bar-search\" placeholder=\"Search...\" autocomplete=\"off\">");
+        html.append("<button class=\"search-clear\" onclick=\"clearSearch()\" style=\"display: none;\">×</button>");
+        html.append("<div id=\"searchDropdown\" class=\"search-dropdown\"></div>");
+        html.append("</div>");
+        html.append("</div>");
+
+        // Container with sidebar and content
         html.append("<div class=\"container\">");
-        html.append("<div class=\"sidebar\"><input type=\"text\" id=\"search\" placeholder=\"Search...\" onkeyup=\"search()\">");
+        html.append("<div class=\"sidebar\">");
         html.append("<ul id=\"packageTree\"></ul></div>");
         html.append("<div class=\"content\"><div id=\"docContent\"></div></div>");
         html.append("</div></body></html>");
 
-        // Generate tree view for packages and classes
-        // Using full DTO structure for rich documentation display
-        html.append("<script>generateTree(").append(packageTree.toCompactJson()).append(");</script>");
+        // Generate tree view and initialize search
+        html.append("<script>");
+        html.append("var model = ").append(packageTree.toCompactJson()).append(";");
+        html.append("generateTree(model);");
+        html.append("initializeSearch(model);");
+        html.append("</script>");
 
         // Write HTML to file
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("output.html"))) {

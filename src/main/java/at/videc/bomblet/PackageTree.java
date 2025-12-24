@@ -1,11 +1,10 @@
 package at.videc.bomblet;
 
-import at.videc.bomblet.dto.DocumentationModel;
-import at.videc.bomblet.dto.PackageInfo;
-import at.videc.bomblet.dto.TypeInfo;
+import at.videc.bomblet.dto.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -170,5 +169,144 @@ public class PackageTree {
         return model.getPackages().stream()
                 .mapToInt(p -> p.getTypes().size())
                 .sum();
+    }
+
+    /**
+     * Builds a search index from all types, methods, and fields in the documentation.
+     * This index is used for faceted autocomplete search functionality.
+     * The index is stored in the DocumentationModel and serialized to JSON.
+     */
+    public void buildSearchIndex() {
+        List<SearchIndexEntry> index = new ArrayList<>();
+
+        for (PackageInfo pkg : model.getPackages()) {
+            for (TypeInfo type : pkg.getTypes()) {
+                // Add type entry
+                index.add(createTypeEntry(type, pkg.getName()));
+
+                // Add method and field entries for classes
+                if (type instanceof ClassInfo) {
+                    ClassInfo classInfo = (ClassInfo) type;
+                    for (MethodInfo method : classInfo.getMethods()) {
+                        index.add(createMethodEntry(method, type, pkg.getName()));
+                    }
+                    for (FieldInfo field : classInfo.getFields()) {
+                        index.add(createFieldEntry(field, type, pkg.getName()));
+                    }
+                }
+                // Add method entries for interfaces
+                else if (type instanceof InterfaceInfo) {
+                    InterfaceInfo interfaceInfo = (InterfaceInfo) type;
+                    for (MethodInfo method : interfaceInfo.getMethods()) {
+                        index.add(createMethodEntry(method, type, pkg.getName()));
+                    }
+                }
+                // Add method and field entries for enums
+                else if (type instanceof EnumInfo) {
+                    EnumInfo enumInfo = (EnumInfo) type;
+                    for (MethodInfo method : enumInfo.getMethods()) {
+                        index.add(createMethodEntry(method, type, pkg.getName()));
+                    }
+                    for (FieldInfo field : enumInfo.getFields()) {
+                        index.add(createFieldEntry(field, type, pkg.getName()));
+                    }
+                }
+                // Add element entries for annotations
+                else if (type instanceof AnnotationInfo) {
+                    AnnotationInfo annotationInfo = (AnnotationInfo) type;
+                    for (AnnotationElementInfo element : annotationInfo.getElements()) {
+                        index.add(createAnnotationElementEntry(element, type, pkg.getName()));
+                    }
+                }
+            }
+        }
+
+        model.setSearchIndex(index);
+    }
+
+    /**
+     * Creates a search index entry for a type (class, interface, enum, or annotation).
+     *
+     * @param type the type information
+     * @param packageName the package name
+     * @return search index entry for the type
+     */
+    private SearchIndexEntry createTypeEntry(TypeInfo type, String packageName) {
+        SearchIndexEntry entry = new SearchIndexEntry();
+        entry.setCategory(type.getKind()); // "class", "interface", "enum", "annotation"
+        entry.setName(type.getName());
+        entry.setQualifiedName(type.getQualifiedName());
+        entry.setPackageName(packageName);
+        return entry;
+    }
+
+    /**
+     * Creates a search index entry for a method.
+     *
+     * @param method the method information
+     * @param parentType the parent type containing this method
+     * @param packageName the package name
+     * @return search index entry for the method
+     */
+    private SearchIndexEntry createMethodEntry(MethodInfo method, TypeInfo parentType, String packageName) {
+        SearchIndexEntry entry = new SearchIndexEntry();
+        entry.setCategory("method");
+        entry.setName(method.getName());
+        entry.setQualifiedName(parentType.getQualifiedName() + "." + method.getName());
+        entry.setPackageName(packageName);
+        entry.setTypeName(parentType.getName());
+        entry.setReturnType(method.getReturnType());
+
+        // Build method signature with parameter types
+        StringBuilder signature = new StringBuilder(method.getName());
+        signature.append("(");
+        if (method.getParameters() != null && !method.getParameters().isEmpty()) {
+            for (int i = 0; i < method.getParameters().size(); i++) {
+                if (i > 0) signature.append(", ");
+                signature.append(method.getParameters().get(i).getType());
+            }
+        }
+        signature.append(")");
+        entry.setSignature(signature.toString());
+
+        return entry;
+    }
+
+    /**
+     * Creates a search index entry for a field.
+     *
+     * @param field the field information
+     * @param parentType the parent type containing this field
+     * @param packageName the package name
+     * @return search index entry for the field
+     */
+    private SearchIndexEntry createFieldEntry(FieldInfo field, TypeInfo parentType, String packageName) {
+        SearchIndexEntry entry = new SearchIndexEntry();
+        entry.setCategory("field");
+        entry.setName(field.getName());
+        entry.setQualifiedName(parentType.getQualifiedName() + "." + field.getName());
+        entry.setPackageName(packageName);
+        entry.setTypeName(parentType.getName());
+        entry.setReturnType(field.getType()); // Store field type in returnType for consistency
+        return entry;
+    }
+
+    /**
+     * Creates a search index entry for an annotation element.
+     *
+     * @param element the annotation element information
+     * @param parentType the parent annotation type containing this element
+     * @param packageName the package name
+     * @return search index entry for the annotation element
+     */
+    private SearchIndexEntry createAnnotationElementEntry(AnnotationElementInfo element, TypeInfo parentType, String packageName) {
+        SearchIndexEntry entry = new SearchIndexEntry();
+        entry.setCategory("field"); // Treat annotation elements as fields for search purposes
+        entry.setName(element.getName());
+        entry.setQualifiedName(parentType.getQualifiedName() + "." + element.getName());
+        entry.setPackageName(packageName);
+        entry.setTypeName(parentType.getName());
+        entry.setReturnType(element.getType()); // AnnotationElementInfo uses getType() not getReturnType()
+        return entry;
     }
 }
