@@ -13,37 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Search functionality for the tree
- */
-function search() {
-    var input = document.getElementById('search');
-    var filter = input.value.toUpperCase();
-    var ul = document.getElementById("packageTree");
-    var li = ul.getElementsByTagName('li');
-
-    for (var i = 0; i < li.length; i++) {
-        var span = li[i].getElementsByTagName("span")[0];
-        if (span) {
-            var txtValue = span.textContent || span.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-                expandParent(li[i]);
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    }
-
-    // Ensure parent nodes of matching elements are visible
-    for (var i = 0; i < li.length; i++) {
-        if (li[i].style.display === "") {
-            expandParent(li[i]);
-        }
-    }
-}
-
-/**
  * Expands all parent nodes of an element
+ * Used by search functionality to reveal matching items
  */
 function expandParent(element) {
     var parent = element.parentElement;
@@ -506,10 +477,31 @@ function renderAnnotationMembers(annotationInfo) {
 }
 
 /**
+ * Helper function to check if JavaDoc has meaningful content
+ */
+function hasJavaDoc(javadoc) {
+    if (!javadoc) return false;
+    if (javadoc.description && javadoc.description.trim() !== '') return true;
+    if (javadoc.tags && javadoc.tags.length > 0) return true;
+    return false;
+}
+
+/**
+ * Toggles the expanded state of a member item
+ */
+function toggleMemberExpand(event) {
+    var target = event.currentTarget;
+    target.classList.toggle('expanded');
+    event.stopPropagation();
+}
+
+/**
  * Renders a field
  */
 function renderField(field) {
-    var html = '<div class="member-item">';
+    var expandable = hasJavaDoc(field.javadoc);
+    var html = '<div class="member-item' + (expandable ? ' expandable' : '') + '"' +
+               (expandable ? ' onclick="toggleMemberExpand(event)"' : '') + '>';
 
     // Render annotations first (on separate line if present)
     if (field.annotations && field.annotations.length > 0) {
@@ -549,7 +541,9 @@ function renderField(field) {
  * Renders a constructor
  */
 function renderConstructor(constructor) {
-    var html = '<div class="member-item">';
+    var expandable = hasJavaDoc(constructor.javadoc);
+    var html = '<div class="member-item' + (expandable ? ' expandable' : '') + '"' +
+               (expandable ? ' onclick="toggleMemberExpand(event)"' : '') + '>';
 
     // Render annotations first (on separate line if present)
     if (constructor.annotations && constructor.annotations.length > 0) {
@@ -604,7 +598,9 @@ function renderConstructor(constructor) {
  * Renders a method
  */
 function renderMethod(method) {
-    var html = '<div class="member-item">';
+    var expandable = hasJavaDoc(method.javadoc);
+    var html = '<div class="member-item' + (expandable ? ' expandable' : '') + '"' +
+               (expandable ? ' onclick="toggleMemberExpand(event)"' : '') + '>';
 
     // Render annotations first (on separate line if present)
     if (method.annotations && method.annotations.length > 0) {

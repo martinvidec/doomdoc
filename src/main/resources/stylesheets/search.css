@@ -1,0 +1,331 @@
+/* ==========================================
+   Search Component Styles
+   ========================================== */
+
+/* Search Container in Title Bar */
+.title-bar-search-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* Search Input in Title Bar */
+.title-bar-search {
+    height: 24px;
+    width: 300px;
+    padding: 4px 32px 4px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    background-color: rgba(255, 255, 255, 0.2);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.9);
+    transition: background-color 150ms ease-out, border-color 150ms ease-out, box-shadow 150ms ease-out;
+    outline: none;
+}
+
+.title-bar-search::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.title-bar-search:focus {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Search Icon - Positioned inside input */
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+}
+
+/* Clear Button - Positioned inside input */
+.search-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 150ms ease-out;
+    display: none;
+}
+
+.search-clear:hover {
+    color: rgba(255, 255, 255, 1.0);
+}
+
+.search-clear.visible {
+    display: block;
+}
+
+/* Autocomplete Dropdown - Positioned below search input */
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    transform: translateY(-8px);
+    width: 500px;
+    max-height: 600px;
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+}
+
+.search-dropdown.visible {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* Facet Section - Groups results by type */
+.search-facet-section {
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.search-facet-section:last-child {
+    border-bottom: none;
+}
+
+/* Facet Header - Type category label */
+.search-facet-header {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    padding: var(--spacing-2xs) var(--spacing-md);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-3xs);
+}
+
+/* Search Result Item */
+.search-result-item {
+    padding: var(--spacing-xs) var(--spacing-md);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: background-color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.search-result-item:hover {
+    background-color: var(--color-bg-hover-subtle);
+    border-left-color: var(--color-accent);
+}
+
+.search-result-item.selected {
+    background-color: rgba(0, 102, 204, 0.08);
+    border-left-color: var(--color-accent);
+}
+
+/* Result Content Layout */
+.search-result-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+}
+
+/* Result Primary Line - Name and badge */
+.search-result-primary {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+/* Result Name */
+.search-result-name {
+    color: var(--color-text-primary);
+    flex: 1;
+}
+
+/* Type Badges - Matches detail.css .type-kind styling */
+.search-result-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-family: var(--font-family-mono);
+
+    /* Subtle monochrome with semantic left border */
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.5);
+    border-left: 2px solid currentColor;
+}
+
+/* Type-specific border colors - matches detail.css */
+.badge-class {
+    border-left-color: #22863a;  /* Green */
+}
+
+.badge-interface {
+    border-left-color: #0366d6;  /* Blue */
+}
+
+.badge-enum {
+    border-left-color: #f0ad4e;  /* Yellow/Orange */
+}
+
+.badge-annotation {
+    border-left-color: #6f42c1;  /* Purple */
+}
+
+.badge-method {
+    border-left-color: #d73a49;  /* Red */
+}
+
+.badge-field {
+    border-left-color: #6a737d;  /* Gray */
+}
+
+/* Result Secondary Line - Context info */
+.search-result-secondary {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+/* Result Context - Package name */
+.search-result-context {
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Result Return Type - For methods */
+.search-result-return-type {
+    font-family: var(--font-family-mono);
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    margin-left: auto;
+}
+
+/* Highlighted Match - Yellow highlight */
+.search-result-name mark,
+.search-result-context mark {
+    background-color: rgba(255, 235, 59, 0.4);
+    color: inherit;
+    font-weight: 600;
+    padding: 0;
+    border-radius: 2px;
+}
+
+/* Empty State - No results */
+.search-empty-state {
+    padding: var(--spacing-xl) var(--spacing-md);
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
+}
+
+/* Member Highlight Animation - For scrolled-to members in detail view */
+.search-highlight {
+    animation: member-highlight 2s ease-out;
+}
+
+@keyframes member-highlight {
+    0% {
+        background-color: rgba(255, 235, 59, 0.4);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+/* Responsive Behavior - Mobile */
+@media (max-width: 768px) {
+    /* Move search to sidebar on mobile */
+    .title-bar-search-container {
+        display: none;
+    }
+
+    /* Dropdown full width on mobile */
+    .search-dropdown {
+        left: 0;
+        right: 0;
+        width: 100%;
+        transform: translateY(-8px);
+        border-radius: 0;
+    }
+
+    .search-dropdown.visible {
+        transform: translateY(0);
+    }
+
+    /* Touch-friendly targets */
+    .search-result-item {
+        padding: var(--spacing-md);
+        min-height: 44px;
+    }
+}
+
+/* Accessibility - Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .search-dropdown,
+    .search-result-item,
+    .search-clear,
+    .title-bar-search,
+    .search-highlight {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* Focus Visible - Keyboard navigation */
+.search-result-item:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+}
+
+.title-bar-search:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 1px;
+}
+
+/* Scrollbar for Dropdown */
+.search-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-dropdown::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+.search-dropdown::-webkit-scrollbar-thumb {
+    background: var(--color-border-medium);
+    border-radius: var(--radius-md);
+    transition: background 150ms ease-out;
+}
+
+.search-dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-strong);
+}
