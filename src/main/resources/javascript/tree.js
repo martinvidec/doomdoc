@@ -477,10 +477,31 @@ function renderAnnotationMembers(annotationInfo) {
 }
 
 /**
+ * Helper function to check if JavaDoc has meaningful content
+ */
+function hasJavaDoc(javadoc) {
+    if (!javadoc) return false;
+    if (javadoc.description && javadoc.description.trim() !== '') return true;
+    if (javadoc.tags && javadoc.tags.length > 0) return true;
+    return false;
+}
+
+/**
+ * Toggles the expanded state of a member item
+ */
+function toggleMemberExpand(event) {
+    var target = event.currentTarget;
+    target.classList.toggle('expanded');
+    event.stopPropagation();
+}
+
+/**
  * Renders a field
  */
 function renderField(field) {
-    var html = '<div class="member-item">';
+    var expandable = hasJavaDoc(field.javadoc);
+    var html = '<div class="member-item' + (expandable ? ' expandable' : '') + '"' +
+               (expandable ? ' onclick="toggleMemberExpand(event)"' : '') + '>';
 
     // Render annotations first (on separate line if present)
     if (field.annotations && field.annotations.length > 0) {
@@ -520,7 +541,9 @@ function renderField(field) {
  * Renders a constructor
  */
 function renderConstructor(constructor) {
-    var html = '<div class="member-item">';
+    var expandable = hasJavaDoc(constructor.javadoc);
+    var html = '<div class="member-item' + (expandable ? ' expandable' : '') + '"' +
+               (expandable ? ' onclick="toggleMemberExpand(event)"' : '') + '>';
 
     // Render annotations first (on separate line if present)
     if (constructor.annotations && constructor.annotations.length > 0) {
@@ -575,7 +598,9 @@ function renderConstructor(constructor) {
  * Renders a method
  */
 function renderMethod(method) {
-    var html = '<div class="member-item">';
+    var expandable = hasJavaDoc(method.javadoc);
+    var html = '<div class="member-item' + (expandable ? ' expandable' : '') + '"' +
+               (expandable ? ' onclick="toggleMemberExpand(event)"' : '') + '>';
 
     // Render annotations first (on separate line if present)
     if (method.annotations && method.annotations.length > 0) {
