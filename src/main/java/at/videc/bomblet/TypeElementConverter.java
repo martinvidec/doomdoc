@@ -15,22 +15,88 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Converts Java Doclet API elements (TypeElement, etc.) into DTO objects.
- * This is a basic converter that extracts essential information.
+ * Converts JavaDoc API elements into lightweight Data Transfer Objects (DTOs) for serialization.
+ *
+ * <p>This converter acts as a bridge between the JavaDoc Doclet API and DoomDoc's internal
+ * data model. It extracts comprehensive information from Java source elements including:</p>
+ *
+ * <ul>
+ *   <li><strong>Type Metadata:</strong> Classes, interfaces, enums, annotations</li>
+ *   <li><strong>Members:</strong> Fields, methods, constructors, enum constants</li>
+ *   <li><strong>Documentation:</strong> Complete JavaDoc with all tags (@param, @return, @see, etc.)</li>
+ *   <li><strong>Annotations:</strong> All applied annotations with their values</li>
+ *   <li><strong>Generics:</strong> Type parameters and bounds</li>
+ *   <li><strong>Modifiers:</strong> Access levels, static, final, abstract, etc.</li>
+ * </ul>
+ *
+ * <p><strong>Design Pattern:</strong></p>
+ * <p>This class implements the <em>Converter Pattern</em>, transforming complex JavaDoc API
+ * objects into simple, serializable DTOs that can be converted to JSON for client-side
+ * rendering.</p>
+ *
+ * <p><strong>Thread Safety:</strong></p>
+ * <p>This class is <strong>not thread-safe</strong>. Each thread should use its own instance.</p>
+ *
+ * @author DoomDoc Team
+ * @version 1.0.0
+ * @since 1.0.0
+ * @see TypeInfo
+ * @see ClassInfo
+ * @see InterfaceInfo
+ * @see EnumInfo
+ * @see AnnotationInfo
+ * @see DocletEnvironment
  */
 public class TypeElementConverter {
 
+    /**
+     * The doclet environment providing access to program structure and utilities.
+     * Used for extracting JavaDoc comments and resolving type references.
+     */
     private final DocletEnvironment environment;
 
+    /**
+     * Constructs a converter with the specified doclet environment.
+     *
+     * @param environment the doclet environment for accessing program structure
+     * @throws NullPointerException if environment is null
+     */
     public TypeElementConverter(DocletEnvironment environment) {
         this.environment = environment;
     }
 
     /**
-     * Converts a TypeElement to the appropriate TypeInfo subclass.
+     * Converts a {@link TypeElement} to its corresponding {@link TypeInfo} DTO.
      *
-     * @param typeElement the type element to convert
-     * @return the corresponding TypeInfo DTO
+     * <p>This is the main entry point for type conversion. It delegates to specialized
+     * conversion methods based on the element's kind:</p>
+     *
+     * <ul>
+     *   <li>{@link ElementKind#CLASS} → {@link ClassInfo}</li>
+     *   <li>{@link ElementKind#INTERFACE} → {@link InterfaceInfo}</li>
+     *   <li>{@link ElementKind#ENUM} → {@link EnumInfo}</li>
+     *   <li>{@link ElementKind#ANNOTATION_TYPE} → {@link AnnotationInfo}</li>
+     * </ul>
+     *
+     * <p><strong>Extraction Process:</strong></p>
+     * <p>For each type, the converter extracts:</p>
+     * <ol>
+     *   <li>Basic metadata (name, qualified name, modifiers)</li>
+     *   <li>Type parameters and bounds for generics</li>
+     *   <li>Inheritance relationships (superclass, interfaces)</li>
+     *   <li>All member elements (fields, methods, constructors)</li>
+     *   <li>Complete JavaDoc documentation with all tags</li>
+     *   <li>Applied annotations with values</li>
+     * </ol>
+     *
+     * @param typeElement the type element to convert (class, interface, enum, or annotation)
+     * @return a {@link TypeInfo} DTO representing the type
+     * @throws IllegalArgumentException if the element kind is not supported
+     * @throws NullPointerException if typeElement is null
+     * @see #convertToClassInfo(TypeElement)
+     * @see #convertToInterfaceInfo(TypeElement)
+     * @see #convertToEnumInfo(TypeElement)
+     * @see #convertToAnnotationInfo(TypeElement)
      */
     public TypeInfo convert(TypeElement typeElement) {
         ElementKind kind = typeElement.getKind();

@@ -4,8 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Base class for all type definitions (class, interface, enum, annotation).
- * This is an abstract representation that can be extended by specific type kinds.
+ * Abstract base class representing any Java type (class, interface, enum, or annotation).
+ *
+ * <p>This class defines the common structure and metadata shared by all type definitions
+ * in the documentation model. It serves as the parent for specialized type representations:</p>
+ *
+ * <ul>
+ *   <li>{@link ClassInfo} - for classes</li>
+ *   <li>{@link InterfaceInfo} - for interfaces</li>
+ *   <li>{@link EnumInfo} - for enumerations</li>
+ *   <li>{@link AnnotationInfo} - for annotation types</li>
+ * </ul>
+ *
+ * <p><strong>Common Metadata:</strong></p>
+ * <p>All types share these properties:</p>
+ * <ul>
+ *   <li><strong>Identity:</strong> Simple name and fully qualified name</li>
+ *   <li><strong>Classification:</strong> Kind ("class", "interface", "enum", "annotation")</li>
+ *   <li><strong>Access Control:</strong> Modifiers (public, private, protected, abstract, final, static)</li>
+ *   <li><strong>Documentation:</strong> Complete JavaDoc with all tags</li>
+ *   <li><strong>Metadata:</strong> Annotations applied to the type</li>
+ *   <li><strong>Generics:</strong> Type parameters with bounds</li>
+ *   <li><strong>Nesting:</strong> Inner/nested types</li>
+ * </ul>
+ *
+ * <p><strong>Polymorphism:</strong></p>
+ * <p>This abstract class enables polymorphic handling of different type kinds.
+ * Subclasses add specialized members:</p>
+ * <ul>
+ *   <li>Classes add fields, methods, constructors, superclass</li>
+ *   <li>Interfaces add methods and superinterfaces</li>
+ *   <li>Enums add constants and methods</li>
+ *   <li>Annotations add elements</li>
+ * </ul>
+ *
+ * <p><strong>Serialization:</strong></p>
+ * <p>Instances are serialized to JSON for client-side rendering. The {@code kind}
+ * field allows JavaScript to determine the type and render appropriately.</p>
+ *
+ * @author DoomDoc Team
+ * @version 1.0.0
+ * @since 1.0.0
+ * @see ClassInfo
+ * @see InterfaceInfo
+ * @see EnumInfo
+ * @see AnnotationInfo
+ * @see at.videc.bomblet.TypeElementConverter
  */
 public abstract class TypeInfo {
 

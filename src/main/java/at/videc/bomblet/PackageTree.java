@@ -8,17 +8,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a package tree structure for documentation generation.
- * This class provides a wrapper around the DocumentationModel and offers
- * convenient methods for building and serializing the package tree to JSON.
+ * Organizes types into a hierarchical package structure and provides JSON serialization.
+ *
+ * <p>This class serves as the central data structure for organizing documentation elements.
+ * It wraps a {@link DocumentationModel} and provides convenient methods for:</p>
+ *
+ * <ul>
+ *   <li><strong>Package Management:</strong> Creating and organizing package hierarchies</li>
+ *   <li><strong>Type Registration:</strong> Adding classes, interfaces, enums, and annotations</li>
+ *   <li><strong>Search Indexing:</strong> Building searchable index of all elements</li>
+ *   <li><strong>JSON Serialization:</strong> Converting to JSON for client-side rendering</li>
+ * </ul>
+ *
+ * <p><strong>Typical Usage:</strong></p>
+ * <pre>{@code
+ * PackageTree tree = new PackageTree();
+ * tree.addType("com.example", typeInfo);
+ * tree.buildSearchIndex();
+ * String json = tree.toCompactJson();
+ * }</pre>
+ *
+ * <p><strong>Serialization Formats:</strong></p>
+ * <p>The class provides three JSON serialization options:</p>
+ * <ul>
+ *   <li>{@link #toJson()} - Pretty-printed JSON for debugging</li>
+ *   <li>{@link #toCompactJson()} - Compact JSON for production (recommended)</li>
+ *   <li>{@link #toLegacyJson()} - Legacy format for backward compatibility</li>
+ * </ul>
+ *
+ * <p><strong>HTML Handling:</strong></p>
+ * <p>All JSON serialization uses {@code disableHtmlEscaping()} to preserve HTML tags
+ * in JavaDoc comments, allowing rich formatting in the generated documentation.</p>
+ *
+ * @author DoomDoc Team
+ * @version 1.0.0
+ * @since 1.0.0
+ * @see DocumentationModel
+ * @see PackageInfo
+ * @see TypeInfo
+ * @see SearchIndexEntry
  */
 public class PackageTree {
 
+    /**
+     * The underlying documentation model containing all packages and types.
+     */
     private final DocumentationModel model;
+
+    /**
+     * Gson instance configured with pretty printing and HTML escaping disabled.
+     * Used for {@link #toJson()} method.
+     */
     private final Gson gson;
 
     /**
      * Creates a new PackageTree with an empty documentation model.
+     * Initializes Gson with pretty printing and disabled HTML escaping.
      */
     public PackageTree() {
         this.model = new DocumentationModel();
@@ -172,9 +217,38 @@ public class PackageTree {
     }
 
     /**
-     * Builds a search index from all types, methods, and fields in the documentation.
-     * This index is used for faceted autocomplete search functionality.
-     * The index is stored in the DocumentationModel and serialized to JSON.
+     * Builds a comprehensive search index from all documentation elements.
+     *
+     * <p>This method creates a searchable index containing:</p>
+     * <ul>
+     *   <li><strong>Types:</strong> All classes, interfaces, enums, and annotations</li>
+     *   <li><strong>Methods:</strong> All methods with signatures and return types</li>
+     *   <li><strong>Fields:</strong> All fields with types</li>
+     *   <li><strong>Annotation Elements:</strong> All annotation element declarations</li>
+     * </ul>
+     *
+     * <p><strong>Search Index Structure:</strong></p>
+     * <p>Each {@link SearchIndexEntry} contains:</p>
+     * <ul>
+     *   <li>Category (class, interface, enum, annotation, method, field)</li>
+     *   <li>Name and qualified name</li>
+     *   <li>Package name for context</li>
+     *   <li>Parent type name (for methods and fields)</li>
+     *   <li>Signature (for methods) or type (for fields)</li>
+     * </ul>
+     *
+     * <p><strong>Usage:</strong></p>
+     * <p>This method must be called after all types have been added to the tree,
+     * typically in {@link at.videc.DoomDoclet#run(jdk.javadoc.doclet.DocletEnvironment)}.</p>
+     *
+     * <p><strong>Performance:</strong></p>
+     * <p>Time complexity: O(n) where n is the total number of documentation elements.
+     * Space complexity: O(n) for the index storage.</p>
+     *
+     * @see SearchIndexEntry
+     * @see #createTypeEntry(TypeInfo, String)
+     * @see #createMethodEntry(MethodInfo, TypeInfo, String)
+     * @see #createFieldEntry(FieldInfo, TypeInfo, String)
      */
     public void buildSearchIndex() {
         List<SearchIndexEntry> index = new ArrayList<>();
