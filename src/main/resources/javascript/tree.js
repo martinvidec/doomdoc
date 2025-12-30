@@ -262,7 +262,7 @@ function renderInheritance(typeInfo) {
     if (typeInfo.superClass) {
         html += '<div class="inheritance-section">';
         html += '<span class="inheritance-label">Extends:</span>';
-        html += '<span class="inheritance-type">' + escapeHtml(typeInfo.superClass) + '</span>';
+        html += '<span class="inheritance-type">' + makeTypeLink(typeInfo.superClass) + '</span>';
         html += '</div>';
     }
 
@@ -270,8 +270,9 @@ function renderInheritance(typeInfo) {
     if (interfaces.length > 0) {
         html += '<div class="inheritance-section">';
         html += '<span class="inheritance-label">' + (typeInfo.kind === 'interface' ? 'Extends:' : 'Implements:') + '</span>';
-        interfaces.forEach(function(iface) {
-            html += '<span class="inheritance-type">' + escapeHtml(iface) + '</span>';
+        interfaces.forEach(function(iface, index) {
+            if (index > 0) html += ', ';
+            html += '<span class="inheritance-type">' + makeTypeLink(iface) + '</span>';
         });
         html += '</div>';
     }
@@ -301,12 +302,14 @@ function renderJavaDoc(javadoc) {
                 html += '<span class="javadoc-tag-name">' + escapeHtml(tag.name) + '</span>';
             }
 
+            // Exception types are clickable
             if (tag.exception) {
-                html += '<span class="javadoc-tag-name">' + escapeHtml(tag.exception) + '</span>';
+                html += '<span class="javadoc-tag-name">' + makeTypeLink(tag.exception) + '</span>';
             }
 
+            // @see references are clickable
             if (tag.reference) {
-                html += '<span class="javadoc-tag-name">' + escapeHtml(tag.reference) + '</span>';
+                html += '<span class="javadoc-tag-name">' + makeTypeLink(tag.reference) + '</span>';
             }
 
             if (tag.description) {
@@ -584,7 +587,7 @@ function renderConstructor(constructor) {
     if (constructor.exceptions && constructor.exceptions.length > 0) {
         html += '<div class="member-exceptions">throws ';
         html += constructor.exceptions.map(function(ex) {
-            return '<span class="member-exception">' + escapeHtml(ex) + '</span>';
+            return '<span class="member-exception">' + makeTypeLink(ex) + '</span>';
         }).join(', ');
         html += '</div>';
     }
@@ -654,7 +657,7 @@ function renderMethod(method) {
     if (method.exceptions && method.exceptions.length > 0) {
         html += '<div class="member-exceptions">throws ';
         html += method.exceptions.map(function(ex) {
-            return '<span class="member-exception">' + escapeHtml(ex) + '</span>';
+            return '<span class="member-exception">' + makeTypeLink(ex) + '</span>';
         }).join(', ');
         html += '</div>';
     }
@@ -691,6 +694,110 @@ function findType(packageName, typeName) {
         }
     }
     return null;
+}
+
+/**
+ * Helper function to find a type by its qualified name
+ * @param {string} qualifiedName - The fully qualified type name (e.g., "java.lang.String")
+ * @returns {Object|null} The type info object or null if not found
+ */
+function findTypeByQualifiedName(qualifiedName) {
+    if (!qualifiedName || !documentationModel || !documentationModel.packages) return null;
+
+    // Try to find the type across all packages
+    for (var i = 0; i < documentationModel.packages.length; i++) {
+        var pkg = documentationModel.packages[i];
+        if (!pkg.types) continue;
+
+        for (var j = 0; j < pkg.types.length; j++) {
+            var type = pkg.types[j];
+            if (type.qualifiedName === qualifiedName) {
+                return type;
+            }
+        }
+    }
+    return null;
+}
+
+/**
+ * Helper function to find a type by its simple name (searches across all packages)
+ * @param {string} simpleName - The simple type name (e.g., "String")
+ * @returns {Object|null} The type info object or null if not found
+ */
+function findTypeBySimpleName(simpleName) {
+    if (!simpleName || !documentationModel || !documentationModel.packages) return null;
+
+    // Try to find the type by simple name across all packages
+    for (var i = 0; i < documentationModel.packages.length; i++) {
+        var pkg = documentationModel.packages[i];
+        if (!pkg.types) continue;
+
+        for (var j = 0; j < pkg.types.length; j++) {
+            var type = pkg.types[j];
+            if (type.name === simpleName) {
+                return type;
+            }
+        }
+    }
+    return null;
+}
+
+/**
+ * Navigates to a type by its qualified name
+ * @param {string} qualifiedName - The fully qualified type name
+ */
+function navigateToType(qualifiedName) {
+    if (!qualifiedName) return;
+
+    var typeInfo = findTypeByQualifiedName(qualifiedName);
+    if (typeInfo) {
+        // Extract package name from qualified name
+        var lastDotIndex = qualifiedName.lastIndexOf('.');
+        var packageName = lastDotIndex > 0 ? qualifiedName.substring(0, lastDotIndex) : '';
+        var typeName = typeInfo.name;
+
+        showType(packageName, typeName);
+    } else {
+        // Type not found in documentation - could be external (java.lang.*, etc.)
+        console.log('Type not found in documentation: ' + qualifiedName);
+    }
+}
+
+/**
+ * Creates a clickable link for a type reference
+ * @param {string} typeNameOrQualified - The type name (qualified or simple)
+ * @param {string} displayText - The text to display (optional, defaults to simple name)
+ * @returns {string} HTML string for a clickable type link
+ */
+function makeTypeLink(typeNameOrQualified, displayText) {
+    if (!typeNameOrQualified) return '';
+
+    // Try to find type - first by qualified name, then by simple name
+    var typeInfo = findTypeByQualifiedName(typeNameOrQualified);
+    if (!typeInfo) {
+        // If not found by qualified name, try simple name
+        typeInfo = findTypeBySimpleName(typeNameOrQualified);
+    }
+
+    // Determine display text
+    var text = displayText || typeNameOrQualified;
+    if (!displayText && typeInfo) {
+        // Use simple name from found type
+        text = typeInfo.name;
+    } else if (!displayText) {
+        // Extract simple name from input
+        var lastDotIndex = typeNameOrQualified.lastIndexOf('.');
+        text = lastDotIndex > 0 ? typeNameOrQualified.substring(lastDotIndex + 1) : typeNameOrQualified;
+    }
+
+    if (typeInfo) {
+        // Type found in documentation - make it clickable
+        return '<span class="type-link" onclick="navigateToType(\'' + escapeHtml(typeInfo.qualifiedName) + '\')">' +
+               escapeHtml(text) + '</span>';
+    } else {
+        // External type (not in our documentation) - show as plain text with different styling
+        return '<span class="type-reference-external">' + escapeHtml(text) + '</span>';
+    }
 }
 
 /**

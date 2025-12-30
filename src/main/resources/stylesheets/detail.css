@@ -291,6 +291,26 @@
     display: inline-block;
 }
 
+/* Type Links - Clickable type references */
+.type-link {
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.type-link:hover {
+    color: var(--color-primary-dark);
+    border-bottom-color: var(--color-primary-dark);
+}
+
+/* External type references (not in our documentation) */
+.type-reference-external {
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
 /* Type Parameters */
 .type-parameters {
     margin: var(--spacing-xs) 0;
