@@ -217,7 +217,7 @@ function renderAnnotations(annotations) {
     var html = '<div class="annotations">';
     annotations.forEach(function(annotation) {
         html += '<div class="annotation">';
-        html += '<span class="annotation-type">@' + escapeHtml(annotation.type) + '</span>';
+        html += '<span class="annotation-type">@' + makeTypeLink(annotation.type) + '</span>';
         if (annotation.values && Object.keys(annotation.values).length > 0) {
             html += '<span class="annotation-values">(';
             var values = [];
@@ -245,7 +245,12 @@ function renderTypeParameters(typeParameters) {
         if (index > 0) html += ', ';
         html += '<span class="type-parameter">' + escapeHtml(param.name);
         if (param.bounds && param.bounds.length > 0) {
-            html += ' extends ' + escapeHtml(param.bounds.join(' & '));
+            html += ' extends ';
+            // Make bounds clickable
+            var linkedBounds = param.bounds.map(function(bound) {
+                return parseAndLinkTypes(bound);
+            });
+            html += linkedBounds.join(' &amp; ');
         }
         html += '</span>';
     });
@@ -464,7 +469,7 @@ function renderAnnotationMembers(annotationInfo) {
         html += '<div class="annotation-elements">';
         annotationInfo.elements.forEach(function(element) {
             html += '<div class="annotation-element">';
-            html += '<span class="annotation-element-type">' + escapeHtml(element.type) + '</span> ';
+            html += '<span class="annotation-element-type">' + parseAndLinkTypes(element.type) + '</span> ';
             html += '<span class="annotation-element-name">' + escapeHtml(element.name) + '()</span>';
             if (element.defaultValue !== null && element.defaultValue !== undefined) {
                 html += '<div class="annotation-element-default">default: ' + escapeHtml(JSON.stringify(element.defaultValue)) + '</div>';
@@ -519,7 +524,7 @@ function renderField(field) {
 
     // Colon separator and type
     html += ' <span class="member-separator">:</span> ';
-    html += '<span class="member-type">' + escapeHtml(field.type) + '</span>';
+    html += '<span class="member-type">' + parseAndLinkTypes(field.type) + '</span>';
 
     // Modifiers last
     if (field.modifiers && field.modifiers.length > 0) {
@@ -564,7 +569,7 @@ function renderConstructor(constructor) {
     if (constructor.parameters && constructor.parameters.length > 0) {
         var params = constructor.parameters.map(function(param) {
             var paramHtml = '<span class="member-parameter">';
-            paramHtml += '<span class="member-parameter-type">' + escapeHtml(param.type) + '</span> ';
+            paramHtml += '<span class="member-parameter-type">' + parseAndLinkTypes(param.type) + '</span> ';
             paramHtml += '<span class="member-parameter-name">' + escapeHtml(param.name) + '</span>';
             if (param.isVarArgs) paramHtml += '...';
             paramHtml += '</span>';
@@ -621,7 +626,7 @@ function renderMethod(method) {
     if (method.parameters && method.parameters.length > 0) {
         var params = method.parameters.map(function(param) {
             var paramHtml = '<span class="member-parameter">';
-            paramHtml += '<span class="member-parameter-type">' + escapeHtml(param.type) + '</span> ';
+            paramHtml += '<span class="member-parameter-type">' + parseAndLinkTypes(param.type) + '</span> ';
             paramHtml += '<span class="member-parameter-name">' + escapeHtml(param.name) + '</span>';
             if (param.isVarArgs) paramHtml += '...';
             paramHtml += '</span>';
@@ -633,7 +638,7 @@ function renderMethod(method) {
 
     // Colon separator and return type
     html += ' <span class="member-separator">:</span> ';
-    html += '<span class="member-type">' + escapeHtml(method.returnType) + '</span>';
+    html += '<span class="member-type">' + parseAndLinkTypes(method.returnType) + '</span>';
 
     // Type parameters (if any)
     if (method.typeParameters && method.typeParameters.length > 0) {
@@ -798,6 +803,80 @@ function makeTypeLink(typeNameOrQualified, displayText) {
         // External type (not in our documentation) - show as plain text with different styling
         return '<span class="type-reference-external">' + escapeHtml(text) + '</span>';
     }
+}
+
+/**
+ * Parses a type string (potentially with generics) and creates clickable links
+ * Handles complex types like "List<String>", "Map<String, List<Integer>>", arrays, etc.
+ * @param {string} typeString - The type string to parse
+ * @returns {string} HTML string with clickable type links
+ */
+function parseAndLinkTypes(typeString) {
+    if (!typeString) return '';
+
+    // Handle primitive types - not clickable
+    var primitives = ['void', 'boolean', 'byte', 'short', 'int', 'long', 'float', 'double', 'char'];
+    if (primitives.indexOf(typeString) !== -1) {
+        return escapeHtml(typeString);
+    }
+
+    var result = '';
+    var i = 0;
+    var currentType = '';
+
+    while (i < typeString.length) {
+        var char = typeString.charAt(i);
+
+        if (char === '<' || char === '>' || char === ',' || char === '[' || char === ']') {
+            // We hit a delimiter - process accumulated type
+            if (currentType.trim()) {
+                var trimmed = currentType.trim();
+                // Check if it's a primitive or keyword
+                if (primitives.indexOf(trimmed) === -1 && trimmed !== 'extends' && trimmed !== 'super') {
+                    result += makeTypeLink(trimmed);
+                } else {
+                    result += escapeHtml(trimmed);
+                }
+                currentType = '';
+            }
+
+            // Add the delimiter
+            if (char === ',') {
+                result += escapeHtml(char) + ' ';
+            } else {
+                result += escapeHtml(char);
+            }
+            i++;
+        } else if (char === ' ') {
+            // Space - could be separator or part of "extends"/"super"
+            if (currentType.trim()) {
+                var trimmed = currentType.trim();
+                if (trimmed === 'extends' || trimmed === 'super') {
+                    result += escapeHtml(trimmed) + ' ';
+                    currentType = '';
+                } else {
+                    currentType += char;
+                }
+            }
+            i++;
+        } else {
+            // Regular character - accumulate
+            currentType += char;
+            i++;
+        }
+    }
+
+    // Process any remaining type
+    if (currentType.trim()) {
+        var trimmed = currentType.trim();
+        if (primitives.indexOf(trimmed) === -1 && trimmed !== 'extends' && trimmed !== 'super') {
+            result += makeTypeLink(trimmed);
+        } else {
+            result += escapeHtml(trimmed);
+        }
+    }
+
+    return result;
 }
 
 /**
