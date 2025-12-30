@@ -178,7 +178,31 @@
 .javadoc-description {
     color: var(--color-text-primary);
     line-height: var(--line-height-base); /* 1.5 - optimal readability */
-    white-space: pre-wrap;
+    white-space: normal;
+}
+
+/* Reduce spacing for paragraphs within JavaDoc */
+.javadoc-description p {
+    margin: var(--spacing-xs) 0; /* 6px top/bottom - reduced from default */
+}
+
+.javadoc-description p:first-child {
+    margin-top: 0;
+}
+
+.javadoc-description p:last-child {
+    margin-bottom: 0;
+}
+
+/* Lists within JavaDoc */
+.javadoc-description ul,
+.javadoc-description ol {
+    margin: var(--spacing-xs) 0;
+    padding-left: var(--spacing-lg);
+}
+
+.javadoc-description li {
+    margin: var(--spacing-2xs) 0; /* 4px - minimal spacing between list items */
 }
 
 /* Fade-out effect for collapsed items with overflow */
