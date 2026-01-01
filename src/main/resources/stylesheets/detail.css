@@ -342,7 +342,7 @@
     margin: 1px 0;
     border-left: 1px solid var(--color-border-medium);  /* Changed from warning yellow - not semantic */
     font-family: var(--font-family-mono);
-    font-size: 11px;
+    font-size: var(--font-size-xs);  /* 11px - adheres to typography scale */
     color: var(--color-text-primary);  /* Changed from warning-dark for consistency */
 }
 
@@ -359,7 +359,7 @@
 .inheritance-section {
     margin: var(--spacing-xs) 0;
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-left: 1px solid var(--color-primary-light);
+    border-left: 1px solid var(--color-border-subtle);  /* Subtle container - not interactive */
 }
 
 .inheritance-label {
@@ -399,7 +399,7 @@
 .type-parameters {
     margin: var(--spacing-xs) 0;
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-left: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border-subtle);  /* Subtle container - consistent with inheritance */
 }
 
 .type-parameter {
@@ -458,7 +458,7 @@
     position: absolute;
     right: var(--spacing-lg);
     top: var(--spacing-sm);
-    font-size: 14px;
+    font-size: var(--font-size-base);  /* 14px - adheres to typography scale */
     color: var(--color-primary);
     transition: transform 150ms ease-out;
 }
@@ -511,7 +511,7 @@
     opacity: 0.6;
 }
 
-/* Member Signature - Simplified for Readability */
+/* Member Signature - Improved Layout and Spacing */
 .member-signature {
     grid-area: signature;
     font-family: var(--font-family-mono);
@@ -520,45 +520,55 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--spacing-2xs);
+    gap: var(--inline-gap);  /* 6px - improved breathing room (was 4px) */
     padding: var(--spacing-xs) var(--spacing-sm);
     background-color: var(--color-bg-code);
     border-radius: var(--radius-sm);
 }
 
-/* Backward compatibility - apply hierarchy classes */
+/* Member Name - Primary focus */
 .member-name {
     font-weight: 600;
     color: var(--color-text-primary);
-    margin-right: var(--spacing-2xs);
+    margin-right: var(--spacing-2xs);  /* Tight spacing after name */
 }
 
+/* Member Type - Secondary element (return type, field type) */
 .member-type {
     color: var(--color-type);  /* Type reference - uses purple */
-    margin-left: var(--spacing-xs);
+    margin-left: var(--inline-gap);  /* Consistent inline spacing */
     font-weight: 400;
 }
 
+/* Separators - Minimal visual weight */
 .member-separator {
     color: var(--color-text-tertiary);
     opacity: 0.6;  /* Subtle punctuation */
-    margin: 0 var(--spacing-2xs);
+    margin: 0 2px;  /* Minimal spacing around separators */
 }
 
+/* Parameter Container */
 .member-parameters {
     color: var(--color-text-secondary);
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--inline-gap);  /* Consistent spacing between parameters */
 }
 
+/* Individual Parameter */
 .member-parameter {
     display: inline;
-    margin-left: var(--spacing-xs);
+    white-space: nowrap;  /* Keep type + name together on same line */
 }
 
+/* Parameter Type - Secondary element */
 .member-parameter-type {
     color: var(--color-type);  /* Type reference - uses purple */
     font-weight: 400;
+    margin-right: 2px;  /* Small gap between type and name */
 }
 
+/* Parameter Name - Tertiary element */
 .member-parameter-name {
     color: var(--color-text-secondary);  /* Parameter names are tertiary */
     font-style: italic;
@@ -567,7 +577,7 @@
 
 .member-exceptions {
     margin-top: var(--spacing-xs);
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs);  /* Updated from deprecated --font-size-small */
     color: var(--color-danger);
 }
 
@@ -578,7 +588,7 @@
 .member-constant-value {
     margin-top: var(--spacing-xs);
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-left: 1px solid var(--color-primary-light);
+    border-left: 1px solid var(--color-border-subtle);  /* Subtle container - not interactive */
     font-family: var(--font-family-mono);
     font-size: var(--font-size-base);
 }
@@ -627,7 +637,7 @@
 
 .annotation-element-default {
     margin-top: var(--spacing-xs);
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs);  /* Updated from deprecated --font-size-small */
     color: var(--color-text-muted);
     font-family: var(--font-family-mono);
 }
@@ -683,7 +693,7 @@
 
 .package-type-kind {
     margin-left: var(--spacing-sm);
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs);  /* Updated from deprecated --font-size-small */
     color: var(--color-text-muted);
 }
 
@@ -698,10 +708,10 @@
     }
 
     .type-title {
-        font-size: 22px;
+        font-size: var(--font-size-lg);  /* 19px - adheres to typography scale (was 22px) */
     }
 
     .member-signature {
-        font-size: var(--font-size-small);
+        font-size: var(--font-size-xs);  /* 11px - Updated from deprecated --font-size-small */
     }
 }

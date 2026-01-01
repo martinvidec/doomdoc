@@ -23,6 +23,20 @@
     --color-bg-hover: #f5f5f5;          /* Backward compat alias */
     --color-bg-code: #f7f7f7;
 
+    /* BORDER SYSTEM - Hierarchical border widths and colors
+
+       BORDER WIDTHS:
+       1px - Subtle containers, low-emphasis separation (inheritance, type parameters)
+       2px - Medium emphasis, member items, interactive elements (enum constants, hover states)
+       3px - High emphasis, major sections, semantic accents (type badges, JavaDoc sections)
+
+       BORDER COLORS:
+       --color-border-subtle - For 1px borders (subtle containers)
+       --color-border-medium - For general 2px borders
+       --color-border-strong - For emphasis 2px borders
+       Semantic colors - Only for 3px accents with meaning (type badges)
+    */
+
     --color-border-subtle: #e8e8e8;
     --color-border-medium: #d0d0d0;
     --color-border-strong: #b0b0b0;
