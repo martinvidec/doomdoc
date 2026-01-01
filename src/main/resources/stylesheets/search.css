@@ -163,22 +163,24 @@
     flex: 1;
 }
 
-/* Type Badges - Matches detail.css .type-kind styling */
+/* Type Badges - Matches detail.css unified badge system */
 .search-result-badge {
     display: inline-flex;
     align-items: center;
-    padding: 1px 6px;
+    padding: 2px 7px;
     border-radius: 2px;
-    font-size: 9px;
+    font-size: var(--font-size-xs);  /* 11px - adheres to typography scale (was 9px) */
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     font-family: var(--font-family-mono);
+    line-height: 1.2;
+    transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 
     /* Subtle monochrome with semantic left border */
     background-color: rgba(0, 0, 0, 0.06);
     color: rgba(0, 0, 0, 0.5);
-    border-left: 2px solid currentColor;
+    border-left: 3px solid currentColor;  /* 3px - matches detail.css type badges */
 }
 
 /* Type-specific border colors - matches detail.css */
@@ -224,7 +226,7 @@
 /* Result Return Type - For methods */
 .search-result-return-type {
     font-family: var(--font-family-mono);
-    font-size: 10px;
+    font-size: var(--font-size-xs);  /* 11px - adheres to typography scale (was 10px) */
     color: var(--color-text-secondary);
     margin-left: auto;
 }
