@@ -1,5 +1,16 @@
 /* ==========================================
    Detail View Styles
+
+   This file contains all styles for the documentation detail view,
+   including type headers, members, JavaDoc, and specialized displays
+   for enums and annotations.
+
+   DESIGN PRINCIPLES:
+   - Unified Badge System (3 categories: type, modifier, status)
+   - 90/10 Monochrome/Functional color split
+   - Perfect Fourth typography scale (11/12/14/16/19/25/33px)
+   - Consistent 1px/2px/3px border hierarchy
+   - 150ms ease-out transitions for all interactions
    ========================================== */
 
 /* Detail Container */
@@ -26,9 +37,33 @@
    UNIFIED BADGE SYSTEM
 
    Three badge categories with consistent styling:
-   1. .badge-type - Element type indicators (class, interface, enum, annotation)
-   2. .badge-modifier - Visibility/behavior modifiers (public, private, static, etc.)
-   3. .badge-status - Semantic states (deprecated, experimental, beta)
+
+   1. TYPE BADGES (.badge-type)
+      - Purpose: Identify element kind (class, interface, enum, annotation)
+      - Style: Monochrome base + 3px semantic left border accent
+      - Usage: Type headers, search results
+      - Example: <span class="badge badge-type class">CLASS</span>
+
+   2. MODIFIER BADGES (.badge-modifier)
+      - Purpose: Visibility and behavior modifiers
+      - Style: Subtle monochrome with 1px full border
+      - Usage: public, private, protected, static, final, abstract
+      - Example: <span class="badge badge-modifier public">public</span>
+
+   3. STATUS BADGES (.badge-status)
+      - Purpose: Semantic states with functional colors
+      - Style: Full semantic color treatment (bg + text + border)
+      - Usage: deprecated, experimental, beta
+      - Example: <span class="badge badge-status deprecated">deprecated</span>
+
+   ALL BADGES SHARE:
+   - Font-size: 11px (var(--font-size-xs))
+   - Font-weight: 600
+   - Text-transform: uppercase (lowercase for modifiers)
+   - Letter-spacing: 0.04em
+   - Border-radius: 2px
+   - Padding: 2px 7px
+   - Transitions: 150ms ease-out
    ========================================== */
 
 /* Base Badge - Shared Properties */
@@ -382,11 +417,17 @@
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: color 150ms ease-out, border-color 150ms ease-out;
+    border-radius: 2px;
 }
 
 .type-link:hover {
     color: var(--color-primary-dark);
     border-bottom-color: var(--color-primary-dark);
+}
+
+.type-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 /* External type references (not in our documentation) */
@@ -460,11 +501,16 @@
     top: var(--spacing-sm);
     font-size: var(--font-size-base);  /* 14px - adheres to typography scale */
     color: var(--color-primary);
-    transition: transform 150ms ease-out;
+    transition: transform 150ms ease-out, color 150ms ease-out;
 }
 
 .member-item.expandable:hover::after {
     color: var(--color-primary-dark);
+}
+
+.member-item.expandable:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
 }
 
 .member-item.expandable.expanded::after {
@@ -479,11 +525,35 @@
 /* ==========================================
    INLINE CODE ELEMENT HIERARCHY
 
-   Clear visual hierarchy for code signatures:
-   1. .code-primary - Most important (member names)
-   2. .code-secondary - Type references
-   3. .code-tertiary - Parameter/value names
-   4. .code-punctuation - Separators (low emphasis)
+   Creates scannable code signatures through visual weight differentiation.
+
+   HIERARCHY LEVELS:
+
+   1. PRIMARY (.code-primary)
+      - Purpose: What the code IS (method/field/class names)
+      - Style: font-weight: 600, primary text color
+      - Example: methodName, fieldName, ClassName
+
+   2. SECONDARY (.code-secondary)
+      - Purpose: Type references and annotations
+      - Style: font-weight: 400, purple (var(--color-type))
+      - Example: String, ReturnType, List<T>
+
+   3. TERTIARY (.code-tertiary)
+      - Purpose: Parameter names, values, identifiers
+      - Style: font-weight: 400, italic, secondary text color
+      - Example: param1, value, attributeName
+
+   4. PUNCTUATION (.code-punctuation)
+      - Purpose: Separators and syntax
+      - Style: tertiary text color, opacity: 0.6
+      - Example: : , ( ) < >
+
+   SIGNATURE EXAMPLE:
+   methodName(String param1, int param2) : ReturnType
+      [1]      [2]    [3]    [2]  [3]    [4]   [2]
+
+   VISUAL RESULT: Bold name → purple types → italic params → subtle punctuation
    ========================================== */
 
 /* Primary Code Elements - What the code IS (method/field names) */
@@ -678,12 +748,18 @@
     margin: 1px 0;
     border-left: 2px solid var(--color-primary);
     cursor: pointer;
-    transition: border-color 150ms ease-out, background-color 150ms ease-out;
+    transition: border-color 150ms ease-out, background-color 150ms ease-out, transform 150ms ease-out;
 }
 
 .package-type-item:hover {
     border-left-color: var(--color-primary-dark);
     background-color: var(--color-bg-hover);
+    transform: translateX(2px);  /* Subtle hover lift */
+}
+
+.package-type-item:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
 }
 
 .package-type-name {

@@ -1,5 +1,29 @@
 /* ==========================================
    Search Component Styles
+
+   Faceted autocomplete search for classes, interfaces, enums,
+   annotations, methods, and fields.
+
+   FEATURES:
+   - Debounced input (150ms) for performance
+   - Faceted results grouped by type
+   - Keyboard navigation (↑↓ arrows, Enter)
+   - Click outside to close
+   - Accessibility: ARIA roles, focus management
+
+   SEARCH FLOW:
+   1. User types ≥2 characters
+   2. Debounced search triggers after 150ms
+   3. Results grouped by facets (Classes, Methods, Fields, etc.)
+   4. Each result shows: name, badge, context (package), return type
+   5. Click or Enter → navigate to element
+
+   DESIGN CONSISTENCY:
+   - Badges match detail.css unified badge system
+   - 11px font-size (Perfect Fourth scale)
+   - 3px border-left on type badges
+   - 150ms ease-out transitions
+   - Focus states for keyboard navigation
    ========================================== */
 
 /* Search Container in Title Bar */

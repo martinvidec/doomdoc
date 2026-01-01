@@ -302,11 +302,17 @@ a {
     color: var(--color-primary);
     text-decoration: none;
     transition: color 150ms ease-out, text-decoration 150ms ease-out;
+    border-radius: 2px;
 }
 
 a:hover {
     color: var(--color-primary-dark);
     text-decoration: underline;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 /* Scrollbar Styling (Webkit browsers) */
