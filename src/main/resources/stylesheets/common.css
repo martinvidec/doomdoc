@@ -30,7 +30,48 @@
     --color-border-light: #e8e8e8;       /* Backward compat alias */
     --color-shadow: rgba(0, 0, 0, 0.1);
 
-    /* Functional Colors (10% of interface - used intentionally for semantic meaning) */
+    /* Functional Colors (10% of interface - used intentionally for semantic meaning)
+
+       COLOR USAGE RULES - Strict semantic guidelines:
+
+       PRIMARY BLUE (--color-primary, --color-accent):
+       ✓ Links (clickable text references)
+       ✓ Interactive elements (buttons, focus states)
+       ✓ Selection highlights
+       ✗ Static text decorations
+       ✗ Non-interactive borders or accents
+       ✗ Labels that aren't clickable
+
+       PURPLE (--color-type, --color-purple):
+       ✓ Type references (class names, interface names in signatures)
+       ✓ Generic type parameters (<T>, <E>)
+       ✓ Return types and parameter types in method signatures
+       ✗ JavaDoc tag labels (@param, @return)
+       ✗ Decorative text highlighting
+       ✗ Non-type code elements
+
+       GREEN (--color-success):
+       ✓ Success/completion status indicators
+       ✓ Positive state feedback
+       ✗ Package names or headers (use monochrome)
+       ✗ General decorative borders
+
+       YELLOW (--color-warning):
+       ✓ @deprecated tags and deprecated elements
+       ✓ Warning states and cautions
+       ✗ Enum constant decorations (use monochrome)
+
+       RED (--color-danger):
+       ✓ @throws exceptions
+       ✓ Error states
+       ✓ Critical warnings
+
+       MONOCHROME (grays):
+       ✓ 90% of interface elements
+       ✓ Borders, backgrounds, non-semantic text
+       ✓ Icons without specific semantic meaning
+    */
+
     --color-accent: #0066cc;            /* Links, focus, selection */
     --color-accent-hover: #0052a3;
     --color-primary: #0066cc;           /* Backward compat alias */
@@ -38,22 +79,22 @@
     --color-primary-light: #afc7da;     /* Backward compat alias */
     --color-primary-lightest: #e7f3ff;  /* Backward compat alias */
 
-    --color-type: #6f42c1;              /* Type annotations (purple) */
+    --color-type: #6f42c1;              /* Type annotations (purple) - ONLY for actual type references */
     --color-purple: #6f42c1;            /* Backward compat alias */
     --color-purple-light: #e2d9f3;
 
     --color-string: #22863a;            /* String literals (green) */
     --color-number: #005cc5;            /* Numeric values (blue) */
 
-    --color-warning: #f0ad4e;           /* @deprecated, warnings */
+    --color-warning: #f0ad4e;           /* @deprecated, warnings - ONLY semantic usage */
     --color-warning-light: #fff3cd;
     --color-warning-dark: #856404;
 
-    --color-danger: #d9534f;            /* @throws, errors */
+    --color-danger: #d9534f;            /* @throws, errors - ONLY semantic usage */
     --color-danger-light: #f8d7da;
     --color-danger-dark: #721c24;
 
-    --color-success: #5cb85c;           /* Status indicators only */
+    --color-success: #5cb85c;           /* Status indicators ONLY - NOT for decorative use */
     --color-success-light: #d4edda;
     --color-success-dark: #155724;
 

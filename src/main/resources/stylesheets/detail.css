@@ -22,37 +22,83 @@
     margin: 0;
 }
 
+/* ==========================================
+   UNIFIED BADGE SYSTEM
+
+   Three badge categories with consistent styling:
+   1. .badge-type - Element type indicators (class, interface, enum, annotation)
+   2. .badge-modifier - Visibility/behavior modifiers (public, private, static, etc.)
+   3. .badge-status - Semantic states (deprecated, experimental, beta)
+   ========================================== */
+
+/* Base Badge - Shared Properties */
+.badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-size: var(--font-size-xs); /* 11px - adheres to typography scale */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+}
+
+/* Type Badges - Identify element kind with semantic left accent */
+.badge-type {
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.5);
+    border-left: 3px solid currentColor;
+    margin-left: var(--spacing-sm);
+}
+
+.badge-type.class {
+    border-left-color: #22863a;  /* Green - classes create instances */
+}
+
+.badge-type.interface {
+    border-left-color: #0366d6;  /* Blue - interfaces define contracts */
+}
+
+.badge-type.enum {
+    border-left-color: #f0ad4e;  /* Yellow - enums are constant sets */
+}
+
+.badge-type.annotation {
+    border-left-color: #6f42c1;  /* Purple - annotations are metadata */
+}
+
+/* Backward compatibility alias */
 .type-kind {
     display: inline-flex;
     align-items: center;
-    padding: 1px 6px;
+    padding: 2px 7px;
     margin-left: var(--spacing-sm);
     border-radius: 2px;
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-
-    /* Subtle monochrome with semantic left border */
+    letter-spacing: 0.04em;
     background-color: rgba(0, 0, 0, 0.06);
     color: rgba(0, 0, 0, 0.5);
-    border-left: 2px solid currentColor;
+    border-left: 3px solid currentColor;
+    transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
 .type-kind.class {
-    border-left-color: #22863a;  /* Green - semantic for "class" */
+    border-left-color: #22863a;
 }
 
 .type-kind.interface {
-    border-left-color: #0366d6;  /* Blue - semantic for "interface" */
+    border-left-color: #0366d6;
 }
 
 .type-kind.enum {
-    border-left-color: #f0ad4e;  /* Yellow - semantic for "enum" */
+    border-left-color: #f0ad4e;
 }
 
 .type-kind.annotation {
-    border-left-color: #6f42c1;  /* Purple - semantic for "annotation" */
+    border-left-color: #6f42c1;
 }
 
 .type-qualified-name {
@@ -62,108 +108,145 @@
     margin-top: var(--spacing-xs);
 }
 
-/* Modifiers - Neutral Monochrome Styling */
-.modifiers {
-    margin: var(--spacing-xs) 0;
-}
-
-.modifier {
-    display: inline-block;
-    padding: 1px 6px;
-    margin-right: var(--spacing-2xs);
-    border-radius: 2px;
-    font-size: var(--font-size-xs);
-    font-family: var(--font-family-mono);
-    font-weight: 500;
-    letter-spacing: var(--letter-spacing-wide);
-    text-transform: lowercase;
-
-    /* Neutral monochrome - reduces visual noise */
+/* Modifier Badges - Visibility and behavior modifiers
+   Note: Apply both .badge and .badge-modifier classes together */
+.badge-modifier {
     background-color: rgba(0, 0, 0, 0.04);
     color: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(0, 0, 0, 0.1);
+    font-family: var(--font-family-mono);
+    text-transform: lowercase;
+    margin-right: var(--spacing-2xs);
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    display: inline-block;
+    transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
-/* Subtle variations for critical distinctions only */
-.modifier.public {
+/* Visibility modifiers - subtle variations for critical distinctions */
+.badge-modifier.public {
     background-color: rgba(0, 0, 0, 0.04);
     color: rgba(0, 0, 0, 0.6);
     border-color: rgba(0, 0, 0, 0.1);
 }
 
-.modifier.private {
+.badge-modifier.private {
     background-color: rgba(0, 0, 0, 0.06);
     color: rgba(0, 0, 0, 0.65);
     border-color: rgba(0, 0, 0, 0.15);
 }
 
-.modifier.protected {
+.badge-modifier.protected {
     background-color: rgba(0, 0, 0, 0.05);
     color: rgba(0, 0, 0, 0.62);
     border-color: rgba(0, 0, 0, 0.12);
 }
 
-.modifier.static,
-.modifier.final,
-.modifier.abstract {
+/* Behavior modifiers - neutral styling */
+.badge-modifier.static,
+.badge-modifier.final,
+.badge-modifier.abstract {
     background-color: rgba(0, 0, 0, 0.04);
     color: rgba(0, 0, 0, 0.6);
     border-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Deprecated gets functional color (semantic meaning) */
-.modifier.deprecated {
+/* Status Badges - Semantic states with functional colors
+   Note: Apply both .badge and .badge-status classes together */
+.badge-status {
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    display: inline-block;
+    text-transform: uppercase;
+    transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.badge-status.deprecated {
     background-color: var(--color-warning-light);
     color: var(--color-warning-dark);
+    border: 1px solid var(--color-warning);
     text-decoration: line-through;
 }
 
-/* Inline modifiers (within member signature) - same neutral styling */
+.badge-status.experimental {
+    background-color: var(--color-primary-lightest);
+    color: var(--color-primary-dark);
+    border: 1px solid var(--color-primary-light);
+}
+
+.badge-status.beta {
+    background-color: var(--color-purple-light);
+    color: var(--color-purple);
+    border: 1px solid var(--color-purple);
+}
+
+/* Backward compatibility - deprecated, will be removed */
+.modifiers {
+    margin: var(--spacing-xs) 0;
+}
+
+.modifier,
 .modifier-inline {
     display: inline-block;
-    padding: 1px 6px;
+    padding: 2px 7px;
     margin-right: var(--spacing-2xs);
     border-radius: 2px;
     font-size: var(--font-size-xs);
     font-family: var(--font-family-mono);
-    font-weight: 500;
-    letter-spacing: var(--letter-spacing-wide);
+    font-weight: 600;
+    letter-spacing: 0.04em;
     text-transform: lowercase;
-
     background-color: rgba(0, 0, 0, 0.04);
     color: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
+.modifier.public,
 .modifier-inline.public {
     background-color: rgba(0, 0, 0, 0.04);
     color: rgba(0, 0, 0, 0.6);
     border-color: rgba(0, 0, 0, 0.1);
 }
 
+.modifier.private,
 .modifier-inline.private {
     background-color: rgba(0, 0, 0, 0.06);
     color: rgba(0, 0, 0, 0.65);
     border-color: rgba(0, 0, 0, 0.15);
 }
 
+.modifier.protected,
 .modifier-inline.protected {
     background-color: rgba(0, 0, 0, 0.05);
     color: rgba(0, 0, 0, 0.62);
     border-color: rgba(0, 0, 0, 0.12);
 }
 
+.modifier.static,
 .modifier-inline.static,
+.modifier.final,
 .modifier-inline.final,
+.modifier.abstract,
 .modifier-inline.abstract {
     background-color: rgba(0, 0, 0, 0.04);
     color: rgba(0, 0, 0, 0.6);
     border-color: rgba(0, 0, 0, 0.1);
 }
 
+.modifier.deprecated,
 .modifier-inline.deprecated {
     background-color: var(--color-warning-light);
     color: var(--color-warning-dark);
+    border: 1px solid var(--color-warning);
     text-decoration: line-through;
 }
 
@@ -229,7 +312,7 @@
 
 .javadoc-tag-kind {
     font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
+    color: var(--color-text-primary);  /* Changed from primary blue - labels are not interactive */
     margin-right: var(--spacing-sm);
     font-family: var(--font-family-mono);
     font-size: var(--font-size-xs);
@@ -237,9 +320,10 @@
 
 .javadoc-tag-name {
     font-family: var(--font-family-mono);
-    color: var(--color-purple);
+    color: var(--color-text-secondary);  /* Changed from purple - parameter names are not types */
     margin-right: var(--spacing-sm);
     font-size: var(--font-size-sm);
+    font-style: italic;  /* Added to distinguish from type references */
 }
 
 .javadoc-tag-description {
@@ -256,10 +340,10 @@
     display: block;
     padding: 1px var(--spacing-xs);
     margin: 1px 0;
-    border-left: 1px solid var(--color-warning);
+    border-left: 1px solid var(--color-border-medium);  /* Changed from warning yellow - not semantic */
     font-family: var(--font-family-mono);
     font-size: 11px;
-    color: var(--color-warning-dark);
+    color: var(--color-text-primary);  /* Changed from warning-dark for consistency */
 }
 
 .annotation-type {
@@ -392,6 +476,41 @@
     max-height: none;
 }
 
+/* ==========================================
+   INLINE CODE ELEMENT HIERARCHY
+
+   Clear visual hierarchy for code signatures:
+   1. .code-primary - Most important (member names)
+   2. .code-secondary - Type references
+   3. .code-tertiary - Parameter/value names
+   4. .code-punctuation - Separators (low emphasis)
+   ========================================== */
+
+/* Primary Code Elements - What the code IS (method/field names) */
+.code-primary {
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+/* Secondary Code Elements - Type annotations and references */
+.code-secondary {
+    font-weight: 400;
+    color: var(--color-type);  /* Purple - ONLY for actual types */
+}
+
+/* Tertiary Code Elements - Values and parameter names */
+.code-tertiary {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text-secondary);
+}
+
+/* Punctuation - Low visual weight */
+.code-punctuation {
+    color: var(--color-text-tertiary);
+    opacity: 0.6;
+}
+
 /* Member Signature - Simplified for Readability */
 .member-signature {
     grid-area: signature;
@@ -407,6 +526,7 @@
     border-radius: var(--radius-sm);
 }
 
+/* Backward compatibility - apply hierarchy classes */
 .member-name {
     font-weight: 600;
     color: var(--color-text-primary);
@@ -414,12 +534,14 @@
 }
 
 .member-type {
-    color: var(--color-purple);
+    color: var(--color-type);  /* Type reference - uses purple */
     margin-left: var(--spacing-xs);
+    font-weight: 400;
 }
 
 .member-separator {
-    color: var(--color-text-secondary);
+    color: var(--color-text-tertiary);
+    opacity: 0.6;  /* Subtle punctuation */
     margin: 0 var(--spacing-2xs);
 }
 
@@ -433,12 +555,14 @@
 }
 
 .member-parameter-type {
-    color: var(--color-purple);
+    color: var(--color-type);  /* Type reference - uses purple */
+    font-weight: 400;
 }
 
 .member-parameter-name {
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);  /* Parameter names are tertiary */
     font-style: italic;
+    font-weight: 400;
 }
 
 .member-exceptions {
@@ -469,13 +593,13 @@
 
 .enum-constant {
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-left: 2px solid var(--color-warning);
+    border-left: 2px solid var(--color-border-strong);  /* Changed from warning yellow - not semantic */
 }
 
 .enum-constant-name {
     font-weight: var(--font-weight-bold);
     font-family: var(--font-family-mono);
-    color: var(--color-warning-dark);
+    color: var(--color-text-primary);  /* Changed from warning-dark for monochrome consistency */
 }
 
 /* Annotation Elements */
@@ -486,17 +610,17 @@
 .annotation-element {
     margin: var(--spacing-xs) 0;
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-left: 2px solid var(--color-purple);
+    border-left: 2px solid var(--color-border-strong);  /* Changed from purple - consistent with other member groups */
 }
 
 .annotation-element-name {
     font-weight: var(--font-weight-bold);
     font-family: var(--font-family-mono);
-    color: var(--color-purple);
+    color: var(--color-text-primary);  /* Changed from purple - names are not types */
 }
 
 .annotation-element-type {
-    color: var(--color-primary);
+    color: var(--color-type);  /* Changed from primary blue - this is a type reference */
     font-family: var(--font-family-mono);
     margin-left: var(--spacing-sm);
 }
@@ -518,7 +642,7 @@
 
 /* Package View */
 .package-header {
-    border-bottom: 1px solid var(--color-success);
+    border-bottom: 1px solid var(--color-border-medium);  /* Changed from success green - not semantic */
     padding-bottom: var(--spacing-xs);
     margin-bottom: var(--spacing-sm);
 }
@@ -526,7 +650,7 @@
 .package-name {
     font-size: var(--font-size-h1);
     font-weight: var(--font-weight-bold);
-    color: var(--color-success);
+    color: var(--color-text-primary);  /* Changed from success green - package names are not status indicators */
     font-family: var(--font-family-mono);
 }
 
