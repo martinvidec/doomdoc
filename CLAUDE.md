@@ -88,17 +88,17 @@ At the beginning of each Claude Code session, follow these steps:
 **Branch Types:**
 - `feature/` - New features or enhancements
 - `bugfix/` - Bug fixes
-- `hotfix/` - Critical production fixes
-- `chore/` - Maintenance tasks (dependencies, refactoring, tooling)
+- `improvement/` - Improvements to existing features
 - `docs/` - Documentation-only changes
+- `refactor/` - Code refactoring and maintenance tasks (dependencies, cleanup, tooling)
 
 **Examples:**
 ```bash
 feature/DOOM-123-add-dark-mode
 bugfix/DOOM-456-fix-search-highlighting
-hotfix/DOOM-789-critical-rendering-bug
-chore/DOOM-234-update-maven-dependencies
+improvement/DOOM-789-optimize-tree-rendering
 docs/DOOM-567-api-documentation
+refactor/DOOM-234-update-maven-dependencies
 ```
 
 **Rules:**
@@ -106,6 +106,8 @@ docs/DOOM-567-api-documentation
 - Use lowercase with hyphens for readability
 - Keep description short (3-5 words max)
 - Description should be meaningful but concise
+- Use only the branch types listed above (validated by git hooks)
+- For maintenance tasks (dependencies, cleanup, tooling), use `refactor/`
 - Compatible with GitHub Actions validation
 
 ### Implementation Workflow
