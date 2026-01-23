@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Debug Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .pass { background: #d4edda; color: #155724; }
+        .fail { background: #f8d7da; color: #721c24; }
+        #globalSearch { padding: 8px; margin: 10px 0; width: 300px; }
+        .search-dropdown { 
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        .search-dropdown.visible { display: block; }
+        .search-result-item { padding: 5px; cursor: pointer; }
+        .search-result-item:hover { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Search Component Debug Test</h1>
+    
+    <div id="test-results"></div>
+    
+    <div style="position: relative;">
+        <input type="text" id="globalSearch" placeholder="Type to search (min 2 chars)...">
+        <div id="searchDropdown" class="search-dropdown"></div>
+    </div>
+    
+    <script>
+        var testResults = [];
+        
+        function addTest(name, passed, message) {
+            testResults.push({name, passed, message});
+            var div = document.createElement('div');
+            div.className = 'test-result ' + (passed ? 'pass' : 'fail');
+            div.innerHTML = '<strong>' + (passed ? '✓' : '✗') + ' ' + name + '</strong><br>' + message;
+            document.getElementById('test-results').appendChild(div);
+        }
+        
+        // Mock documentationModel with search index
+        var model = {
+            searchIndex: [
+                { category: 'class', name: 'TestClass', qualifiedName: 'com.test.TestClass', packageName: 'com.test' },
+                { category: 'method', name: 'testMethod', signature: 'testMethod(String)', qualifiedName: 'com.test.TestClass.testMethod', packageName: 'com.test', typeName: 'TestClass', returnType: 'void' },
+                { category: 'field', name: 'testField', qualifiedName: 'com.test.TestClass.testField', packageName: 'com.test', typeName: 'TestClass', returnType: 'String' }
+            ]
+        };
+        
+        // Test 1: Check if elements exist
+        var searchInput = document.getElementById('globalSearch');
+        var searchDropdown = document.getElementById('searchDropdown');
+        
+        addTest('Elements exist', 
+            searchInput && searchDropdown,
+            'Input: ' + !!searchInput + ', Dropdown: ' + !!searchDropdown
+        );
+        
+        // Test 2: Simulated initializeSearch
+        var searchIndex = model.searchIndex;
+        addTest('Search index loaded',
+            searchIndex && searchIndex.length > 0,
+            'Entries: ' + (searchIndex ? searchIndex.length : 0)
+        );
+        
+        // Test 3: Add event listener
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                var query = e.target.value;
+                console.log('Input event fired, value:', query);
+                
+                if (query.length < 2) {
+                    searchDropdown.classList.remove('visible');
+                    return;
+                }
+                
+                // Simple filter
+                var results = searchIndex.filter(function(entry) {
+                    return entry.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+                });
+                
+                console.log('Filtered results:', results.length);
+                
+                // Render dropdown
+                searchDropdown.innerHTML = '';
+                if (results.length === 0) {
+                    searchDropdown.innerHTML = '<div>No results found</div>';
+                } else {
+                    results.forEach(function(entry) {
+                        var item = document.createElement('div');
+                        item.className = 'search-result-item';
+                        item.innerHTML = '<strong>' + entry.name + '</strong> (' + entry.category + ')<br><small>' + entry.packageName + '</small>';
+                        searchDropdown.appendChild(item);
+                    });
+                }
+                
+                searchDropdown.classList.add('visible');
+                console.log('Dropdown should be visible now');
+            });
+            
+            addTest('Event listener attached',
+                true,
+                'Input event listener is set up'
+            );
+        }
+        
+        // Test 4: Manual trigger
+        setTimeout(function() {
+            searchInput.value = 'test';
+            var event = new Event('input', { bubbles: true });
+            searchInput.dispatchEvent(event);
+            
+            setTimeout(function() {
+                var isVisible = searchDropdown.classList.contains('visible');
+                addTest('Dropdown shows on input',
+                    isVisible,
+                    'Dropdown visible: ' + isVisible + ', Has content: ' + (searchDropdown.innerHTML.length > 0)
+                );
+            }, 100);
+        }, 500);
+        
+        console.log('Test setup complete. Type in the search box to see live results.');
+    </script>
+</body>
+</html>
