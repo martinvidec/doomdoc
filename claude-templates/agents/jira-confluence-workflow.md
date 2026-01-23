@@ -1,22 +1,6 @@
 ---
 name: jira-confluence-workflow
-description: Specialized agent for managing Jira/Confluence workflows. Handles session start protocol, task selection, technical specification creation, task transitions, and PR linking. Use this agent whenever you need to interact with Jira or Confluence to avoid consuming context in the main conversation. Examples:\n\n<example>
-Context: Starting a new session and need to check for available tasks.
-user: "What tasks are available in Jira?"
-assistant: "I'm going to use the Task tool to launch the jira-confluence-workflow agent to check Jira for available tasks."
-</example>
-
-<example>
-Context: Need to create a new task with technical specification.
-user: "Create a new task for implementing dark mode"
-assistant: "Let me use the Task tool to launch the jira-confluence-workflow agent to create the Jira task and Confluence specification."
-</example>
-
-<example>
-Context: Need to update task status and link PR.
-user: "I've created PR #15 for DOOM-20, update Jira"
-assistant: "I'll use the Task tool to launch the jira-confluence-workflow agent to link the PR and update the task status."
-</example>
+description: Specialized agent for managing Jira/Confluence workflows. Handles session start protocol, task selection, technical specification creation, task transitions, and PR linking. Use this agent whenever you need to interact with Jira or Confluence to avoid consuming context in the main conversation. Examples:\n\n<example>\nContext: Starting a new session and need to check for available tasks.\nuser: "What tasks are available in Jira?"\nassistant: "I'm going to use the Task tool to launch the jira-confluence-workflow agent to check Jira for available tasks."\n</example>\n\n<example>\nContext: Need to create a new task with technical specification.\nuser: "Create a new task for implementing dark mode"\nassistant: "Let me use the Task tool to launch the jira-confluence-workflow agent to create the Jira task and Confluence specification."\n</example>\n\n<example>\nContext: Need to update task status and link PR.\nuser: "I've created PR #15 for DOOM-20, update Jira"\nassistant: "I'll use the Task tool to launch the jira-confluence-workflow agent to link the PR and update the task status."\n</example>
 model: sonnet
 color: green
 ---

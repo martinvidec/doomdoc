@@ -7,7 +7,7 @@ import java.io.IOException;
  * Interface for validating data objects.
  * Demonstrates interface with generics, default methods, static methods, and constants.
  *
- * <p>This interface provides a comprehensive validation framework with the following features:
+ * <p>This interface provides a comprehensive validation framework with the following features:</p>
  * <ul>
  *   <li>Generic type parameter for flexible validation</li>
  *   <li>Default validation methods with fallback behavior</li>
